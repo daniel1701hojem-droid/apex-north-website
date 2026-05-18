@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apex North — Capturing Movement. Creating Impact.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #030508;
+    --deep: #080c14;
+    --surface: #0d1520;
+    --card: #111b2a;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.14);
+    --accent: #00c8ff;
+    --accent2: #0066ff;
+    --accent3: #ff4d00;
+    --text: #e8edf5;
+    --muted: #7a8a9e;
+    --dimmer: #4a5568;
+    --gold: #c8a96e;
+    --glow: rgba(0, 200, 255, 0.15);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s; mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,200,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.15s, width 0.3s, height 0.3s; }
+  .cursor-ring.hover { width: 60px; height: 60px; border-color: var(--accent); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(3,5,8,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s, background 0.4s;
+  }
+  nav.scrolled { border-color: var(--border); background: rgba(3,5,8,0.97); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.08em; color: #fff; text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.04em; transition: color 0.3s; font-weight: 500; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 9px 22px; font-size: 0.8rem; letter-spacing: 0.08em; font-family: 'Space Mono', monospace; cursor: none; transition: all 0.3s; }
+  .nav-cta:hover { background: var(--accent); color: var(--black); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; }
+
+  /* HERO */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; text-align: center; padding: 120px 24px 80px;
+  }
+  .hero-canvas { position: absolute; inset: 0; }
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+  }
+  .hero-orb {
+    position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+  }
+  .hero-orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, transparent 70%); top: -10%; left: -5%; }
+  .hero-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,200,255,0.12) 0%, transparent 70%); bottom: 10%; right: 5%; }
+  .hero-orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,77,0,0.08) 0%, transparent 70%); top: 30%; right: 15%; }
+
+  /* 3D DRONE SVG */
+  .drone-3d {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
+    width: min(700px, 90vw); opacity: 0.12; pointer-events: none;
+    animation: droneDrift 8s ease-in-out infinite;
+  }
+  @keyframes droneDrift {
+    0%, 100% { transform: translate(-50%, -60%) translateY(0px) rotate(-1deg); }
+    50% { transform: translate(-50%, -60%) translateY(-20px) rotate(1deg); }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2);
+    padding: 6px 16px; margin-bottom: 32px;
+    font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--accent);
+    animation: fadeInDown 1s ease both;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  h1.hero-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(3.5rem, 9vw, 8.5rem); line-height: 0.9; letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    background: linear-gradient(135deg, #ffffff 0%, #c8dff0 40%, var(--accent) 70%, #0066ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: fadeInUp 1s ease 0.2s both;
+  }
+  .hero-tagline {
+    font-family: 'Space Mono', monospace; font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 24px;
+    animation: fadeInUp 1s ease 0.4s both;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 600px; margin: 0 auto 48px;
+    line-height: 1.7; font-weight: 300; animation: fadeInUp 1s ease 0.6s both;
+  }
+  .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.8s both; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff; padding: 16px 36px; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; border: none;
+    cursor: none; transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,200,255,0.3); }
+  .btn-outline {
+    background: transparent; color: var(--text); padding: 15px 36px;
+    border: 1px solid var(--border-bright); font-family: 'Syne', sans-serif;
+    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em;
+    cursor: none; transition: all 0.3s; text-decoration: none; display: inline-block;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,200,255,0.05); }
+  .btn-ghost {
+    background: transparent; color: var(--muted); padding: 15px 24px;
+    border: 1px solid var(--border); font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; cursor: none; transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--border-bright); }
+
+  /* SCROLL INDICATOR */
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: fadeIn 1s ease 1.5s both;
+  }
+  .scroll-indicator span { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--dimmer); }
+  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s ease infinite; }
+  @keyframes scrollPulse { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  /* SOCIAL STRIP */
+  #socials {
+    padding: 40px 48px;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; gap: 0;
+  }
+  .social-strip { display: flex; align-items: center; gap: 0; }
+  .social-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 40px; text-decoration: none; color: var(--muted);
+    transition: all 0.3s; border-right: 1px solid var(--border);
+  }
+  .social-item:last-child { border-right: none; }
+  .social-item:hover { color: var(--accent); }
+  .social-item:hover .social-icon { border-color: var(--accent); background: rgba(0,200,255,0.08); }
+  .social-icon {
+    width: 44px; height: 44px; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .social-icon svg { width: 20px; height: 20px; fill: currentColor; }
+  .social-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; }
+  .social-sub { font-size: 0.7rem; color: var(--dimmer); margin-top: 2px; }
+
+  /* SECTION COMMONS */
+  section { padding: 120px 48px; }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
+  h2.section-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .section-desc { color: var(--muted); max-width: 560px; line-height: 1.7; font-size: 1.05rem; }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* SERVICES */
+  #services { background: var(--black); }
+  .services-header { margin-bottom: 72px; }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1px; background: var(--border); }
+  .service-card {
+    background: var(--black); padding: 48px 40px; position: relative; overflow: hidden;
+    transition: all 0.4s; cursor: none;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: scaleX(0); transition: transform 0.4s;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-card:hover { background: var(--surface); transform: translateY(-4px); }
+  .service-number {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent);
+    letter-spacing: 0.15em; margin-bottom: 24px; opacity: 0.6;
+  }
+  .service-icon { width: 56px; height: 56px; margin-bottom: 24px; position: relative; }
+  .service-icon-bg {
+    width: 56px; height: 56px; background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.15); display: flex; align-items: center;
+    justify-content: center; transition: all 0.4s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
+  .service-card:hover .service-icon-bg { background: rgba(0,200,255,0.14); border-color: rgba(0,200,255,0.3); }
+  .service-icon-bg svg { width: 26px; height: 26px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
+  h3.service-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.25rem; margin-bottom: 12px; }
+  .service-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+  .service-arrow { position: absolute; bottom: 32px; right: 32px; opacity: 0; transform: translateX(-8px); transition: all 0.3s; color: var(--accent); font-size: 1.2rem; }
+  .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+  /* PORTFOLIO */
+  #portfolio { background: var(--deep); }
+  .portfolio-header { margin-bottom: 72px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: gap; }
+  .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+  .video-card {
+    background: var(--card); border: 1px solid var(--border); overflow: hidden;
+    transition: all 0.4s; cursor: none; position: relative;
+  }
+  .video-card:hover { border-color: var(--border-bright); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .video-thumb {
+    aspect-ratio: 16/9; background: var(--surface); position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-thumb-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0d1520 0%, #111b2a 100%);
+  }
+  .video-thumb-pattern {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(0,200,255,0.02) 0px, rgba(0,200,255,0.02) 1px, transparent 1px, transparent 12px);
+  }
+  .video-play {
+    position: relative; z-index: 2;
+    width: 60px; height: 60px; background: rgba(0,200,255,0.15);
+    border: 1px solid rgba(0,200,255,0.4); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .video-card:hover .video-play { background: rgba(0,200,255,0.25); transform: scale(1.1); }
+  .video-play svg { width: 22px; height: 22px; fill: var(--accent); margin-left: 4px; }
+  .video-badge {
+    position: absolute; top: 14px; left: 14px; z-index: 3;
+    background: rgba(0,0,0,0.7); border: 1px solid var(--border);
+    padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; color: var(--text); backdrop-filter: blur(8px);
+  }
+  .video-stats { position: absolute; bottom: 14px; right: 14px; z-index: 3; display: flex; gap: 12px; }
+  .video-stat { display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.7); padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); backdrop-filter: blur(8px); }
+  .video-stat svg { width: 10px; height: 10px; fill: var(--muted); }
+  .video-info { padding: 24px; }
+  .video-platform { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 8px; }
+  h4.video-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+  .video-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
+
+  /* GEAR */
+  #gear { background: var(--black); }
+  .gear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 72px auto 0; }
+  .gear-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 48px 40px; position: relative; overflow: hidden; cursor: none;
+    transition: all 0.4s;
+  }
+  .gear-card:hover { border-color: rgba(0,200,255,0.2); background: var(--card); }
+  .gear-card::after {
+    content: ''; position: absolute; bottom: 0; right: 0;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%);
+  }
+  .gear-visual { font-size: 5rem; margin-bottom: 24px; display: block; filter: grayscale(1) opacity(0.7); transition: all 0.4s; }
+  .gear-card:hover .gear-visual { filter: grayscale(0.3) opacity(1); }
+  .gear-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 12px; }
+  h3.gear-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 12px; }
+  .gear-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+  .gear-specs { margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .gear-spec { background: rgba(0,200,255,0.06); border: 1px solid rgba(0,200,255,0.1); padding: 4px 12px; font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.08em; }
+
+  /* ABOUT */
+  #about { background: var(--deep); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 72px; }
+  .about-portrait {
+    aspect-ratio: 3/4; background: var(--card); border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-portrait-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    color: var(--dimmer);
+  }
+  .about-portrait-placeholder svg { width: 60px; height: 60px; stroke: var(--dimmer); fill: none; stroke-width: 1; }
+  .about-portrait-placeholder span { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; }
+  .about-portrait-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(3,5,8,0.8) 0%, transparent 60%);
+  }
+  .about-content p { color: var(--muted); line-height: 1.8; margin-bottom: 20px; font-size: 1rem; }
+  .about-content p.lead { color: var(--text); font-size: 1.1rem; font-weight: 400; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 40px; }
+  .about-stat { background: var(--surface); padding: 24px; }
+  .about-stat-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; color: var(--accent); }
+  .about-stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+  /* HOW IT WORKS */
+  #process { background: var(--black); }
+  .process-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 72px; position: relative; }
+  .process-steps::before {
+    content: ''; position: absolute; top: 36px; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-bright) 20%, var(--accent) 50%, var(--border-bright) 80%, transparent);
+    z-index: 0;
+  }
+  .process-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+  .step-number {
+    width: 72px; height: 72px; margin: 0 auto 24px;
+    background: var(--black); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent);
+    position: relative; transition: all 0.4s;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  }
+  .process-step:hover .step-number { background: rgba(0,200,255,0.08); border-color: var(--accent); }
+  .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
+  .step-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  #testimonials { background: var(--deep); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 72px; }
+  .testimonial-card {
+    background: var(--card); border: 1px solid var(--border); padding: 40px;
+    position: relative; overflow: hidden; transition: all 0.4s;
+  }
+  .testimonial-card:hover { border-color: var(--border-bright); transform: translateY(-4px); }
+  .testimonial-card::before { content: '\201C'; position: absolute; top: 20px; right: 28px; font-size: 6rem; color: rgba(0,200,255,0.06); font-family: Georgia, serif; line-height: 1; }
+  .testimonial-rating { display: flex; gap: 4px; margin-bottom: 20px; }
+  .star { color: var(--gold); font-size: 0.9rem; }
+  .testimonial-text { color: var(--text); font-size: 0.9rem; line-height: 1.75; margin-bottom: 28px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--border); padding-top: 20px; }
+  .testimonial-avatar { width: 44px; height: 44px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--accent); flex-shrink: 0; }
+  .testimonial-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; }
+  .testimonial-role { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  /* CONTACT */
+  #contact { background: var(--black); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; margin-top: 72px; align-items: start; }
+  .contact-info h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: 16px; }
+  .contact-info p { color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+  .contact-detail { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.88rem; }
+  .contact-detail svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 1.5; flex-shrink: 0; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); }
+  .form-input, .form-select, .form-textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    transition: all 0.3s; outline: none; cursor: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); background: rgba(0,200,255,0.03); }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--dimmer); }
+  .form-select { appearance: none; cursor: none; }
+  .form-textarea { resize: vertical; min-height: 140px; }
+  .form-footer { margin-top: 8px; }
+  .form-note { font-size: 0.78rem; color: var(--dimmer); margin-top: 12px; line-height: 1.6; }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff; padding: 18px 40px; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.9rem; letter-spacing: 0.1em; border: none;
+    cursor: none; transition: all 0.3s; width: 100%;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,200,255,0.25); }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep); border-top: 1px solid var(--border);
+    padding: 60px 48px 40px;
+  }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; flex-wrap: wrap; gap: 32px; }
+  .footer-brand { max-width: 280px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .footer-logo span { color: var(--accent); }
+  .footer-tagline { color: var(--muted); font-size: 0.85rem; font-style: italic; line-height: 1.6; }
+  .footer-links-grid { display: flex; gap: 64px; flex-wrap: wrap; }
+  .footer-links-col h4 { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; }
+  .footer-links-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links-col a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+  .footer-links-col a:hover { color: var(--text); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .footer-copy { font-size: 0.78rem; color: var(--dimmer); font-family: 'Space Mono', monospace; }
+  .footer-social { display: flex; gap: 12px; }
+  .footer-social a { width: 36px; height: 36px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all 0.3s; text-decoration: none; }
+  .footer-social a:hover { border-color: var(--accent); color: var(--accent); }
+  .footer-social svg { width: 15px; height: 15px; fill: currentColor; }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+  .reveal-delay-6 { transition-delay: 0.6s; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 18px 24px; }
+    section { padding: 80px 24px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .gear-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .process-steps::before { display: none; }
+    #socials { padding: 24px; }
+    .social-item { padding: 0 20px; }
+  }
+  @media (max-width: 768px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .services-grid, .portfolio-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+    .footer-links-grid { flex-direction: column; gap: 32px; }
+    .social-strip { flex-direction: column; width: 100%; }
+    .social-item { border-right: none; border-bottom: 1px solid var(--border); width: 100%; padding: 16px 24px; }
+    .social-item:last-child { border-bottom: none; }
+    .footer-top { flex-direction: column; }
+  }
+
+  /* SCANLINE EFFECT */
+  .scanline {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0,200,255,0.4), transparent);
+    z-index: 9001; pointer-events: none;
+    animation: scanDown 6s linear infinite;
+  }
+  @keyframes scanDown { from { top: -10px; } to { top: 100vh; } }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">APEX<span>N</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#gear">Gear</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">GET IN TOUCH</button>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-canvas">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+  </div>
+
+  <!-- 3D Drone SVG -->
+  <svg class="drone-3d" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- Body -->
+    <rect x="340" y="210" width="120" height="80" rx="8" fill="none" stroke="rgba(0,200,255,0.6)" stroke-width="1.5"/>
+    <rect x="355" y="225" width="90" height="50" rx="4" fill="none" stroke="rgba(0,200,255,0.3)" stroke-width="1"/>
+    <!-- Arms -->
+    <line x1="340" y1="220" x2="200" y2="140" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
+    <line x1="460" y1="220" x2="600" y2="140" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
+    <line x1="340" y1="280" x2="200" y2="360" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
+    <line x1="460" y1="280" x2="600" y2="360" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
+    <!-- Propellers -->
+    <ellipse cx="200" cy="140" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
+    <ellipse cx="600" cy="140" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
+    <ellipse cx="200" cy="360" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
+    <ellipse cx="600" cy="360" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
+    <!-- Motor mounts -->
+    <circle cx="200" cy="140" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
+    <circle cx="600" cy="140" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
+    <circle cx="200" cy="360" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
+    <circle cx="600" cy="360" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
+    <!-- Camera -->
+    <rect x="375" y="290" width="50" height="36" rx="4" fill="none" stroke="rgba(0,200,255,0.5)" stroke-width="1.5"/>
+    <circle cx="400" cy="308" r="10" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="1.5"/>
+    <circle cx="400" cy="308" r="5" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.5)" stroke-width="1"/>
+    <!-- LED dots -->
+    <circle cx="200" cy="140" r="3" fill="rgba(0,200,255,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.5s" repeatCount="indefinite"/></circle>
+    <circle cx="600" cy="140" r="3" fill="rgba(0,200,255,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.7s" repeatCount="indefinite"/></circle>
+    <circle cx="200" cy="360" r="3" fill="rgba(255,77,0,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.3s" repeatCount="indefinite"/></circle>
+    <circle cx="600" cy="360" r="3" fill="rgba(255,77,0,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.9s" repeatCount="indefinite"/></circle>
+    <!-- Center indicator -->
+    <circle cx="400" cy="250" r="6" fill="rgba(0,200,255,0.2)" stroke="rgba(0,200,255,0.6)" stroke-width="1.5">
+      <animate attributeName="r" values="6;12;6" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-badge">DRONE OPERATOR & CONTENT CREATOR</div>
+    <h1 class="hero-title">APEX<br>NORTH</h1>
+    <p class="hero-tagline">"Capturing movement. Creating impact."</p>
+    <p class="hero-sub">Professional drone footage, FPV content and cinematic visuals designed to stand out.</p>
+    <div class="hero-buttons">
+      <a href="#portfolio" class="btn-primary">VIEW PORTFOLIO</a>
+      <a href="#contact" class="btn-outline">CONTACT ME</a>
+      <a href="#socials" class="btn-ghost">FOLLOW MY WORK ↓</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- SOCIALS -->
+<div id="socials">
+  <div class="social-strip">
+    <a href="#" class="social-item" target="_blank" rel="noopener">
+      <div class="social-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+      <div>
+        <div class="social-label">YOUTUBE</div>
+        <div class="social-sub">Cinematic Videos</div>
+      </div>
+    </a>
+    <a href="#" class="social-item" target="_blank" rel="noopener">
+      <div class="social-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </div>
+      <div>
+        <div class="social-label">TIKTOK</div>
+        <div class="social-sub">Short Form Content</div>
+      </div>
+    </a>
+    <a href="#" class="social-item" target="_blank" rel="noopener">
+      <div class="social-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </div>
+      <div>
+        <div class="social-label">INSTAGRAM</div>
+        <div class="social-sub">Reels & Stories</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="services-header reveal">
+      <div class="section-label">WHAT I DO</div>
+      <h2 class="section-title">Services</h2>
+      <p class="section-desc">From the sky to the screen — every frame crafted with intention.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-number">01</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">Drone Video</h3>
+        <p class="service-desc">Professional aerial footage and cinematic visuals that redefine perspective and elevate your brand story.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-number">02</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">FPV Content</h3>
+        <p class="service-desc">Dynamic FPV flying and immersive content that puts viewers in the cockpit of an adrenaline-fueled experience.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-number">03</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">Social Media Content</h3>
+        <p class="service-desc">Content optimized for TikTok, Instagram Reels and YouTube Shorts — built to stop the scroll and drive engagement.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-number">04</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">Brand Content</h3>
+        <p class="service-desc">Promotional visuals and storytelling for businesses and brands — turning your identity into a cinematic statement.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal reveal-delay-4">
+        <div class="service-number">05</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">Behind The Scenes</h3>
+        <p class="service-desc">Authentic behind-the-scenes content from productions, events and creative work that builds connection and trust.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal reveal-delay-5">
+        <div class="service-number">06</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">Short Form Content</h3>
+        <p class="service-desc">Fast-paced, engaging content designed for social media — built for maximum impact in minimum time.</p>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-number">07</div>
+        <div class="service-icon">
+          <div class="service-icon-bg">
+            <svg viewBox="0 0 24 24"><path d="M2 20h.01M7 20v-4"/><path d="M12 20V10"/><path d="M17 20V4"/><path d="M22 20v-7"/></svg>
+          </div>
+        </div>
+        <h3 class="service-title">Film Projects</h3>
+        <p class="service-desc">Drone and camera work for cinematic productions, films and storytelling projects that demand extraordinary imagery.</p>
+        <div class="service-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <div class="portfolio-header reveal">
+      <div>
+        <div class="section-label">FEATURED WORK</div>
+        <h2 class="section-title">Most Popular Videos</h2>
+      </div>
+      <p class="section-desc" style="max-width:320px">Top performing content — ranked by views and engagement.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="video-card reveal">
+        <div class="video-thumb">
+          <div class="video-thumb-bg"></div>
+          <div class="video-thumb-pattern"></div>
+          <div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="video-badge">MOST VIEWED</div>
+          <div class="video-stats">
+            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 2.4M</div>
+            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 84K</div>
+          </div>
+        </div>
+        <div class="video-info">
+          <div class="video-platform">YOUTUBE</div>
+          <h4 class="video-title">Mountain Ridge — Aerial Cinematic</h4>
+          <p class="video-desc">A sweeping aerial journey over dramatic mountain terrain. Shot at golden hour with the DJI Avata.</p>
+        </div>
+      </div>
+      <div class="video-card reveal reveal-delay-1">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #0d1520 0%, #1a1020 100%);"></div>
+          <div class="video-thumb-pattern"></div>
+          <div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="video-badge">TRENDING</div>
+          <div class="video-stats">
+            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 1.8M</div>
+            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 62K</div>
+          </div>
+        </div>
+        <div class="video-info">
+          <div class="video-platform">TIKTOK</div>
+          <h4 class="video-title">FPV Through The City</h4>
+          <p class="video-desc">High-speed FPV flight weaving through urban architecture. Raw, immersive, impossible perspectives.</p>
+        </div>
+      </div>
+      <div class="video-card reveal reveal-delay-2">
+        <div class="video-thumb">
+          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #0d1520 0%, #0d2015 100%);"></div>
+          <div class="video-thumb-pattern"></div>
+          <div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="video-badge">TOP RATED</div>
+          <div class="video-stats">
+            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 940K</div>
+            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 41K</div>
+          </div>
+        </div>
+        <div class="video-info">
+          <div class="video-platform">INSTAGRAM REELS</div>
+          <h4 class="video-title">Brand Campaign — Nordic Outdoors</h4>
+          <p class="video-desc">Full brand content campaign combining aerial and handheld cinematic footage for a Norwegian outdoor brand.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEAR -->
+<section id="gear">
+  <div class="container" style="text-align:center">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center">MY EQUIPMENT</div>
+      <h2 class="section-title">The Gear</h2>
+      <p class="section-desc" style="margin:0 auto">Every frame starts with the right tool. Here's what creates the magic.</p>
+    </div>
+    <div class="gear-grid">
+      <div class="gear-card reveal">
+        <span class="gear-visual">🚁</span>
+        <div class="gear-tag">PRIMARY DRONE</div>
+        <h3 class="gear-name">DJI Avata 360</h3>
+        <p class="gear-desc">FPV and 360-degree drone for immersive aerial footage and dynamic cinematic perspectives. The weapon of choice for impossible shots and heart-stopping angles.</p>
+        <div class="gear-specs">
+          <span class="gear-spec">FPV</span>
+          <span class="gear-spec">360°</span>
+          <span class="gear-spec">4K/60FPS</span>
+          <span class="gear-spec">CINEMATIC</span>
+        </div>
+      </div>
+      <div class="gear-card reveal reveal-delay-2">
+        <span class="gear-visual">📷</span>
+        <div class="gear-tag">HANDHELD CAMERA</div>
+        <h3 class="gear-name">DJI Pocket 3</h3>
+        <p class="gear-desc">Compact stabilized camera for smooth handheld cinematic content. When the drone stays grounded, the Pocket 3 captures every detail with precision and elegance.</p>
+        <div class="gear-specs">
+          <span class="gear-spec">STABILIZED</span>
+          <span class="gear-spec">4K/120FPS</span>
+          <span class="gear-spec">COMPACT</span>
+          <span class="gear-spec">CINEMATIC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">THE PERSON BEHIND THE LENS</div>
+      <h2 class="section-title">About Me</h2>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="about-portrait">
+          <div class="about-portrait-placeholder">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+            <span>YOUR PHOTO HERE</span>
+          </div>
+          <div class="about-portrait-overlay"></div>
+        </div>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-num">—</div>
+            <div class="about-stat-label">Years of experience</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">—</div>
+            <div class="about-stat-label">Projects completed</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">—</div>
+            <div class="about-stat-label">Brands worked with</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">—</div>
+            <div class="about-stat-label">Total views</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-content reveal reveal-delay-2">
+        <p class="lead">I'm a drone operator and content creator based in Norway, driven by a passion for visual storytelling and the pursuit of the perfect frame.</p>
+        <p>What started as a fascination with movement and perspective grew into a full creative practice — one built on the belief that great content doesn't just capture moments, it creates them.</p>
+        <p>Under the Apex North brand, I bring together aerial cinematography, FPV flying and handheld storytelling to create visuals that feel alive. Every project begins with a conversation and ends with something that genuinely resonates.</p>
+        <p>My approach is always collaborative. I don't just show up and fly — I get into your world, understand what you're trying to say, and build something that says it powerfully.</p>
+        <p>Whether it's a brand campaign, a social media series or a cinematic film project, the standard stays the same: quality, creativity and visual impact in every single frame.</p>
+        <div style="margin-top:40px; padding:28px; border:1px solid var(--border); background:var(--surface)">
+          <div class="section-label" style="margin-bottom:12px">CREATIVE PHILOSOPHY</div>
+          <p style="color:var(--text); font-style:italic; font-size:1.05rem; line-height:1.8; margin:0">"Every frame is a decision. Every cut is a statement. The best content doesn't just look good — it makes you feel something."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="process">
+  <div class="container" style="text-align:center">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center">THE PROCESS</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-desc" style="margin:0 auto">Simple, clear, collaborative — from first idea to final delivery.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-number">01</div>
+        <div class="step-title">Send Your Idea</div>
+        <div class="step-desc">Reach out through the contact form with your project concept and vision.</div>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-number">02</div>
+        <div class="step-title">Explain What You Need</div>
+        <div class="step-desc">Share your goals, audience, platform and any creative references you have in mind.</div>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-number">03</div>
+        <div class="step-title">I Review Your Project</div>
+        <div class="step-desc">I evaluate the scope, feasibility and creative possibilities of your request.</div>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-number">04</div>
+        <div class="step-title">We Discuss the Solution</div>
+        <div class="step-desc">We align on the creative direction, approach and everything needed to make it outstanding.</div>
+      </div>
+      <div class="process-step reveal reveal-delay-4">
+        <div class="step-number">05</div>
+        <div class="step-title">Content Creation Begins</div>
+        <div class="step-desc">I go to work — capturing, editing and delivering content that exceeds expectations.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">WHAT PEOPLE SAY</div>
+      <h2 class="section-title">Feedback</h2>
+      <p class="section-desc">Real words from clients, employers and collaborators.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testimonial-text">"The aerial footage exceeded every expectation we had. The team was professional, creative and delivered something that genuinely elevated our brand. We saw a significant increase in engagement after posting the content."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div>
+            <div class="testimonial-name">Add Name Here</div>
+            <div class="testimonial-role">Role / Company</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testimonial-text">"Working with Apex North was seamless from start to finish. The creative vision was immediately clear and the final result was exactly what we were looking for — cinematic, polished and impactful."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">B</div>
+          <div>
+            <div class="testimonial-name">Add Name Here</div>
+            <div class="testimonial-role">Role / Company</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-4">
+        <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testimonial-text">"The FPV content created for our event was unlike anything we had seen before. Guests were sharing it everywhere. The quality of both the flying and editing is exceptional."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">C</div>
+          <div>
+            <div class="testimonial-name">Add Name Here</div>
+            <div class="testimonial-role">Role / Company</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">START A PROJECT</div>
+      <h2 class="section-title">Let's Create<br>Something Great</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Project Inquiry</h3>
+        <p>Tell me what you're working on. I'll review your request and reach out to discuss whether I can help bring your vision to life.</p>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Norway — Available Internationally
+        </div>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.64 3.3 2 2 0 0 1 3.6 1.14h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16.92z"/></svg>
+          Drone Operator · Certified
+        </div>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Drone / FPV / Cinematic / Social
+        </div>
+        <div style="margin-top:40px">
+          <div class="section-label">FOLLOW</div>
+          <div style="display:flex;gap:12px;margin-top:16px">
+            <a href="#" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="#" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </a>
+            <a href="#" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal reveal-delay-2">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">NAME *</label>
+            <input type="text" class="form-input" placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">EMAIL *</label>
+            <input type="email" class="form-input" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">COMPANY (OPTIONAL)</label>
+          <input type="text" class="form-input" placeholder="Company or brand name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">PROJECT TYPE *</label>
+          <select class="form-select form-input">
+            <option value="" disabled selected>Select project type</option>
+            <option>Drone Video</option>
+            <option>FPV Content</option>
+            <option>Social Media Content</option>
+            <option>Brand Content</option>
+            <option>Behind The Scenes</option>
+            <option>Short Form Content</option>
+            <option>Film Project</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">MESSAGE *</label>
+          <textarea class="form-textarea" placeholder="Tell me about your project, what you need, your vision and any important details."></textarea>
+        </div>
+        <div class="form-footer">
+          <button class="btn-submit" type="button">SEND PROJECT INQUIRY</button>
+          <p class="form-note">Describe your project and what you need. I'll review your request and get back to you to discuss whether I can help create the content you're looking for.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">APEX<span>N</span>ORTH</div>
+      <p class="footer-tagline">"Capturing movement.<br>Creating impact."</p>
+    </div>
+    <div class="footer-links-grid">
+      <div class="footer-links-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Drone Video</a></li>
+          <li><a href="#services">FPV Content</a></li>
+          <li><a href="#services">Social Media</a></li>
+          <li><a href="#services">Brand Content</a></li>
+          <li><a href="#services">Film Projects</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#gear">Gear</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 APEX NORTH — ALL RIGHTS RESERVED</div>
+    <div class="footer-social">
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // CUSTOM CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 4 + 'px';
+    cursor.style.top = my - 4 + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 18 + 'px';
+    ring.style.top = ry - 18 + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+  document.querySelectorAll('a, button, .service-card, .video-card, .gear-card, .testimonial-card, .process-step').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+
+  // NAVBAR
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // PARALLAX HERO ORBS
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    document.querySelector('.hero-orb-1').style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+    document.querySelector('.hero-orb-2').style.transform = `translate(${-x * 0.2}px, ${-y * 0.2}px)`;
+    document.querySelector('.hero-orb-3').style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+    document.querySelector('.drone-3d').style.transform = `translate(-50%, -60%) translateX(${x * 0.08}px) translateY(${y * 0.08}px)`;
+  });
+
+  // GRID PARALLAX
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const grid = document.querySelector('.hero-bg-grid');
+    if (grid) grid.style.transform = `translateY(${scrolled * 0.3}px)`;
+  });
+
+  // HAMBURGER (mobile)
+  document.getElementById('hamburger').addEventListener('click', () => {
+    const links = document.querySelector('.nav-links');
+    if (!links) return;
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'absolute';
+    links.style.top = '70px';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = 'rgba(3,5,8,0.98)';
+    links.style.padding = '24px';
+    links.style.borderBottom = '1px solid var(--border)';
+    links.style.zIndex = '999';
+  });
+
+  // FORM SUBMIT
+  document.querySelector('.btn-submit').addEventListener('click', function() {
+    this.textContent = 'INQUIRY SENT ✓';
+    this.style.background = 'linear-gradient(135deg, #0a5a2a, #0d8a3d)';
+    setTimeout(() => {
+      this.textContent = 'SEND PROJECT INQUIRY';
+      this.style.background = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
