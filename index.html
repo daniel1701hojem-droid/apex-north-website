@@ -22,6 +22,10 @@
     --dimmer: #4a5568;
     --gold: #c8a96e;
     --glow: rgba(0, 200, 255, 0.15);
+    /* NEW — drone platform colours */
+    --yt:  #ff3d3d;
+    --tt:  #00f2ea;
+    --ig:  #e040fb;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -59,11 +63,16 @@
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; }
   .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; }
 
-  /* HERO */
+  /* ═══════════════════════════════════════════
+     HERO — new layout (left text + right drones)
+  ═══════════════════════════════════════════ */
   #hero {
-    position: relative; min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden; text-align: center; padding: 120px 24px 80px;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    /* text-align intentionally NOT set here — handled per-element */
   }
   .hero-canvas { position: absolute; inset: 0; }
   .hero-bg-grid {
@@ -72,25 +81,24 @@
     background-size: 80px 80px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
   }
-  .hero-orb {
-    position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
-  }
+  .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
   .hero-orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, transparent 70%); top: -10%; left: -5%; }
   .hero-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,200,255,0.12) 0%, transparent 70%); bottom: 10%; right: 5%; }
   .hero-orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,77,0,0.08) 0%, transparent 70%); top: 30%; right: 15%; }
 
-  /* 3D DRONE SVG */
-  .drone-3d {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
-    width: min(700px, 90vw); opacity: 0.12; pointer-events: none;
-    animation: droneDrift 8s ease-in-out infinite;
-  }
-  @keyframes droneDrift {
-    0%, 100% { transform: translate(-50%, -60%) translateY(0px) rotate(-1deg); }
-    50% { transform: translate(-50%, -60%) translateY(-20px) rotate(1deg); }
+  /* Hero inner wrapper — text left, drones right */
+  .hero-layout {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 1280px; margin: 0 auto;
+    padding: 120px 48px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
   }
 
-  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+  .hero-left { flex: 0 0 auto; max-width: 560px; }
+
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
     background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2);
@@ -115,10 +123,13 @@
     animation: fadeInUp 1s ease 0.4s both;
   }
   .hero-sub {
-    font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 600px; margin: 0 auto 48px;
+    font-size: clamp(1rem, 2vw, 1.1rem); color: var(--muted); margin-bottom: 40px;
     line-height: 1.7; font-weight: 300; animation: fadeInUp 1s ease 0.6s both;
   }
-  .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.8s both; }
+  .hero-buttons {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeInUp 1s ease 0.8s both;
+  }
   .btn-primary {
     background: linear-gradient(135deg, var(--accent2), var(--accent));
     color: #fff; padding: 16px 36px; font-family: 'Syne', sans-serif;
@@ -135,12 +146,6 @@
     clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
   }
   .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,200,255,0.05); }
-  .btn-ghost {
-    background: transparent; color: var(--muted); padding: 15px 24px;
-    border: 1px solid var(--border); font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem; cursor: none; transition: all 0.3s; text-decoration: none; display: inline-block;
-  }
-  .btn-ghost:hover { color: var(--text); border-color: var(--border-bright); }
 
   /* SCROLL INDICATOR */
   .scroll-indicator {
@@ -151,6 +156,161 @@
   .scroll-indicator span { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--dimmer); }
   .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s ease infinite; }
   @keyframes scrollPulse { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  /* ═══════════════════════════════════════════
+     FLOATING DRONES
+  ═══════════════════════════════════════════ */
+  .an-drones {
+    position: relative;
+    flex: 0 0 auto;
+    width: 440px;
+    height: 400px;
+  }
+
+  .an-drone {
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Positions + staggered entry + floating loops */
+  .an-drone--yt {
+    top: 0; right: 60px; width: 140px;
+    animation: anIn 1s cubic-bezier(.16,1,.3,1) .9s forwards,
+               anF1 4.3s ease-in-out 2.2s infinite;
+  }
+  .an-drone--tt {
+    top: 150px; right: 0; width: 140px;
+    animation: anIn 1s cubic-bezier(.16,1,.3,1) 1.1s forwards,
+               anF2 4.9s ease-in-out 2.4s infinite;
+  }
+  .an-drone--ig {
+    bottom: 20px; right: 80px; width: 140px;
+    animation: anIn 1s cubic-bezier(.16,1,.3,1) 1.3s forwards,
+               anF3 3.9s ease-in-out 2.6s infinite;
+  }
+
+  /* SVG */
+  .an-drone__svg {
+    width: 100%; display: block;
+    transition: filter .3s ease, transform .25s ease;
+  }
+  .an-drone--yt .an-drone__svg  { filter: drop-shadow(0 0 6px rgba(255,61,61,.85)); }
+  .an-drone--tt .an-drone__svg  { filter: drop-shadow(0 0 6px rgba(0,242,234,.8)); }
+  .an-drone--ig .an-drone__svg  { filter: drop-shadow(0 0 6px rgba(224,64,251,.8)); }
+
+  /* Propellers */
+  .an-pcw  { animation: anSpin .17s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .an-pccw { animation: anSpin .17s linear infinite reverse; transform-box: fill-box; transform-origin: center; }
+
+  /* Glow orb behind drone */
+  .an-drone__glow {
+    position: absolute; top: 42%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 55px; height: 55px; border-radius: 50%;
+    transition: width .4s, height .4s; pointer-events: none;
+  }
+  .an-drone--yt .an-drone__glow  { background: radial-gradient(circle, rgba(255,61,61,.22) 0%, transparent 70%); }
+  .an-drone--tt .an-drone__glow  { background: radial-gradient(circle, rgba(0,242,234,.2)  0%, transparent 70%); }
+  .an-drone--ig .an-drone__glow  { background: radial-gradient(circle, rgba(224,64,251,.2) 0%, transparent 70%); }
+
+  /* Light beam below */
+  .an-drone__beam {
+    position: absolute; bottom: -26px; left: 50%;
+    transform: translateX(-50%);
+    width: 1px; height: 26px; opacity: .6; pointer-events: none;
+  }
+  .an-drone--yt .an-drone__beam  { background: linear-gradient(to bottom, var(--yt), transparent); }
+  .an-drone--tt .an-drone__beam  { background: linear-gradient(to bottom, var(--tt), transparent); }
+  .an-drone--ig .an-drone__beam  { background: linear-gradient(to bottom, var(--ig), transparent); }
+
+  /* Label */
+  .an-drone__label {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    margin-top: 32px; transition: color .3s;
+  }
+  .an-drone--yt .an-drone__label  { color: rgba(255,61,61,.65); }
+  .an-drone--tt .an-drone__label  { color: rgba(0,242,234,.65); }
+  .an-drone--ig .an-drone__label  { color: rgba(224,64,251,.65); }
+
+  /* Ripple ring (reused for all click effects) */
+  .an-drone__ripple {
+    position: absolute; top: 42%; left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    width: 100px; height: 100px; border-radius: 50%;
+    opacity: 0; pointer-events: none;
+  }
+  .an-drone--yt .an-drone__ripple  { border: 1.5px solid var(--yt); }
+  .an-drone--tt .an-drone__ripple  { border: 1.5px solid var(--tt); }
+  .an-drone--ig .an-drone__ripple  { border: 1.5px solid var(--ig); }
+
+  /* Blinking status LED */
+  .an-led { animation: anBlink 2s ease-in-out infinite; }
+
+  /* Hover */
+  .an-drone--yt:hover .an-drone__svg  { filter: drop-shadow(0 0 14px var(--yt))  drop-shadow(0 0 26px rgba(255,61,61,.4));  transform: translateY(-4px) scale(1.04); }
+  .an-drone--tt:hover .an-drone__svg  { filter: drop-shadow(0 0 14px var(--tt))  drop-shadow(0 0 26px rgba(0,242,234,.4));  transform: translateY(-4px) scale(1.04); }
+  .an-drone--ig:hover .an-drone__svg  { filter: drop-shadow(0 0 14px var(--ig))  drop-shadow(0 0 26px rgba(224,64,251,.4)); transform: translateY(-4px) scale(1.04); }
+  .an-drone:hover .an-drone__glow { width: 95px; height: 95px; }
+  .an-drone--yt:hover .an-drone__label  { color: var(--yt); }
+  .an-drone--tt:hover .an-drone__label  { color: var(--tt); }
+  .an-drone--ig:hover .an-drone__label  { color: var(--ig); }
+
+  /* Click states */
+  .an-drone--yt.an-clicked .an-drone__svg  { animation: anGlowYT .65s ease forwards; }
+  .an-drone--tt.an-clicked .an-drone__svg  { animation: anGlowTT .65s ease forwards; }
+  .an-drone--ig.an-clicked .an-drone__svg  { animation: anGlitch  .5s  ease forwards; }
+  .an-drone.an-clicked .an-drone__ripple   { animation: anRipple  .85s ease forwards; }
+
+  /* Drone keyframes */
+  @keyframes anIn  { from{opacity:0;transform:translateY(38px) scale(.88)} to{opacity:1;transform:translateY(0) scale(1)} }
+  @keyframes anF1  { 0%,100%{transform:translateY(0) rotate(.6deg)}  50%{transform:translateY(-18px) rotate(-.6deg)} }
+  @keyframes anF2  { 0%,100%{transform:translateY(0) rotate(-.4deg)} 50%{transform:translateY(-22px) rotate(.4deg)} }
+  @keyframes anF3  { 0%,100%{transform:translateY(0) rotate(.5deg)}  50%{transform:translateY(-13px) rotate(-.5deg)} }
+  @keyframes anSpin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  @keyframes anBlink { 0%,100%{opacity:1} 50%{opacity:.12} }
+  @keyframes anRipple{ from{transform:translate(-50%,-50%) scale(0);opacity:.9} to{transform:translate(-50%,-50%) scale(3.2);opacity:0} }
+  @keyframes anGlowYT {
+    0%  {transform:scale(1);   filter:drop-shadow(0 0 6px var(--yt));}
+    45% {transform:scale(1.26);filter:drop-shadow(0 0 28px var(--yt)) drop-shadow(0 0 48px rgba(255,61,61,.7));}
+    100%{transform:scale(1);   filter:drop-shadow(0 0 6px var(--yt));}
+  }
+  @keyframes anGlowTT {
+    0%  {transform:scale(1);   filter:drop-shadow(0 0 6px var(--tt));}
+    45% {transform:scale(1.26);filter:drop-shadow(0 0 28px var(--tt)) drop-shadow(0 0 48px rgba(0,242,234,.7));}
+    100%{transform:scale(1);   filter:drop-shadow(0 0 6px var(--tt));}
+  }
+  @keyframes anGlitch {
+    0%  {transform:translateX(0) skewX(0);   filter:drop-shadow(0 0 6px var(--ig));}
+    15% {transform:translateX(-7px) skewX(-5deg); filter:drop-shadow(5px 0 0 #ff0055) drop-shadow(-5px 0 0 #00f2ea);}
+    30% {transform:translateX(7px) skewX(5deg);   filter:drop-shadow(-5px 0 0 #ff0055) drop-shadow(5px 0 0 #00f2ea);}
+    60% {transform:translateX(3px) skewX(1deg);}
+    100%{transform:translateX(0) skewX(0);   filter:drop-shadow(0 0 6px var(--ig));}
+  }
+
+  /* Responsive — stack drones below text on mobile */
+  @media (max-width: 1024px) {
+    .an-drones { width: 360px; height: 340px; }
+    .an-drone--yt, .an-drone--tt, .an-drone--ig { width: 110px; }
+  }
+  @media (max-width: 840px) {
+    .hero-layout { flex-direction: column; align-items: flex-start; padding: 100px 24px 100px; gap: 32px; }
+    .an-drones {
+      width: 100%; height: 170px;
+      display: flex; align-items: center; justify-content: space-around;
+    }
+    .an-drone--yt, .an-drone--tt, .an-drone--ig {
+      position: relative; top:auto; right:auto; bottom:auto; left:auto; width: 90px;
+    }
+    .an-drone--yt { animation: anIn 1s ease .9s  forwards, anF1 4s ease-in-out 2s infinite; }
+    .an-drone--tt { animation: anIn 1s ease 1.1s forwards, anF2 4.5s ease-in-out 2.2s infinite; }
+    .an-drone--ig { animation: anIn 1s ease 1.3s forwards, anF3 3.8s ease-in-out 2.4s infinite; }
+  }
+  /* ═══ END DRONE CSS ═══ */
 
   /* SOCIAL STRIP */
   #socials {
@@ -229,7 +389,7 @@
 
   /* PORTFOLIO */
   #portfolio { background: var(--deep); }
-  .portfolio-header { margin-bottom: 72px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: gap; }
+  .portfolio-header { margin-bottom: 72px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
   .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
   .video-card {
     background: var(--card); border: 1px solid var(--border); overflow: hidden;
@@ -240,10 +400,7 @@
     aspect-ratio: 16/9; background: var(--surface); position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
-  .video-thumb-bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #0d1520 0%, #111b2a 100%);
-  }
+  .video-thumb-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0d1520 0%, #111b2a 100%); }
   .video-thumb-pattern {
     position: absolute; inset: 0;
     background-image: repeating-linear-gradient(45deg, rgba(0,200,255,0.02) 0px, rgba(0,200,255,0.02) 1px, transparent 1px, transparent 12px);
@@ -252,8 +409,7 @@
     position: relative; z-index: 2;
     width: 60px; height: 60px; background: rgba(0,200,255,0.15);
     border: 1px solid rgba(0,200,255,0.4); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center; transition: all 0.3s;
   }
   .video-card:hover .video-play { background: rgba(0,200,255,0.25); transform: scale(1.1); }
   .video-play svg { width: 22px; height: 22px; fill: var(--accent); margin-left: 4px; }
@@ -276,13 +432,11 @@
   .gear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 72px auto 0; }
   .gear-card {
     background: var(--surface); border: 1px solid var(--border);
-    padding: 48px 40px; position: relative; overflow: hidden; cursor: none;
-    transition: all 0.4s;
+    padding: 48px 40px; position: relative; overflow: hidden; cursor: none; transition: all 0.4s;
   }
   .gear-card:hover { border-color: rgba(0,200,255,0.2); background: var(--card); }
   .gear-card::after {
-    content: ''; position: absolute; bottom: 0; right: 0;
-    width: 150px; height: 150px;
+    content: ''; position: absolute; bottom: 0; right: 0; width: 150px; height: 150px;
     background: radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%);
   }
   .gear-visual { font-size: 5rem; margin-bottom: 24px; display: block; filter: grayscale(1) opacity(0.7); transition: all 0.4s; }
@@ -298,19 +452,12 @@
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 72px; }
   .about-portrait {
     aspect-ratio: 3/4; background: var(--card); border: 1px solid var(--border);
-    position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
   }
-  .about-portrait-placeholder {
-    display: flex; flex-direction: column; align-items: center; gap: 16px;
-    color: var(--dimmer);
-  }
+  .about-portrait-placeholder { display: flex; flex-direction: column; align-items: center; gap: 16px; color: var(--dimmer); }
   .about-portrait-placeholder svg { width: 60px; height: 60px; stroke: var(--dimmer); fill: none; stroke-width: 1; }
   .about-portrait-placeholder span { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; }
-  .about-portrait-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(3,5,8,0.8) 0%, transparent 60%);
-  }
+  .about-portrait-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(3,5,8,0.8) 0%, transparent 60%); }
   .about-content p { color: var(--muted); line-height: 1.8; margin-bottom: 20px; font-size: 1rem; }
   .about-content p.lead { color: var(--text); font-size: 1.1rem; font-weight: 400; }
   .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 40px; }
@@ -388,10 +535,7 @@
   .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,200,255,0.25); }
 
   /* FOOTER */
-  footer {
-    background: var(--deep); border-top: 1px solid var(--border);
-    padding: 60px 48px 40px;
-  }
+  footer { background: var(--deep); border-top: 1px solid var(--border); padding: 60px 48px 40px; }
   .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; flex-wrap: wrap; gap: 32px; }
   .footer-brand { max-width: 280px; }
   .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: 0.06em; margin-bottom: 12px; }
@@ -484,8 +628,12 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ═══════════════════════════════════════════════════════════
+     NEW HERO SECTION
+     Replaces everything that was between <!-- HERO --> and </section>
+═══════════════════════════════════════════════════════════ -->
 <section id="hero">
+  <!-- Background: existing orbs + grid (matches rest of site) -->
   <div class="hero-canvas">
     <div class="hero-bg-grid"></div>
     <div class="hero-orb hero-orb-1"></div>
@@ -493,64 +641,140 @@
     <div class="hero-orb hero-orb-3"></div>
   </div>
 
-  <!-- 3D Drone SVG -->
-  <svg class="drone-3d" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
-    <!-- Body -->
-    <rect x="340" y="210" width="120" height="80" rx="8" fill="none" stroke="rgba(0,200,255,0.6)" stroke-width="1.5"/>
-    <rect x="355" y="225" width="90" height="50" rx="4" fill="none" stroke="rgba(0,200,255,0.3)" stroke-width="1"/>
-    <!-- Arms -->
-    <line x1="340" y1="220" x2="200" y2="140" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
-    <line x1="460" y1="220" x2="600" y2="140" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
-    <line x1="340" y1="280" x2="200" y2="360" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
-    <line x1="460" y1="280" x2="600" y2="360" stroke="rgba(0,200,255,0.5)" stroke-width="2"/>
-    <!-- Propellers -->
-    <ellipse cx="200" cy="140" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
-    <ellipse cx="600" cy="140" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
-    <ellipse cx="200" cy="360" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
-    <ellipse cx="600" cy="360" rx="70" ry="18" fill="none" stroke="rgba(0,200,255,0.4)" stroke-width="1.5"/>
-    <!-- Motor mounts -->
-    <circle cx="200" cy="140" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
-    <circle cx="600" cy="140" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
-    <circle cx="200" cy="360" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
-    <circle cx="600" cy="360" r="14" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="2"/>
-    <!-- Camera -->
-    <rect x="375" y="290" width="50" height="36" rx="4" fill="none" stroke="rgba(0,200,255,0.5)" stroke-width="1.5"/>
-    <circle cx="400" cy="308" r="10" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="1.5"/>
-    <circle cx="400" cy="308" r="5" fill="rgba(0,200,255,0.15)" stroke="rgba(0,200,255,0.5)" stroke-width="1"/>
-    <!-- LED dots -->
-    <circle cx="200" cy="140" r="3" fill="rgba(0,200,255,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.5s" repeatCount="indefinite"/></circle>
-    <circle cx="600" cy="140" r="3" fill="rgba(0,200,255,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.7s" repeatCount="indefinite"/></circle>
-    <circle cx="200" cy="360" r="3" fill="rgba(255,77,0,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.3s" repeatCount="indefinite"/></circle>
-    <circle cx="600" cy="360" r="3" fill="rgba(255,77,0,0.9)"><animate attributeName="opacity" values="1;0.2;1" dur="1.9s" repeatCount="indefinite"/></circle>
-    <!-- Center indicator -->
-    <circle cx="400" cy="250" r="6" fill="rgba(0,200,255,0.2)" stroke="rgba(0,200,255,0.6)" stroke-width="1.5">
-      <animate attributeName="r" values="6;12;6" dur="2s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite"/>
-    </circle>
-  </svg>
+  <!-- Main layout: text left / drones right -->
+  <div class="hero-layout">
 
-  <div class="hero-content">
-    <div class="hero-badge">DRONE OPERATOR & CONTENT CREATOR</div>
-    <h1 class="hero-title">APEX<br>NORTH</h1>
-    <p class="hero-tagline">"Capturing movement. Creating impact."</p>
-    <p class="hero-sub">Professional drone footage, FPV content and cinematic visuals designed to stand out.</p>
-    <div class="hero-buttons">
-      <a href="#portfolio" class="btn-primary">VIEW PORTFOLIO</a>
-      <a href="#contact" class="btn-outline">CONTACT ME</a>
-      <a href="#socials" class="btn-ghost">FOLLOW MY WORK ↓</a>
+    <!-- LEFT: text + buttons -->
+    <div class="hero-left">
+      <div class="hero-badge">DRONE OPERATOR &amp; CONTENT CREATOR</div>
+      <h1 class="hero-title">APEX<br>NORTH</h1>
+      <p class="hero-tagline">"Capturing movement. Creating impact."</p>
+      <p class="hero-sub">Professional drone footage, FPV content and cinematic visuals designed to stand out.</p>
+      <div class="hero-buttons">
+        <a href="#portfolio" class="btn-primary">VIEW PORTFOLIO</a>
+        <a href="#contact" class="btn-outline">CONTACT ME</a>
+      </div>
     </div>
-  </div>
+
+    <!-- RIGHT: three floating drones -->
+    <div class="an-drones">
+
+      <!--
+        DRONE 1 — YOUTUBE
+        Click: zoom + red glow, then opens your YouTube channel.
+        Replace YOUTUBE_LINK_HERE with e.g. https://youtube.com/@apexnorth
+      -->
+      <div class="an-drone an-drone--yt" id="anDroneYT" onclick="anDroneClick('yt')">
+        <div class="an-drone__glow"></div>
+        <svg viewBox="0 0 120 80" class="an-drone__svg" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="22" x2="53" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="22" x2="67" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
+          <line x1="30" y1="58" x2="53" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="58" x2="67" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="30" cy="22" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
+          <circle cx="90" cy="22" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
+          <circle cx="30" cy="58" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
+          <circle cx="90" cy="58" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
+          <g class="an-pcw"><ellipse cx="30" cy="22" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="30" cy="22" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="90" cy="22" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="90" cy="22" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="30" cy="58" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="30" cy="58" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
+          <g class="an-pcw"><ellipse cx="90" cy="58" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="90" cy="58" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
+          <rect x="47" y="31" width="26" height="18" rx="4" fill="#080c14" stroke="#ff3d3d" stroke-width="1.5"/>
+          <rect x="50" y="33" width="20" height="14" rx="3" fill="#ff0000"/>
+          <polygon points="57,37 57,43 65,40" fill="white"/>
+          <circle cx="57" cy="51" r="1.8" fill="#ff5555" class="an-led"/>
+        </svg>
+        <div class="an-drone__beam"></div>
+        <div class="an-drone__ripple"></div>
+        <div class="an-drone__label">YouTube</div>
+      </div>
+
+      <!--
+        DRONE 2 — TIKTOK
+        Click: teal zoom glow, then opens your TikTok profile.
+        Replace TIKTOK_LINK_HERE with e.g. https://tiktok.com/@apexnorth
+      -->
+      <div class="an-drone an-drone--tt" id="anDroneTT" onclick="anDroneClick('tt')">
+        <div class="an-drone__glow"></div>
+        <svg viewBox="0 0 120 80" class="an-drone__svg" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="22" x2="53" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="22" x2="67" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
+          <line x1="30" y1="58" x2="53" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="58" x2="67" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="30" cy="22" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
+          <circle cx="90" cy="22" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
+          <circle cx="30" cy="58" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
+          <circle cx="90" cy="58" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
+          <g class="an-pcw"><ellipse cx="30" cy="22" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="30" cy="22" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="90" cy="22" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="90" cy="22" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="30" cy="58" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="30" cy="58" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
+          <g class="an-pcw"><ellipse cx="90" cy="58" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="90" cy="58" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
+          <rect x="47" y="31" width="26" height="18" rx="4" fill="#080c14" stroke="#00f2ea" stroke-width="1.5"/>
+          <rect x="50" y="33" width="20" height="14" rx="3" fill="#111"/>
+          <ellipse cx="59.5" cy="41.5" rx="3.5" ry="3.5" fill="none" stroke="#00f2ea" stroke-width="1.6"/>
+          <line x1="63" y1="38" x2="63" y2="34.5" stroke="#00f2ea" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M63 34.5 Q67 34 67 37" stroke="#ff0050" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <circle cx="63" cy="51" r="1.8" fill="#00f2ea" class="an-led"/>
+        </svg>
+        <div class="an-drone__beam"></div>
+        <div class="an-drone__ripple"></div>
+        <div class="an-drone__label">TikTok</div>
+      </div>
+
+      <!--
+        DRONE 3 — INSTAGRAM
+        Click: chromatic glitch effect, then opens your Instagram profile.
+        Replace INSTAGRAM_LINK_HERE with e.g. https://instagram.com/apexnorth
+      -->
+      <div class="an-drone an-drone--ig" id="anDroneIG" onclick="anDroneClick('ig')">
+        <div class="an-drone__glow"></div>
+        <svg viewBox="0 0 120 80" class="an-drone__svg" xmlns="http://www.w3.org/2000/svg">
+          <line x1="30" y1="22" x2="53" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="22" x2="67" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
+          <line x1="30" y1="58" x2="53" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
+          <line x1="90" y1="58" x2="67" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="30" cy="22" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
+          <circle cx="90" cy="22" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
+          <circle cx="30" cy="58" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
+          <circle cx="90" cy="58" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
+          <g class="an-pcw"><ellipse cx="30" cy="22" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="30" cy="22" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="90" cy="22" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="90" cy="22" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="30" cy="58" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="30" cy="58" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
+          <g class="an-pcw"><ellipse cx="90" cy="58" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="90" cy="58" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
+          <rect x="47" y="31" width="26" height="18" rx="4" fill="#080c14" stroke="#e040fb" stroke-width="1.5"/>
+          <defs>
+            <linearGradient id="igG" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#f09433"/>
+              <stop offset="50%"  stop-color="#dc2743"/>
+              <stop offset="100%" stop-color="#bc1888"/>
+            </linearGradient>
+          </defs>
+          <rect x="50" y="33" width="20" height="14" rx="3.5" fill="url(#igG)"/>
+          <rect x="53" y="36" width="14" height="8" rx="2" fill="none" stroke="white" stroke-width="1.2"/>
+          <circle cx="60" cy="40" r="2.5" fill="none" stroke="white" stroke-width="1.2"/>
+          <circle cx="65.5" cy="37" r="1" fill="white"/>
+          <circle cx="57" cy="51" r="1.8" fill="#e040fb" class="an-led"/>
+        </svg>
+        <div class="an-drone__beam"></div>
+        <div class="an-drone__ripple"></div>
+        <div class="an-drone__label">Instagram</div>
+      </div>
+
+    </div><!-- end .an-drones -->
+  </div><!-- end .hero-layout -->
 
   <div class="scroll-indicator">
     <span>SCROLL</span>
     <div class="scroll-line"></div>
   </div>
 </section>
+<!-- ═══════════════════════════════ END NEW HERO ═══════════════════════════════ -->
+
 
 <!-- SOCIALS -->
 <div id="socials">
   <div class="social-strip">
-    <a href="#" class="social-item" target="_blank" rel="noopener">
+    <a href="YOUTUBE_LINK_HERE" class="social-item" target="_blank" rel="noopener">
       <div class="social-icon">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </div>
@@ -559,7 +783,7 @@
         <div class="social-sub">Cinematic Videos</div>
       </div>
     </a>
-    <a href="#" class="social-item" target="_blank" rel="noopener">
+    <a href="TIKTOK_LINK_HERE" class="social-item" target="_blank" rel="noopener">
       <div class="social-icon">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
       </div>
@@ -568,13 +792,13 @@
         <div class="social-sub">Short Form Content</div>
       </div>
     </a>
-    <a href="#" class="social-item" target="_blank" rel="noopener">
+    <a href="INSTAGRAM_LINK_HERE" class="social-item" target="_blank" rel="noopener">
       <div class="social-icon">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       </div>
       <div>
         <div class="social-label">INSTAGRAM</div>
-        <div class="social-sub">Reels & Stories</div>
+        <div class="social-sub">Reels &amp; Stories</div>
       </div>
     </a>
   </div>
@@ -790,22 +1014,10 @@
           <div class="about-portrait-overlay"></div>
         </div>
         <div class="about-stats">
-          <div class="about-stat">
-            <div class="about-stat-num">—</div>
-            <div class="about-stat-label">Years of experience</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-num">—</div>
-            <div class="about-stat-label">Projects completed</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-num">—</div>
-            <div class="about-stat-label">Brands worked with</div>
-          </div>
-          <div class="about-stat">
-            <div class="about-stat-num">—</div>
-            <div class="about-stat-label">Total views</div>
-          </div>
+          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Years of experience</div></div>
+          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Projects completed</div></div>
+          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Brands worked with</div></div>
+          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Total views</div></div>
         </div>
       </div>
       <div class="about-content reveal reveal-delay-2">
@@ -832,31 +1044,11 @@
       <p class="section-desc" style="margin:0 auto">Simple, clear, collaborative — from first idea to final delivery.</p>
     </div>
     <div class="process-steps">
-      <div class="process-step reveal">
-        <div class="step-number">01</div>
-        <div class="step-title">Send Your Idea</div>
-        <div class="step-desc">Reach out through the contact form with your project concept and vision.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-1">
-        <div class="step-number">02</div>
-        <div class="step-title">Explain What You Need</div>
-        <div class="step-desc">Share your goals, audience, platform and any creative references you have in mind.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-2">
-        <div class="step-number">03</div>
-        <div class="step-title">I Review Your Project</div>
-        <div class="step-desc">I evaluate the scope, feasibility and creative possibilities of your request.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-3">
-        <div class="step-number">04</div>
-        <div class="step-title">We Discuss the Solution</div>
-        <div class="step-desc">We align on the creative direction, approach and everything needed to make it outstanding.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-4">
-        <div class="step-number">05</div>
-        <div class="step-title">Content Creation Begins</div>
-        <div class="step-desc">I go to work — capturing, editing and delivering content that exceeds expectations.</div>
-      </div>
+      <div class="process-step reveal"><div class="step-number">01</div><div class="step-title">Send Your Idea</div><div class="step-desc">Reach out through the contact form with your project concept and vision.</div></div>
+      <div class="process-step reveal reveal-delay-1"><div class="step-number">02</div><div class="step-title">Explain What You Need</div><div class="step-desc">Share your goals, audience, platform and any creative references you have in mind.</div></div>
+      <div class="process-step reveal reveal-delay-2"><div class="step-number">03</div><div class="step-title">I Review Your Project</div><div class="step-desc">I evaluate the scope, feasibility and creative possibilities of your request.</div></div>
+      <div class="process-step reveal reveal-delay-3"><div class="step-number">04</div><div class="step-title">We Discuss the Solution</div><div class="step-desc">We align on the creative direction, approach and everything needed to make it outstanding.</div></div>
+      <div class="process-step reveal reveal-delay-4"><div class="step-number">05</div><div class="step-title">Content Creation Begins</div><div class="step-desc">I go to work — capturing, editing and delivering content that exceeds expectations.</div></div>
     </div>
   </div>
 </section>
@@ -872,36 +1064,18 @@
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
         <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testimonial-text">"The aerial footage exceeded every expectation we had. The team was professional, creative and delivered something that genuinely elevated our brand. We saw a significant increase in engagement after posting the content."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">A</div>
-          <div>
-            <div class="testimonial-name">Add Name Here</div>
-            <div class="testimonial-role">Role / Company</div>
-          </div>
-        </div>
+        <p class="testimonial-text">"The aerial footage exceeded every expectation we had. The team was professional, creative and delivered something that genuinely elevated our brand."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">A</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div>
       </div>
       <div class="testimonial-card reveal reveal-delay-2">
         <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testimonial-text">"Working with Apex North was seamless from start to finish. The creative vision was immediately clear and the final result was exactly what we were looking for — cinematic, polished and impactful."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">B</div>
-          <div>
-            <div class="testimonial-name">Add Name Here</div>
-            <div class="testimonial-role">Role / Company</div>
-          </div>
-        </div>
+        <p class="testimonial-text">"Working with Apex North was seamless from start to finish. The creative vision was immediately clear and the final result was exactly what we were looking for."</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">B</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div>
       </div>
       <div class="testimonial-card reveal reveal-delay-4">
         <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
         <p class="testimonial-text">"The FPV content created for our event was unlike anything we had seen before. Guests were sharing it everywhere. The quality of both the flying and editing is exceptional."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">C</div>
-          <div>
-            <div class="testimonial-name">Add Name Here</div>
-            <div class="testimonial-role">Role / Company</div>
-          </div>
-        </div>
+        <div class="testimonial-author"><div class="testimonial-avatar">C</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div>
       </div>
     </div>
   </div>
@@ -918,66 +1092,34 @@
       <div class="contact-info reveal">
         <h3>Project Inquiry</h3>
         <p>Tell me what you're working on. I'll review your request and reach out to discuss whether I can help bring your vision to life.</p>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Norway — Available Internationally
-        </div>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.64 3.3 2 2 0 0 1 3.6 1.14h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16.92z"/></svg>
-          Drone Operator · Certified
-        </div>
-        <div class="contact-detail">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          Drone / FPV / Cinematic / Social
-        </div>
+        <div class="contact-detail"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Norway — Available Internationally</div>
+        <div class="contact-detail"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.64 3.3 2 2 0 0 1 3.6 1.14h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16.92z"/></svg> Drone Operator · Certified</div>
+        <div class="contact-detail"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Drone / FPV / Cinematic / Social</div>
         <div style="margin-top:40px">
           <div class="section-label">FOLLOW</div>
           <div style="display:flex;gap:12px;margin-top:16px">
-            <a href="#" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            </a>
-            <a href="#" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-            </a>
-            <a href="#" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            </a>
+            <a href="YOUTUBE_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            <a href="TIKTOK_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+            <a href="INSTAGRAM_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
           </div>
         </div>
       </div>
       <div class="contact-form reveal reveal-delay-2">
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">NAME *</label>
-            <input type="text" class="form-input" placeholder="Your full name">
-          </div>
-          <div class="form-group">
-            <label class="form-label">EMAIL *</label>
-            <input type="email" class="form-input" placeholder="your@email.com">
-          </div>
+          <div class="form-group"><label class="form-label">NAME *</label><input type="text" class="form-input" placeholder="Your full name"></div>
+          <div class="form-group"><label class="form-label">EMAIL *</label><input type="email" class="form-input" placeholder="your@email.com"></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">COMPANY (OPTIONAL)</label>
-          <input type="text" class="form-input" placeholder="Company or brand name">
-        </div>
+        <div class="form-group"><label class="form-label">COMPANY (OPTIONAL)</label><input type="text" class="form-input" placeholder="Company or brand name"></div>
         <div class="form-group">
           <label class="form-label">PROJECT TYPE *</label>
           <select class="form-select form-input">
             <option value="" disabled selected>Select project type</option>
-            <option>Drone Video</option>
-            <option>FPV Content</option>
-            <option>Social Media Content</option>
-            <option>Brand Content</option>
-            <option>Behind The Scenes</option>
-            <option>Short Form Content</option>
-            <option>Film Project</option>
-            <option>Other</option>
+            <option>Drone Video</option><option>FPV Content</option><option>Social Media Content</option>
+            <option>Brand Content</option><option>Behind The Scenes</option><option>Short Form Content</option>
+            <option>Film Project</option><option>Other</option>
           </select>
         </div>
-        <div class="form-group">
-          <label class="form-label">MESSAGE *</label>
-          <textarea class="form-textarea" placeholder="Tell me about your project, what you need, your vision and any important details."></textarea>
-        </div>
+        <div class="form-group"><label class="form-label">MESSAGE *</label><textarea class="form-textarea" placeholder="Tell me about your project, what you need, your vision and any important details."></textarea></div>
         <div class="form-footer">
           <button class="btn-submit" type="button">SEND PROJECT INQUIRY</button>
           <p class="form-note">Describe your project and what you need. I'll review your request and get back to you to discuss whether I can help create the content you're looking for.</p>
@@ -1018,9 +1160,9 @@
       <div class="footer-links-col">
         <h4>Follow</h4>
         <ul>
-          <li><a href="#">YouTube</a></li>
-          <li><a href="#">TikTok</a></li>
-          <li><a href="#">Instagram</a></li>
+          <li><a href="YOUTUBE_LINK_HERE">YouTube</a></li>
+          <li><a href="TIKTOK_LINK_HERE">TikTok</a></li>
+          <li><a href="INSTAGRAM_LINK_HERE">Instagram</a></li>
         </ul>
       </div>
     </div>
@@ -1028,9 +1170,9 @@
   <div class="footer-bottom">
     <div class="footer-copy">© 2025 APEX NORTH — ALL RIGHTS RESERVED</div>
     <div class="footer-social">
-      <a href="#"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      <a href="#"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
-      <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="YOUTUBE_LINK_HERE"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a href="TIKTOK_LINK_HERE"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      <a href="INSTAGRAM_LINK_HERE"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
     </div>
   </div>
 </footer>
@@ -1046,14 +1188,12 @@
     cursor.style.top = my - 4 + 'px';
   });
   function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx - 18 + 'px';
-    ring.style.top = ry - 18 + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px';
     requestAnimationFrame(animRing);
   }
   animRing();
-  document.querySelectorAll('a, button, .service-card, .video-card, .gear-card, .testimonial-card, .process-step').forEach(el => {
+  document.querySelectorAll('a, button, .service-card, .video-card, .gear-card, .testimonial-card, .process-step, .an-drone').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
   });
@@ -1065,7 +1205,7 @@
 
   // SCROLL REVEAL
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
@@ -1076,41 +1216,64 @@
     document.querySelector('.hero-orb-1').style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
     document.querySelector('.hero-orb-2').style.transform = `translate(${-x * 0.2}px, ${-y * 0.2}px)`;
     document.querySelector('.hero-orb-3').style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-    document.querySelector('.drone-3d').style.transform = `translate(-50%, -60%) translateX(${x * 0.08}px) translateY(${y * 0.08}px)`;
   });
 
   // GRID PARALLAX
   window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
     const grid = document.querySelector('.hero-bg-grid');
-    if (grid) grid.style.transform = `translateY(${scrolled * 0.3}px)`;
+    if (grid) grid.style.transform = `translateY(${window.scrollY * 0.3}px)`;
   });
 
-  // HAMBURGER (mobile)
+  // HAMBURGER
   document.getElementById('hamburger').addEventListener('click', () => {
     const links = document.querySelector('.nav-links');
     if (!links) return;
     links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-    links.style.flexDirection = 'column';
-    links.style.position = 'absolute';
-    links.style.top = '70px';
-    links.style.left = '0';
-    links.style.right = '0';
-    links.style.background = 'rgba(3,5,8,0.98)';
-    links.style.padding = '24px';
-    links.style.borderBottom = '1px solid var(--border)';
-    links.style.zIndex = '999';
+    links.style.flexDirection = 'column'; links.style.position = 'absolute';
+    links.style.top = '70px'; links.style.left = '0'; links.style.right = '0';
+    links.style.background = 'rgba(3,5,8,0.98)'; links.style.padding = '24px';
+    links.style.borderBottom = '1px solid var(--border)'; links.style.zIndex = '999';
   });
 
   // FORM SUBMIT
   document.querySelector('.btn-submit').addEventListener('click', function() {
     this.textContent = 'INQUIRY SENT ✓';
     this.style.background = 'linear-gradient(135deg, #0a5a2a, #0d8a3d)';
-    setTimeout(() => {
-      this.textContent = 'SEND PROJECT INQUIRY';
-      this.style.background = '';
-    }, 3000);
+    setTimeout(() => { this.textContent = 'SEND PROJECT INQUIRY'; this.style.background = ''; }, 3000);
   });
+
+  /* ═══════════════════════════════════════════════════
+     DRONE CLICK HANDLER
+     Replace the 3 placeholder URLs with your real links.
+  ═══════════════════════════════════════════════════ */
+  window.anDroneClick = function(type) {
+    var cfg = {
+      yt: { id: 'anDroneYT', url: 'YOUTUBE_LINK_HERE',   delay: 620 },
+      tt: { id: 'anDroneTT', url: 'TIKTOK_LINK_HERE',    delay: 620 },
+      ig: { id: 'anDroneIG', url: 'INSTAGRAM_LINK_HERE', delay: 520 }
+    }[type];
+    if (!cfg) return;
+
+    var el = document.getElementById(cfg.id);
+    var ripple = el.querySelector('.an-drone__ripple');
+
+    /* Re-trigger ripple animation */
+    ripple.style.animation = 'none';
+    void ripple.offsetWidth;
+    ripple.style.animation = 'anRipple .85s ease forwards';
+
+    el.classList.add('an-clicked');
+    setTimeout(function() {
+      el.classList.remove('an-clicked');
+      /*
+       * REPLACE THESE URLS:
+       *   YOUTUBE_LINK_HERE   → e.g. https://youtube.com/@apexnorth
+       *   TIKTOK_LINK_HERE    → e.g. https://tiktok.com/@apexnorth
+       *   INSTAGRAM_LINK_HERE → e.g. https://instagram.com/apexnorth
+       */
+      window.open(cfg.url, '_blank', 'noopener');
+    }, cfg.delay);
+  };
 </script>
 </body>
 </html>
