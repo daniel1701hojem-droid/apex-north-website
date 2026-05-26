@@ -21,37 +21,21 @@
     --muted: #7a8a9e;
     --dimmer: #4a5568;
     --gold: #c8a96e;
-    --glow: rgba(0, 200, 255, 0.15);
-    /* NEW — drone platform colours */
     --yt:  #ff3d3d;
     --tt:  #00f2ea;
     --ig:  #e040fb;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+  body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; cursor: none; }
 
-  /* CUSTOM CURSOR */
-  .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s; mix-blend-mode: screen; }
-  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,200,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.15s, width 0.3s, height 0.3s; }
+  /* CURSOR */
+  .cursor { position: fixed; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,200,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transition: width 0.3s, height 0.3s, border-color 0.3s; }
   .cursor-ring.hover { width: 60px; height: 60px; border-color: var(--accent); }
 
   /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    padding: 20px 48px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(to bottom, rgba(3,5,8,0.95) 0%, transparent 100%);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.4s, background 0.4s;
-  }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(to bottom, rgba(3,5,8,0.9) 0%, transparent 100%); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color 0.4s, background 0.4s; }
   nav.scrolled { border-color: var(--border); background: rgba(3,5,8,0.97); }
   .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.08em; color: #fff; text-decoration: none; }
   .nav-logo span { color: var(--accent); }
@@ -64,7 +48,147 @@
   .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; }
 
   /* ═══════════════════════════════════════════
-     HERO — new layout (left text + right drones)
+     IMMERSIVE VIDEO SPLASH
+  ═══════════════════════════════════════════ */
+  #splash {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .splash-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    filter: saturate(1.15) contrast(1.05);
+  }
+  /* layered cinematic overlays */
+  .splash-vignette {
+    position: absolute; inset: 0; z-index: 1;
+    background: radial-gradient(ellipse 90% 80% at 50% 50%,
+      transparent 20%,
+      rgba(0,0,0,0.35) 60%,
+      rgba(0,0,0,0.82) 100%
+    );
+  }
+  .splash-grad-top {
+    position: absolute; top: 0; left: 0; right: 0; height: 35%; z-index: 2;
+    background: linear-gradient(to bottom, rgba(3,5,8,0.75) 0%, transparent 100%);
+  }
+  .splash-grad-bot {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 45%; z-index: 2;
+    background: linear-gradient(to top, rgba(3,5,8,1) 0%, rgba(3,5,8,0.6) 40%, transparent 100%);
+  }
+  /* horizontal color leak from left */
+  .splash-leak {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(105deg,
+      rgba(0,80,200,0.12) 0%,
+      transparent 45%,
+      transparent 60%,
+      rgba(0,200,255,0.06) 100%
+    );
+  }
+
+  /* LOGO BLOCK */
+  .splash-content {
+    position: relative; z-index: 5;
+    display: flex; flex-direction: column; align-items: center;
+    animation: splashIn 1.4s cubic-bezier(.16,1,.3,1) 0.3s both;
+  }
+  .splash-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.55rem, 1.1vw, 0.72rem);
+    letter-spacing: 0.32em; color: rgba(255,255,255,0.4);
+    text-transform: uppercase; margin-bottom: 20px;
+    animation: splashIn 1.4s cubic-bezier(.16,1,.3,1) 0.6s both;
+  }
+  .splash-logo-wrap {
+    position: relative; text-align: center;
+  }
+  .splash-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 4.8vw, 5.8rem);
+    letter-spacing: 0.06em; line-height: 0.92;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.55);
+    text-shadow:
+      0 0 40px rgba(0,200,255,0.18),
+      0 0 80px rgba(0,100,255,0.08),
+      0 2px 16px rgba(0,0,0,0.65);
+    animation: logoReveal 2s cubic-bezier(.16,1,.3,1) 0.2s both;
+  }
+  .splash-logo span { color: rgba(0,200,255,0.72); text-shadow: 0 0 30px rgba(0,200,255,0.45), 0 0 60px rgba(0,200,255,0.18); }
+  /* Glowing underline */
+  .splash-rule {
+    width: 0; height: 1px; margin: 18px auto 0;
+    background: linear-gradient(90deg, transparent, var(--accent), rgba(0,200,255,0.4), transparent);
+    animation: ruleExpand 1.2s cubic-bezier(.16,1,.3,1) 1.2s forwards;
+  }
+  .splash-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.6rem, 1.3vw, 0.82rem);
+    letter-spacing: 0.24em; color: rgba(255,255,255,0.45);
+    text-transform: uppercase; margin-top: 22px;
+    animation: splashIn 1.4s cubic-bezier(.16,1,.3,1) 1.5s both;
+  }
+  /* 3D depth layers behind logo text */
+  .splash-logo-3d {
+    position: absolute; inset: 0; pointer-events: none;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 4.8vw, 5.8rem);
+    letter-spacing: 0.06em; line-height: 0.92;
+    white-space: nowrap; color: transparent;
+    -webkit-text-stroke: 1px rgba(0,200,255,0.05);
+    transform: translate(2px, 3px);
+    text-align: center; user-select: none;
+  }
+  .splash-logo-3d-2 {
+    position: absolute; inset: 0; pointer-events: none;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 4.8vw, 5.8rem);
+    letter-spacing: 0.06em; line-height: 0.92;
+    white-space: nowrap; color: transparent;
+    -webkit-text-stroke: 1px rgba(0,100,255,0.03);
+    transform: translate(4px, 6px);
+    text-align: center; user-select: none;
+  }
+
+  /* SCAN LINE on splash */
+  .splash-scan {
+    position: absolute; left: 0; right: 0; height: 1px; z-index: 4; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(0,200,255,0.5), transparent);
+    animation: scanDown 5s linear 0.5s infinite;
+  }
+
+  /* SCROLL CTA */
+  .splash-scroll {
+    position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%);
+    z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    cursor: none; animation: splashIn 1s ease 2.2s both;
+  }
+  .splash-scroll span { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; color: rgba(255,255,255,0.3); }
+  .splash-chevrons { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .splash-chev {
+    width: 14px; height: 14px;
+    border-right: 1px solid rgba(255,255,255,0.25);
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    transform: rotate(45deg);
+    animation: chevPulse 2s ease infinite;
+  }
+  .splash-chev:nth-child(2) { animation-delay: 0.2s; opacity: 0.5; }
+  .splash-chev:nth-child(3) { animation-delay: 0.4s; opacity: 0.25; }
+
+  @keyframes splashIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes logoReveal { from { opacity: 0; transform: scale(0.95) translateY(24px); letter-spacing: 0.1em; } to { opacity: 1; transform: scale(1) translateY(0); letter-spacing: 0.04em; } }
+  @keyframes ruleExpand { from { width: 0; } to { width: clamp(200px, 50%, 600px); } }
+  @keyframes scanDown { from { top: -2px; } to { top: 100vh; } }
+  @keyframes chevPulse { 0%, 100% { opacity: 1; transform: rotate(45deg) translateY(0); } 50% { opacity: 0.3; transform: rotate(45deg) translateY(4px); } }
+
+  /* ═══════════════════════════════════════════
+     HERO — text left + BIG dramatic drones right
   ═══════════════════════════════════════════ */
   #hero {
     position: relative;
@@ -72,9 +196,25 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    /* text-align intentionally NOT set here — handled per-element */
+    background: var(--black);
   }
-  .hero-canvas { position: absolute; inset: 0; }
+  /* Hero video background */
+  .hero-video-bg {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 30%;
+    opacity: 0.12;
+    filter: saturate(0.6) blur(2px) brightness(0.7);
+    pointer-events: none;
+  }
+  /* Extra dark overlay so drones stay prominent */
+  .hero-video-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      radial-gradient(ellipse 80% 70% at 70% 50%, transparent 30%, rgba(3,5,8,0.65) 80%),
+      linear-gradient(to right, rgba(3,5,8,0.85) 0%, rgba(3,5,8,0.3) 50%, rgba(3,5,8,0.5) 100%);
+    pointer-events: none;
+  }
   .hero-bg-grid {
     position: absolute; inset: 0;
     background-image: linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
@@ -82,89 +222,101 @@
     mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
   }
   .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
-  .hero-orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, transparent 70%); top: -10%; left: -5%; }
-  .hero-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,200,255,0.12) 0%, transparent 70%); bottom: 10%; right: 5%; }
-  .hero-orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,77,0,0.08) 0%, transparent 70%); top: 30%; right: 15%; }
+  .hero-orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(0,102,255,0.15) 0%, transparent 70%); top: -15%; left: -8%; }
+  .hero-orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,200,255,0.1) 0%, transparent 70%); bottom: 5%; right: 2%; }
+  .hero-orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(255,77,0,0.07) 0%, transparent 70%); top: 25%; right: 12%; }
 
-  /* Hero inner wrapper — text left, drones right */
   .hero-layout {
-    position: relative; z-index: 2;
-    width: 100%; max-width: 1280px; margin: 0 auto;
+    position: relative; z-index: 5;
+    width: 100%; max-width: 1400px; margin: 0 auto;
     padding: 120px 48px 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 48px;
+    gap: 32px;
   }
+  .hero-left { flex: 0 0 auto; width: 42%; }
 
-  .hero-left { flex: 1 1 0; min-width: 0; }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2);
-    padding: 6px 16px; margin-bottom: 32px;
-    font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--accent);
-    animation: fadeInDown 1s ease both;
-  }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2); padding: 6px 16px; margin-bottom: 32px; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; color: var(--accent); animation: fadeInDown 1s ease both; }
   .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
   h1.hero-title {
     font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(2.8rem, 5.8vw, 7rem); line-height: 0.9; letter-spacing: -0.02em;
-    margin-bottom: 28px;
-    background: linear-gradient(135deg, #ffffff 0%, #c8dff0 40%, var(--accent) 70%, #0066ff 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: clamp(1.7rem, 2.8vw, 3.4rem);
+    line-height: 1; letter-spacing: 0; margin-bottom: 24px;
     animation: fadeInUp 1s ease 0.2s both;
   }
-  .hero-tagline {
-    font-family: 'Space Mono', monospace; font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-    color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 24px;
-    animation: fadeInUp 1s ease 0.4s both;
+  /* APEX — raw outlined, cyan stroke */
+  .ht-apex {
+    display: block;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1.5px rgba(0,200,255,0.75);
+    letter-spacing: 0.1em;
+    opacity: 0.9;
   }
-  .hero-sub {
-    font-size: clamp(1rem, 2vw, 1.1rem); color: var(--muted); margin-bottom: 40px;
-    line-height: 1.7; font-weight: 300; animation: fadeInUp 1s ease 0.6s both;
+  /* NORTH — solid, heavy, white */
+  .ht-north {
+    display: block;
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 30px rgba(0,200,255,0.12);
   }
-  .hero-buttons {
-    display: flex; gap: 16px; flex-wrap: wrap;
-    animation: fadeInUp 1s ease 0.8s both;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    color: #fff; padding: 16px 36px; font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; border: none;
-    cursor: none; transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    text-decoration: none; display: inline-block;
-  }
+  .hero-tagline { font-family: 'Space Mono', monospace; font-size: clamp(0.7rem, 1.3vw, 0.9rem); color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 24px; animation: fadeInUp 1s ease 0.4s both; }
+  .hero-sub { font-size: clamp(0.95rem, 1.6vw, 1.08rem); color: var(--muted); margin-bottom: 40px; line-height: 1.7; font-weight: 300; animation: fadeInUp 1s ease 0.6s both; }
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeInUp 1s ease 0.8s both; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff; padding: 16px 36px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; border: none; cursor: none; transition: all 0.3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); text-decoration: none; display: inline-block; }
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,200,255,0.3); }
-  .btn-outline {
-    background: transparent; color: var(--text); padding: 15px 36px;
-    border: 1px solid var(--border-bright); font-family: 'Syne', sans-serif;
-    font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em;
-    cursor: none; transition: all 0.3s; text-decoration: none; display: inline-block;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
+  .btn-outline { background: transparent; color: var(--text); padding: 15px 36px; border: 1px solid var(--border-bright); font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em; cursor: none; transition: all 0.3s; text-decoration: none; display: inline-block; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
   .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,200,255,0.05); }
 
-  /* SCROLL INDICATOR */
-  .scroll-indicator {
-    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    animation: fadeIn 1s ease 1.5s both;
-  }
+  .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 8px; animation: fadeIn 1s ease 1.5s both; }
   .scroll-indicator span { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--dimmer); }
   .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s ease infinite; }
   @keyframes scrollPulse { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
   /* ═══════════════════════════════════════════
-     FLOATING DRONES
+     DRONE STAGE — big, 3D, dramatic
   ═══════════════════════════════════════════ */
   .an-drones {
+    flex: 1 1 0;
     position: relative;
-    flex: 0 0 auto;
-    width: 440px;
-    height: 400px;
+    height: 580px;
+    perspective: 900px;
+    perspective-origin: 40% 50%;
+  }
+  /* Large ambient glow field behind all drones */
+  .an-field-glow {
+    position: absolute;
+    width: 460px; height: 340px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse,
+      rgba(0,180,255,0.07) 0%,
+      rgba(80,0,200,0.04) 50%,
+      transparent 75%
+    );
+    filter: blur(40px);
+    pointer-events: none;
+    animation: fieldPulse 6s ease-in-out infinite;
+  }
+  @keyframes fieldPulse { 0%,100%{opacity:0.7;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.12)} }
+
+  /* Faint ground grid perspective plane */
+  .an-ground {
+    position: absolute;
+    bottom: -10px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 120px;
+    background:
+      linear-gradient(to bottom, transparent, rgba(0,200,255,0.04) 60%, transparent),
+      repeating-linear-gradient(90deg, rgba(0,200,255,0.08) 0px, rgba(0,200,255,0.08) 1px, transparent 1px, transparent 50px),
+      repeating-linear-gradient(0deg, rgba(0,200,255,0.06) 0px, rgba(0,200,255,0.06) 1px, transparent 1px, transparent 30px);
+    transform: translateX(-50%) rotateX(55deg);
+    transform-origin: bottom center;
+    pointer-events: none;
+    opacity: 0.7;
   }
 
   .an-drone {
@@ -173,184 +325,127 @@
     opacity: 0;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    transform-style: preserve-3d;
   }
-
-  /* Positions + staggered entry + floating loops */
+  /* 3D positioned layout — staggered depth */
   .an-drone--yt {
-    top: 0; right: 60px; width: 140px;
-    animation: anIn 1s cubic-bezier(.16,1,.3,1) .9s forwards,
-               anF1 4.3s ease-in-out 2.2s infinite;
+    top: 18px; left: 60px; width: 175px;
+    transform: rotateY(-10deg) rotateX(4deg) translateZ(30px);
+    animation: anIn 1s cubic-bezier(.16,1,.3,1) .9s forwards, anF1 5s ease-in-out 2.2s infinite;
   }
   .an-drone--tt {
-    top: 150px; right: 0; width: 140px;
-    animation: anIn 1s cubic-bezier(.16,1,.3,1) 1.1s forwards,
-               anF2 4.9s ease-in-out 2.4s infinite;
+    top: 190px; left: 180px; width: 185px;
+    transform: rotateY(-5deg) rotateX(2deg) translateZ(60px);
+    animation: anIn 1s cubic-bezier(.16,1,.3,1) 1.15s forwards, anF2 6s ease-in-out 2.4s infinite;
   }
   .an-drone--ig {
-    bottom: 20px; right: 80px; width: 140px;
-    animation: anIn 1s cubic-bezier(.16,1,.3,1) 1.3s forwards,
-               anF3 3.9s ease-in-out 2.6s infinite;
+    top: 360px; left: 60px; width: 170px;
+    transform: rotateY(-8deg) rotateX(5deg) translateZ(20px);
+    animation: anIn 1s cubic-bezier(.16,1,.3,1) 1.3s forwards, anF3 4.5s ease-in-out 2.6s infinite;
   }
-
-  /* SVG */
-  .an-drone__svg {
-    width: 100%; display: block;
-    transition: filter .3s ease, transform .25s ease;
+  /* Connecting lines between drones */
+  .an-connectors {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
   }
-  .an-drone--yt .an-drone__svg  { filter: drop-shadow(0 0 6px rgba(255,61,61,.85)); }
-  .an-drone--tt .an-drone__svg  { filter: drop-shadow(0 0 6px rgba(0,242,234,.8)); }
-  .an-drone--ig .an-drone__svg  { filter: drop-shadow(0 0 6px rgba(224,64,251,.8)); }
+  .an-connectors svg { width: 100%; height: 100%; overflow: visible; }
+  .an-conn-line { stroke: rgba(0,200,255,0.08); stroke-width: 1; stroke-dasharray: 4 8; animation: connDash 3s linear infinite; }
+  .an-conn-line:nth-child(2) { animation-delay: -1s; }
+  .an-conn-line:nth-child(3) { animation-delay: -2s; }
+  @keyframes connDash { to { stroke-dashoffset: -36; } }
 
-  /* Propellers */
-  .an-pcw  { animation: anSpin .17s linear infinite; transform-box: fill-box; transform-origin: center; }
-  .an-pccw { animation: anSpin .17s linear infinite reverse; transform-box: fill-box; transform-origin: center; }
+  .an-drone__svg { width: 100%; display: block; transition: filter .3s ease, transform .25s ease; filter: drop-shadow(0 0 8px currentColor); }
+  .an-drone--yt .an-drone__svg { filter: drop-shadow(0 0 10px rgba(255,61,61,.8)) drop-shadow(0 8px 20px rgba(255,61,61,.2)); color: var(--yt); }
+  .an-drone--tt .an-drone__svg { filter: drop-shadow(0 0 10px rgba(0,242,234,.75)) drop-shadow(0 8px 20px rgba(0,242,234,.2)); color: var(--tt); }
+  .an-drone--ig .an-drone__svg { filter: drop-shadow(0 0 10px rgba(224,64,251,.8)) drop-shadow(0 8px 20px rgba(224,64,251,.2)); color: var(--ig); }
 
-  /* Glow orb behind drone */
-  .an-drone__glow {
-    position: absolute; top: 42%; left: 50%;
-    transform: translate(-50%,-50%);
-    width: 55px; height: 55px; border-radius: 50%;
-    transition: width .4s, height .4s; pointer-events: none;
-  }
-  .an-drone--yt .an-drone__glow  { background: radial-gradient(circle, rgba(255,61,61,.22) 0%, transparent 70%); }
-  .an-drone--tt .an-drone__glow  { background: radial-gradient(circle, rgba(0,242,234,.2)  0%, transparent 70%); }
-  .an-drone--ig .an-drone__glow  { background: radial-gradient(circle, rgba(224,64,251,.2) 0%, transparent 70%); }
+  .an-pcw  { animation: anSpin .15s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .an-pccw { animation: anSpin .15s linear infinite reverse; transform-box: fill-box; transform-origin: center; }
 
-  /* Light beam below */
-  .an-drone__beam {
-    position: absolute; bottom: -26px; left: 50%;
+  /* Soft shadow "cast" below each drone */
+  .an-drone__shadow {
+    position: absolute; bottom: -30px; left: 50%;
     transform: translateX(-50%);
-    width: 1px; height: 26px; opacity: .6; pointer-events: none;
+    width: 100px; height: 24px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.4;
+    filter: blur(10px);
+    animation: shadowPulse 4s ease-in-out infinite;
   }
-  .an-drone--yt .an-drone__beam  { background: linear-gradient(to bottom, var(--yt), transparent); }
-  .an-drone--tt .an-drone__beam  { background: linear-gradient(to bottom, var(--tt), transparent); }
-  .an-drone--ig .an-drone__beam  { background: linear-gradient(to bottom, var(--ig), transparent); }
+  .an-drone--yt .an-drone__shadow { background: radial-gradient(ellipse, rgba(255,61,61,0.5), transparent 75%); }
+  .an-drone--tt .an-drone__shadow { background: radial-gradient(ellipse, rgba(0,242,234,0.5), transparent 75%); }
+  .an-drone--ig .an-drone__shadow { background: radial-gradient(ellipse, rgba(224,64,251,0.5), transparent 75%); }
+  @keyframes shadowPulse { 0%,100%{opacity:0.3;transform:translateX(-50%) scaleX(0.85)} 50%{opacity:0.6;transform:translateX(-50%) scaleX(1.1)} }
 
-  /* Label */
-  .an-drone__label {
-    text-align: center;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
-    margin-top: 32px; transition: color .3s;
-  }
-  .an-drone--yt .an-drone__label  { color: rgba(255,61,61,.65); }
-  .an-drone--tt .an-drone__label  { color: rgba(0,242,234,.65); }
-  .an-drone--ig .an-drone__label  { color: rgba(224,64,251,.65); }
+  /* Glow orb */
+  .an-drone__glow { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); width: 80px; height: 80px; border-radius: 50%; transition: width .4s, height .4s; pointer-events: none; }
+  .an-drone--yt .an-drone__glow { background: radial-gradient(circle, rgba(255,61,61,.22) 0%, transparent 70%); }
+  .an-drone--tt .an-drone__glow { background: radial-gradient(circle, rgba(0,242,234,.2)  0%, transparent 70%); }
+  .an-drone--ig .an-drone__glow { background: radial-gradient(circle, rgba(224,64,251,.2) 0%, transparent 70%); }
 
-  /* Ripple ring (reused for all click effects) */
-  .an-drone__ripple {
-    position: absolute; top: 42%; left: 50%;
-    transform: translate(-50%,-50%) scale(0);
-    width: 100px; height: 100px; border-radius: 50%;
-    opacity: 0; pointer-events: none;
-  }
-  .an-drone--yt .an-drone__ripple  { border: 1.5px solid var(--yt); }
-  .an-drone--tt .an-drone__ripple  { border: 1.5px solid var(--tt); }
-  .an-drone--ig .an-drone__ripple  { border: 1.5px solid var(--ig); }
+  /* Light beam */
+  .an-drone__beam { position: absolute; bottom: -36px; left: 50%; transform: translateX(-50%); width: 1px; height: 36px; opacity: .55; pointer-events: none; }
+  .an-drone--yt .an-drone__beam { background: linear-gradient(to bottom, var(--yt), transparent); }
+  .an-drone--tt .an-drone__beam { background: linear-gradient(to bottom, var(--tt), transparent); }
+  .an-drone--ig .an-drone__beam { background: linear-gradient(to bottom, var(--ig), transparent); }
 
-  /* Blinking status LED */
+  /* Platform label */
+  .an-drone__label { text-align: center; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 5px; text-transform: uppercase; margin-top: 42px; transition: color .3s, letter-spacing .3s; }
+  .an-drone--yt .an-drone__label { color: rgba(255,61,61,.6); }
+  .an-drone--tt .an-drone__label { color: rgba(0,242,234,.6); }
+  .an-drone--ig .an-drone__label { color: rgba(224,64,251,.6); }
+
+  /* Ripple */
+  .an-drone__ripple { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0); width: 130px; height: 130px; border-radius: 50%; opacity: 0; pointer-events: none; }
+  .an-drone--yt .an-drone__ripple { border: 1.5px solid var(--yt); }
+  .an-drone--tt .an-drone__ripple { border: 1.5px solid var(--tt); }
+  .an-drone--ig .an-drone__ripple { border: 1.5px solid var(--ig); }
+
   .an-led { animation: anBlink 2s ease-in-out infinite; }
 
   /* Hover */
-  .an-drone--yt:hover .an-drone__svg  { filter: drop-shadow(0 0 14px var(--yt))  drop-shadow(0 0 26px rgba(255,61,61,.4));  transform: translateY(-4px) scale(1.04); }
-  .an-drone--tt:hover .an-drone__svg  { filter: drop-shadow(0 0 14px var(--tt))  drop-shadow(0 0 26px rgba(0,242,234,.4));  transform: translateY(-4px) scale(1.04); }
-  .an-drone--ig:hover .an-drone__svg  { filter: drop-shadow(0 0 14px var(--ig))  drop-shadow(0 0 26px rgba(224,64,251,.4)); transform: translateY(-4px) scale(1.04); }
-  .an-drone:hover .an-drone__glow { width: 95px; height: 95px; }
-  .an-drone--yt:hover .an-drone__label  { color: var(--yt); }
-  .an-drone--tt:hover .an-drone__label  { color: var(--tt); }
-  .an-drone--ig:hover .an-drone__label  { color: var(--ig); }
+  .an-drone--yt:hover .an-drone__svg { filter: drop-shadow(0 0 20px var(--yt)) drop-shadow(0 0 40px rgba(255,61,61,.45)); transform: translateY(-6px) scale(1.06); }
+  .an-drone--tt:hover .an-drone__svg { filter: drop-shadow(0 0 20px var(--tt)) drop-shadow(0 0 40px rgba(0,242,234,.45)); transform: translateY(-6px) scale(1.06); }
+  .an-drone--ig:hover .an-drone__svg { filter: drop-shadow(0 0 20px var(--ig)) drop-shadow(0 0 40px rgba(224,64,251,.45)); transform: translateY(-6px) scale(1.06); }
+  .an-drone:hover .an-drone__glow { width: 140px; height: 140px; }
+  .an-drone--yt:hover .an-drone__label { color: var(--yt); letter-spacing: 7px; }
+  .an-drone--tt:hover .an-drone__label { color: var(--tt); letter-spacing: 7px; }
+  .an-drone--ig:hover .an-drone__label { color: var(--ig); letter-spacing: 7px; }
 
-  /* Click states */
-  .an-drone--yt.an-clicked .an-drone__svg  { animation: anGlowYT .65s ease forwards; }
-  .an-drone--tt.an-clicked .an-drone__svg  { animation: anGlowTT .65s ease forwards; }
-  .an-drone--ig.an-clicked .an-drone__svg  { animation: anGlitch  .5s  ease forwards; }
-  .an-drone.an-clicked .an-drone__ripple   { animation: anRipple  .85s ease forwards; }
+  /* Click */
+  .an-drone--yt.an-clicked .an-drone__svg { animation: anGlowYT .65s ease forwards; }
+  .an-drone--tt.an-clicked .an-drone__svg { animation: anGlowTT .65s ease forwards; }
+  .an-drone--ig.an-clicked .an-drone__svg { animation: anGlitch .5s ease forwards; }
+  .an-drone.an-clicked .an-drone__ripple  { animation: anRipple .85s ease forwards; }
 
-  /* Drone keyframes */
-  @keyframes anIn  { from{opacity:0;transform:translateY(38px) scale(.88)} to{opacity:1;transform:translateY(0) scale(1)} }
-  @keyframes anF1  { 0%,100%{transform:translateY(0) rotate(.6deg)}  50%{transform:translateY(-18px) rotate(-.6deg)} }
-  @keyframes anF2  { 0%,100%{transform:translateY(0) rotate(-.4deg)} 50%{transform:translateY(-22px) rotate(.4deg)} }
-  @keyframes anF3  { 0%,100%{transform:translateY(0) rotate(.5deg)}  50%{transform:translateY(-13px) rotate(-.5deg)} }
+  @keyframes anIn    { from{opacity:0;transform:translateY(38px) scale(.86) rotateX(10deg)} to{opacity:1;transform:translateY(0) scale(1) rotateX(0)} }
+  @keyframes anF1    { 0%,100%{transform:rotateY(-10deg) rotateX(4deg) translateZ(30px) translateY(0)} 50%{transform:rotateY(-12deg) rotateX(5deg) translateZ(30px) translateY(-22px)} }
+  @keyframes anF2    { 0%,100%{transform:rotateY(-5deg) rotateX(2deg) translateZ(60px) translateY(0)} 50%{transform:rotateY(-6deg) rotateX(3deg) translateZ(60px) translateY(-28px)} }
+  @keyframes anF3    { 0%,100%{transform:rotateY(-8deg) rotateX(5deg) translateZ(20px) translateY(0)} 50%{transform:rotateY(-9deg) rotateX(6deg) translateZ(20px) translateY(-18px)} }
   @keyframes anSpin  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-  @keyframes anBlink { 0%,100%{opacity:1} 50%{opacity:.12} }
-  @keyframes anRipple{ from{transform:translate(-50%,-50%) scale(0);opacity:.9} to{transform:translate(-50%,-50%) scale(3.2);opacity:0} }
-  @keyframes anGlowYT {
-    0%  {transform:scale(1);   filter:drop-shadow(0 0 6px var(--yt));}
-    45% {transform:scale(1.26);filter:drop-shadow(0 0 28px var(--yt)) drop-shadow(0 0 48px rgba(255,61,61,.7));}
-    100%{transform:scale(1);   filter:drop-shadow(0 0 6px var(--yt));}
-  }
-  @keyframes anGlowTT {
-    0%  {transform:scale(1);   filter:drop-shadow(0 0 6px var(--tt));}
-    45% {transform:scale(1.26);filter:drop-shadow(0 0 28px var(--tt)) drop-shadow(0 0 48px rgba(0,242,234,.7));}
-    100%{transform:scale(1);   filter:drop-shadow(0 0 6px var(--tt));}
-  }
-  @keyframes anGlitch {
-    0%  {transform:translateX(0) skewX(0);   filter:drop-shadow(0 0 6px var(--ig));}
-    15% {transform:translateX(-7px) skewX(-5deg); filter:drop-shadow(5px 0 0 #ff0055) drop-shadow(-5px 0 0 #00f2ea);}
-    30% {transform:translateX(7px) skewX(5deg);   filter:drop-shadow(-5px 0 0 #ff0055) drop-shadow(5px 0 0 #00f2ea);}
-    60% {transform:translateX(3px) skewX(1deg);}
-    100%{transform:translateX(0) skewX(0);   filter:drop-shadow(0 0 6px var(--ig));}
-  }
-
-  /* Responsive — stack drones below text on mobile */
-  @media (max-width: 1024px) {
-    .an-drones { width: 360px; height: 340px; }
-    .an-drone--yt, .an-drone--tt, .an-drone--ig { width: 110px; }
-  }
-  @media (max-width: 840px) {
-    .hero-layout { flex-direction: column; align-items: flex-start; padding: 100px 24px 100px; gap: 32px; }
-    .an-drones {
-      width: 100%; height: 170px;
-      display: flex; align-items: center; justify-content: space-around;
-    }
-    .an-drone--yt, .an-drone--tt, .an-drone--ig {
-      position: relative; top:auto; right:auto; bottom:auto; left:auto; width: 90px;
-    }
-    .an-drone--yt { animation: anIn 1s ease .9s  forwards, anF1 4s ease-in-out 2s infinite; }
-    .an-drone--tt { animation: anIn 1s ease 1.1s forwards, anF2 4.5s ease-in-out 2.2s infinite; }
-    .an-drone--ig { animation: anIn 1s ease 1.3s forwards, anF3 3.8s ease-in-out 2.4s infinite; }
-  }
-  /* ═══ END DRONE CSS ═══ */
+  @keyframes anBlink { 0%,100%{opacity:1} 50%{opacity:.1} }
+  @keyframes anRipple{ from{transform:translate(-50%,-50%) scale(0);opacity:.9} to{transform:translate(-50%,-50%) scale(3.5);opacity:0} }
+  @keyframes anGlowYT  { 0%{transform:scale(1)} 45%{transform:scale(1.3);filter:drop-shadow(0 0 32px var(--yt)) drop-shadow(0 0 60px rgba(255,61,61,.65))} 100%{transform:scale(1)} }
+  @keyframes anGlowTT  { 0%{transform:scale(1)} 45%{transform:scale(1.3);filter:drop-shadow(0 0 32px var(--tt)) drop-shadow(0 0 60px rgba(0,242,234,.65))} 100%{transform:scale(1)} }
+  @keyframes anGlitch  { 0%{transform:translateX(0) skewX(0)} 15%{transform:translateX(-9px) skewX(-6deg);filter:drop-shadow(6px 0 0 #ff0055) drop-shadow(-6px 0 0 #00f2ea)} 30%{transform:translateX(9px) skewX(6deg);filter:drop-shadow(-6px 0 0 #ff0055) drop-shadow(6px 0 0 #00f2ea)} 60%{transform:translateX(3px)} 100%{transform:translateX(0)} }
 
   /* SOCIAL STRIP */
-  #socials {
-    padding: 40px 48px;
-    background: var(--deep);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center; gap: 0;
-  }
-  .social-strip { display: flex; align-items: center; gap: 0; }
-  .social-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 40px; text-decoration: none; color: var(--muted);
-    transition: all 0.3s; border-right: 1px solid var(--border);
-  }
+  #socials { padding: 40px 48px; background: var(--deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+  .social-strip { display: flex; align-items: center; }
+  .social-item { display: flex; align-items: center; gap: 12px; padding: 0 40px; text-decoration: none; color: var(--muted); transition: all 0.3s; border-right: 1px solid var(--border); }
   .social-item:last-child { border-right: none; }
   .social-item:hover { color: var(--accent); }
   .social-item:hover .social-icon { border-color: var(--accent); background: rgba(0,200,255,0.08); }
-  .social-icon {
-    width: 44px; height: 44px; border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s;
-  }
+  .social-icon { width: 44px; height: 44px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
   .social-icon svg { width: 20px; height: 20px; fill: currentColor; }
   .social-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; }
   .social-sub { font-size: 0.7rem; color: var(--dimmer); margin-top: 2px; }
 
-  /* SECTION COMMONS */
+  /* SECTIONS */
   section { padding: 120px 48px; }
-  .section-label {
-    font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em;
-    color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 12px;
-  }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
   .section-label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
-  h2.section-title {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -0.02em;
-    margin-bottom: 20px;
-  }
+  h2.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 20px; }
   .section-desc { color: var(--muted); max-width: 560px; line-height: 1.7; font-size: 1.05rem; }
   .container { max-width: 1280px; margin: 0 auto; }
 
@@ -358,28 +453,13 @@
   #services { background: var(--black); }
   .services-header { margin-bottom: 72px; }
   .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1px; background: var(--border); }
-  .service-card {
-    background: var(--black); padding: 48px 40px; position: relative; overflow: hidden;
-    transition: all 0.4s; cursor: none;
-  }
-  .service-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    transform: scaleX(0); transition: transform 0.4s;
-  }
+  .service-card { background: var(--black); padding: 48px 40px; position: relative; overflow: hidden; transition: all 0.4s; cursor: none; }
+  .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); transition: transform 0.4s; }
   .service-card:hover::before { transform: scaleX(1); }
   .service-card:hover { background: var(--surface); transform: translateY(-4px); }
-  .service-number {
-    font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent);
-    letter-spacing: 0.15em; margin-bottom: 24px; opacity: 0.6;
-  }
-  .service-icon { width: 56px; height: 56px; margin-bottom: 24px; position: relative; }
-  .service-icon-bg {
-    width: 56px; height: 56px; background: rgba(0,200,255,0.08);
-    border: 1px solid rgba(0,200,255,0.15); display: flex; align-items: center;
-    justify-content: center; transition: all 0.4s;
-    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
-  }
+  .service-number { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 24px; opacity: 0.6; }
+  .service-icon { width: 56px; height: 56px; margin-bottom: 24px; }
+  .service-icon-bg { width: 56px; height: 56px; background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.15); display: flex; align-items: center; justify-content: center; transition: all 0.4s; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); }
   .service-card:hover .service-icon-bg { background: rgba(0,200,255,0.14); border-color: rgba(0,200,255,0.3); }
   .service-icon-bg svg { width: 26px; height: 26px; stroke: var(--accent); fill: none; stroke-width: 1.5; }
   h3.service-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.25rem; margin-bottom: 12px; }
@@ -391,34 +471,15 @@
   #portfolio { background: var(--deep); }
   .portfolio-header { margin-bottom: 72px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
   .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
-  .video-card {
-    background: var(--card); border: 1px solid var(--border); overflow: hidden;
-    transition: all 0.4s; cursor: none; position: relative;
-  }
+  .video-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; transition: all 0.4s; cursor: none; }
   .video-card:hover { border-color: var(--border-bright); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
-  .video-thumb {
-    aspect-ratio: 16/9; background: var(--surface); position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .video-thumb { aspect-ratio: 16/9; background: var(--surface); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .video-thumb-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0d1520 0%, #111b2a 100%); }
-  .video-thumb-pattern {
-    position: absolute; inset: 0;
-    background-image: repeating-linear-gradient(45deg, rgba(0,200,255,0.02) 0px, rgba(0,200,255,0.02) 1px, transparent 1px, transparent 12px);
-  }
-  .video-play {
-    position: relative; z-index: 2;
-    width: 60px; height: 60px; background: rgba(0,200,255,0.15);
-    border: 1px solid rgba(0,200,255,0.4); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; transition: all 0.3s;
-  }
+  .video-thumb-pattern { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(0,200,255,0.02) 0px, rgba(0,200,255,0.02) 1px, transparent 1px, transparent 12px); }
+  .video-play { position: relative; z-index: 2; width: 60px; height: 60px; background: rgba(0,200,255,0.15); border: 1px solid rgba(0,200,255,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
   .video-card:hover .video-play { background: rgba(0,200,255,0.25); transform: scale(1.1); }
   .video-play svg { width: 22px; height: 22px; fill: var(--accent); margin-left: 4px; }
-  .video-badge {
-    position: absolute; top: 14px; left: 14px; z-index: 3;
-    background: rgba(0,0,0,0.7); border: 1px solid var(--border);
-    padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 0.6rem;
-    letter-spacing: 0.1em; color: var(--text); backdrop-filter: blur(8px);
-  }
+  .video-badge { position: absolute; top: 14px; left: 14px; z-index: 3; background: rgba(0,0,0,0.7); border: 1px solid var(--border); padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--text); backdrop-filter: blur(8px); }
   .video-stats { position: absolute; bottom: 14px; right: 14px; z-index: 3; display: flex; gap: 12px; }
   .video-stat { display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.7); padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); backdrop-filter: blur(8px); }
   .video-stat svg { width: 10px; height: 10px; fill: var(--muted); }
@@ -430,15 +491,9 @@
   /* GEAR */
   #gear { background: var(--black); }
   .gear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 72px auto 0; }
-  .gear-card {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 48px 40px; position: relative; overflow: hidden; cursor: none; transition: all 0.4s;
-  }
+  .gear-card { background: var(--surface); border: 1px solid var(--border); padding: 48px 40px; position: relative; overflow: hidden; cursor: none; transition: all 0.4s; }
   .gear-card:hover { border-color: rgba(0,200,255,0.2); background: var(--card); }
-  .gear-card::after {
-    content: ''; position: absolute; bottom: 0; right: 0; width: 150px; height: 150px;
-    background: radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%);
-  }
+  .gear-card::after { content: ''; position: absolute; bottom: 0; right: 0; width: 150px; height: 150px; background: radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%); }
   .gear-visual { font-size: 5rem; margin-bottom: 24px; display: block; filter: grayscale(1) opacity(0.7); transition: all 0.4s; }
   .gear-card:hover .gear-visual { filter: grayscale(0.3) opacity(1); }
   .gear-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 12px; }
@@ -450,10 +505,7 @@
   /* ABOUT */
   #about { background: var(--deep); }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 72px; }
-  .about-portrait {
-    aspect-ratio: 3/4; background: var(--card); border: 1px solid var(--border);
-    position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
-  }
+  .about-portrait { aspect-ratio: 3/4; background: var(--card); border: 1px solid var(--border); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .about-portrait-placeholder { display: flex; flex-direction: column; align-items: center; gap: 16px; color: var(--dimmer); }
   .about-portrait-placeholder svg { width: 60px; height: 60px; stroke: var(--dimmer); fill: none; stroke-width: 1; }
   .about-portrait-placeholder span { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; }
@@ -465,23 +517,12 @@
   .about-stat-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; color: var(--accent); }
   .about-stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
 
-  /* HOW IT WORKS */
+  /* PROCESS */
   #process { background: var(--black); }
   .process-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 72px; position: relative; }
-  .process-steps::before {
-    content: ''; position: absolute; top: 36px; left: 10%; right: 10%; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-bright) 20%, var(--accent) 50%, var(--border-bright) 80%, transparent);
-    z-index: 0;
-  }
+  .process-steps::before { content: ''; position: absolute; top: 36px; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, var(--border-bright) 20%, var(--accent) 50%, var(--border-bright) 80%, transparent); z-index: 0; }
   .process-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
-  .step-number {
-    width: 72px; height: 72px; margin: 0 auto 24px;
-    background: var(--black); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent);
-    position: relative; transition: all 0.4s;
-    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
-  }
+  .step-number { width: 72px; height: 72px; margin: 0 auto 24px; background: var(--black); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); transition: all 0.4s; clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); }
   .process-step:hover .step-number { background: rgba(0,200,255,0.08); border-color: var(--accent); }
   .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
   .step-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
@@ -489,10 +530,7 @@
   /* TESTIMONIALS */
   #testimonials { background: var(--deep); }
   .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 72px; }
-  .testimonial-card {
-    background: var(--card); border: 1px solid var(--border); padding: 40px;
-    position: relative; overflow: hidden; transition: all 0.4s;
-  }
+  .testimonial-card { background: var(--card); border: 1px solid var(--border); padding: 40px; position: relative; overflow: hidden; transition: all 0.4s; }
   .testimonial-card:hover { border-color: var(--border-bright); transform: translateY(-4px); }
   .testimonial-card::before { content: '\201C'; position: absolute; top: 20px; right: 28px; font-size: 6rem; color: rgba(0,200,255,0.06); font-family: Georgia, serif; line-height: 1; }
   .testimonial-rating { display: flex; gap: 4px; margin-bottom: 20px; }
@@ -514,24 +552,14 @@
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .form-group { display: flex; flex-direction: column; gap: 8px; }
   .form-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); }
-  .form-input, .form-select, .form-textarea {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
-    transition: all 0.3s; outline: none; cursor: none;
-  }
+  .form-input, .form-select, .form-textarea { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; transition: all 0.3s; outline: none; cursor: none; }
   .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); background: rgba(0,200,255,0.03); }
   .form-input::placeholder, .form-textarea::placeholder { color: var(--dimmer); }
   .form-select { appearance: none; cursor: none; }
   .form-textarea { resize: vertical; min-height: 140px; }
   .form-footer { margin-top: 8px; }
   .form-note { font-size: 0.78rem; color: var(--dimmer); margin-top: 12px; line-height: 1.6; }
-  .btn-submit {
-    background: linear-gradient(135deg, var(--accent2), var(--accent));
-    color: #fff; padding: 18px 40px; font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 0.9rem; letter-spacing: 0.1em; border: none;
-    cursor: none; transition: all 0.3s; width: 100%;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
+  .btn-submit { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff; padding: 18px 40px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.1em; border: none; cursor: none; transition: all 0.3s; width: 100%; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
   .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,200,255,0.25); }
 
   /* FOOTER */
@@ -553,68 +581,80 @@
   .footer-social a:hover { border-color: var(--accent); color: var(--accent); }
   .footer-social svg { width: 15px; height: 15px; fill: currentColor; }
 
-  /* ANIMATIONS */
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  /* GLOBAL ANIMATIONS */
+  @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
+  @keyframes fadeInUp  { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeInDown{ from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
   .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-  .reveal-delay-5 { transition-delay: 0.5s; }
-  .reveal-delay-6 { transition-delay: 0.6s; }
+  .reveal-delay-1{transition-delay:0.1s} .reveal-delay-2{transition-delay:0.2s} .reveal-delay-3{transition-delay:0.3s}
+  .reveal-delay-4{transition-delay:0.4s} .reveal-delay-5{transition-delay:0.5s} .reveal-delay-6{transition-delay:0.6s}
 
-  /* NOISE OVERLAY */
-  body::before {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  }
+  /* NOISE */
+  body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:9000; opacity:0.025; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); }
+
+  /* SCANLINE */
+  .scanline { position:fixed; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(0,200,255,0.4),transparent); z-index:9001; pointer-events:none; animation:scanDown 6s linear infinite; }
+  @keyframes scanDown { from{top:-10px} to{top:100vh} }
 
   /* RESPONSIVE */
-  @media (max-width: 1024px) {
-    nav { padding: 18px 24px; }
-    section { padding: 80px 24px; }
-    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-    .gear-grid { grid-template-columns: 1fr; }
-    .process-steps { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .process-steps::before { display: none; }
-    #socials { padding: 24px; }
-    .social-item { padding: 0 20px; }
+  @media (max-width:1200px) {
+    .an-drones { height: 500px; }
+    .an-drone--yt { width: 150px; }
+    .an-drone--tt { width: 160px; left: 140px; }
+    .an-drone--ig { width: 145px; }
   }
-  @media (max-width: 768px) {
-    .nav-links, .nav-cta { display: none; }
-    .hamburger { display: flex; }
-    .services-grid, .portfolio-grid, .testimonials-grid { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-    .process-steps { grid-template-columns: 1fr; }
-    .footer-links-grid { flex-direction: column; gap: 32px; }
-    .social-strip { flex-direction: column; width: 100%; }
-    .social-item { border-right: none; border-bottom: 1px solid var(--border); width: 100%; padding: 16px 24px; }
-    .social-item:last-child { border-bottom: none; }
-    .footer-top { flex-direction: column; }
+  @media (max-width:1024px) {
+    nav { padding:18px 24px; }
+    section { padding:80px 24px; }
+    .about-grid, .contact-grid { grid-template-columns:1fr; gap:40px; }
+    .gear-grid { grid-template-columns:1fr; }
+    .process-steps { grid-template-columns:1fr 1fr; gap:32px; }
+    .process-steps::before { display:none; }
+    #socials { padding:24px; }
+    .social-item { padding:0 20px; }
+    .hero-left { width: 48%; }
+    .an-drones { height: 450px; }
+    .an-drone--yt, .an-drone--ig { width: 130px; }
+    .an-drone--tt { width: 140px; left: 110px; }
   }
-
-  /* SCANLINE EFFECT */
-  .scanline {
-    position: fixed; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(0,200,255,0.4), transparent);
-    z-index: 9001; pointer-events: none;
-    animation: scanDown 6s linear infinite;
+  @media (max-width:840px) {
+    .hero-layout { flex-direction:column; align-items:flex-start; padding:100px 24px 100px; gap:32px; }
+    .hero-left { width: 100%; }
+    .an-drones { width:100%; height:200px; display:flex; align-items:center; justify-content:space-around; perspective:none; }
+    .an-drone--yt, .an-drone--tt, .an-drone--ig { position:relative; top:auto; right:auto; bottom:auto; left:auto; width:100px; transform:none !important; }
+    .an-drone--yt { animation:anInFlat 1s ease .9s forwards, anF1Flat 4s ease-in-out 2s infinite; }
+    .an-drone--tt { animation:anInFlat 1s ease 1.1s forwards, anF2Flat 5s ease-in-out 2.2s infinite; }
+    .an-drone--ig { animation:anInFlat 1s ease 1.3s forwards, anF3Flat 4.2s ease-in-out 2.4s infinite; }
+    .an-field-glow, .an-ground, .an-connectors { display:none; }
   }
-  @keyframes scanDown { from { top: -10px; } to { top: 100vh; } }
+  @keyframes anInFlat    { from{opacity:0;transform:translateY(28px) scale(.88)} to{opacity:1;transform:translateY(0) scale(1)} }
+  @keyframes anF1Flat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+  @keyframes anF2Flat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+  @keyframes anF3Flat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  @media (max-width:768px) {
+    .nav-links, .nav-cta { display:none; }
+    .hamburger { display:flex; }
+    .services-grid, .portfolio-grid, .testimonials-grid { grid-template-columns:1fr; }
+    .form-row { grid-template-columns:1fr; }
+    .process-steps { grid-template-columns:1fr; }
+    .footer-links-grid { flex-direction:column; gap:32px; }
+    .social-strip { flex-direction:column; width:100%; }
+    .social-item { border-right:none; border-bottom:1px solid var(--border); width:100%; padding:16px 24px; }
+    .social-item:last-child { border-bottom:none; }
+    .footer-top { flex-direction:column; }
+    .splash-logo { font-size: clamp(1.6rem, 8vw, 3.5rem); }
+  }
 </style>
 </head>
 <body>
-
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <div class="scanline"></div>
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">APEX<span>N</span></a>
+  <a href="#splash" class="nav-logo">APEX<span>N</span></a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#portfolio">Work</a></li>
@@ -623,17 +663,49 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">GET IN TOUCH</button>
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ═══════════════════════════════════════════════════════════
-     NEW HERO SECTION
-     Replaces everything that was between <!-- HERO --> and </section>
-═══════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     IMMERSIVE VIDEO SPLASH
+═══════════════════════════════════════════ -->
+<section id="splash">
+  <video class="splash-video" autoplay loop muted playsinline preload="auto" src="hero-video.mp4"></video>
+  <div class="splash-vignette"></div>
+  <div class="splash-grad-top"></div>
+  <div class="splash-grad-bot"></div>
+  <div class="splash-leak"></div>
+  <div class="splash-scan"></div>
+
+  <div class="splash-content">
+    <div class="splash-eyebrow">Norway &nbsp;·&nbsp; Drone Operator &nbsp;·&nbsp; Content Creator</div>
+    <div class="splash-logo-wrap">
+      <div class="splash-logo-3d-2" aria-hidden="true">APEX<span style="color:transparent;-webkit-text-stroke:1px rgba(0,80,180,0.05)">N</span>ORTH</div>
+      <div class="splash-logo-3d" aria-hidden="true">APEX<span style="color:transparent;-webkit-text-stroke:1px rgba(0,180,255,0.07)">N</span>ORTH</div>
+      <div class="splash-logo">APEX<span>N</span>ORTH</div>
+    </div>
+    <div class="splash-rule"></div>
+    <div class="splash-tagline">Capturing movement &nbsp;&nbsp;·&nbsp;&nbsp; Creating impact</div>
+  </div>
+
+  <div class="splash-scroll" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
+    <span>SCROLL</span>
+    <div class="splash-chevrons">
+      <div class="splash-chev"></div>
+      <div class="splash-chev"></div>
+      <div class="splash-chev"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     HERO — text + big 3D drones
+═══════════════════════════════════════════ -->
 <section id="hero">
-  <!-- Background: existing orbs + grid (matches rest of site) -->
+  <!-- Subtle video background -->
+  <video class="hero-video-bg" autoplay loop muted playsinline preload="auto" src="hero-video.mp4"></video>
+  <div class="hero-video-overlay"></div>
+
   <div class="hero-canvas">
     <div class="hero-bg-grid"></div>
     <div class="hero-orb hero-orb-1"></div>
@@ -641,13 +713,10 @@
     <div class="hero-orb hero-orb-3"></div>
   </div>
 
-  <!-- Main layout: text left / drones right -->
   <div class="hero-layout">
-
-    <!-- LEFT: text + buttons -->
     <div class="hero-left">
       <div class="hero-badge">DRONE OPERATOR &amp; CONTENT CREATOR</div>
-      <h1 class="hero-title">APEX<br>NORTH</h1>
+      <h1 class="hero-title"><span class="ht-apex">APEX</span><span class="ht-north">NORTH</span></h1>
       <p class="hero-tagline">"Capturing movement. Creating impact."</p>
       <p class="hero-sub">Professional drone footage, FPV content and cinematic visuals designed to stand out.</p>
       <div class="hero-buttons">
@@ -656,14 +725,24 @@
       </div>
     </div>
 
-    <!-- RIGHT: three floating drones -->
+    <!-- 3D DRONE STAGE -->
     <div class="an-drones">
+      <div class="an-field-glow"></div>
+      <div class="an-ground"></div>
 
-      <!--
-        DRONE 1 — YOUTUBE
-        Click: zoom + red glow, then opens your YouTube channel.
-        Replace YOUTUBE_LINK_HERE with e.g. https://youtube.com/@apexnorth
-      -->
+      <!-- Connector lines SVG -->
+      <div class="an-connectors">
+        <svg viewBox="0 0 420 580" preserveAspectRatio="none">
+          <!-- YT centre → TT centre -->
+          <line class="an-conn-line" x1="147" y1="80" x2="272" y2="255"/>
+          <!-- TT centre → IG centre -->
+          <line class="an-conn-line" x1="272" y1="255" x2="147" y2="435"/>
+          <!-- YT → IG (long) -->
+          <line class="an-conn-line" x1="147" y1="80" x2="147" y2="435"/>
+        </svg>
+      </div>
+
+      <!-- DRONE 1 — YOUTUBE -->
       <div class="an-drone an-drone--yt" id="anDroneYT" onclick="anDroneClick('yt')">
         <div class="an-drone__glow"></div>
         <svg viewBox="0 0 120 80" class="an-drone__svg" xmlns="http://www.w3.org/2000/svg">
@@ -671,29 +750,28 @@
           <line x1="90" y1="22" x2="67" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
           <line x1="30" y1="58" x2="53" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
           <line x1="90" y1="58" x2="67" y2="40" stroke="#ff3d3d" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="30" cy="22" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
-          <circle cx="90" cy="22" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
-          <circle cx="30" cy="58" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
-          <circle cx="90" cy="58" r="8" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.5"/>
-          <g class="an-pcw"><ellipse cx="30" cy="22" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="30" cy="22" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
-          <g class="an-pccw"><ellipse cx="90" cy="22" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="90" cy="22" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
-          <g class="an-pccw"><ellipse cx="30" cy="58" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="30" cy="58" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
-          <g class="an-pcw"><ellipse cx="90" cy="58" rx="11" ry="2.5" fill="#ff3d3d" opacity=".5"/><ellipse cx="90" cy="58" rx="2.5" ry="11" fill="#ff3d3d" opacity=".5"/></g>
-          <rect x="47" y="31" width="26" height="18" rx="4" fill="#080c14" stroke="#ff3d3d" stroke-width="1.5"/>
-          <rect x="50" y="33" width="20" height="14" rx="3" fill="#ff0000"/>
-          <polygon points="57,37 57,43 65,40" fill="white"/>
-          <circle cx="57" cy="51" r="1.8" fill="#ff5555" class="an-led"/>
+          <circle cx="30" cy="22" r="9" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.8"/>
+          <circle cx="90" cy="22" r="9" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.8"/>
+          <circle cx="30" cy="58" r="9" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.8"/>
+          <circle cx="90" cy="58" r="9" fill="#0a1628" stroke="#ff3d3d" stroke-width="1.8"/>
+          <g class="an-pcw"><ellipse cx="30" cy="22" rx="12" ry="2.8" fill="#ff3d3d" opacity=".5"/><ellipse cx="30" cy="22" rx="2.8" ry="12" fill="#ff3d3d" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="90" cy="22" rx="12" ry="2.8" fill="#ff3d3d" opacity=".5"/><ellipse cx="90" cy="22" rx="2.8" ry="12" fill="#ff3d3d" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="30" cy="58" rx="12" ry="2.8" fill="#ff3d3d" opacity=".5"/><ellipse cx="30" cy="58" rx="2.8" ry="12" fill="#ff3d3d" opacity=".5"/></g>
+          <g class="an-pcw"><ellipse cx="90" cy="58" rx="12" ry="2.8" fill="#ff3d3d" opacity=".5"/><ellipse cx="90" cy="58" rx="2.8" ry="12" fill="#ff3d3d" opacity=".5"/></g>
+          <rect x="46" y="30" width="28" height="20" rx="4.5" fill="#080c14" stroke="#ff3d3d" stroke-width="1.8"/>
+          <rect x="49" y="32" width="22" height="16" rx="3.5" fill="#ff0000"/>
+          <polygon points="56,36 56,44 66,40" fill="white"/>
+          <circle cx="56" cy="52" r="2" fill="#ff5555" class="an-led"/>
+          <!-- subtle body detail -->
+          <line x1="53" y1="40" x2="67" y2="40" stroke="#ff3d3d" stroke-width="0.5" opacity="0.3"/>
         </svg>
         <div class="an-drone__beam"></div>
+        <div class="an-drone__shadow"></div>
         <div class="an-drone__ripple"></div>
         <div class="an-drone__label">YouTube</div>
       </div>
 
-      <!--
-        DRONE 2 — TIKTOK
-        Click: teal zoom glow, then opens your TikTok profile.
-        Replace TIKTOK_LINK_HERE with e.g. https://tiktok.com/@apexnorth
-      -->
+      <!-- DRONE 2 — TIKTOK -->
       <div class="an-drone an-drone--tt" id="anDroneTT" onclick="anDroneClick('tt')">
         <div class="an-drone__glow"></div>
         <svg viewBox="0 0 120 80" class="an-drone__svg" xmlns="http://www.w3.org/2000/svg">
@@ -701,31 +779,28 @@
           <line x1="90" y1="22" x2="67" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
           <line x1="30" y1="58" x2="53" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
           <line x1="90" y1="58" x2="67" y2="40" stroke="#00f2ea" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="30" cy="22" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
-          <circle cx="90" cy="22" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
-          <circle cx="30" cy="58" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
-          <circle cx="90" cy="58" r="8" fill="#0a1628" stroke="#00f2ea" stroke-width="1.5"/>
-          <g class="an-pcw"><ellipse cx="30" cy="22" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="30" cy="22" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
-          <g class="an-pccw"><ellipse cx="90" cy="22" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="90" cy="22" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
-          <g class="an-pccw"><ellipse cx="30" cy="58" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="30" cy="58" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
-          <g class="an-pcw"><ellipse cx="90" cy="58" rx="11" ry="2.5" fill="#00f2ea" opacity=".5"/><ellipse cx="90" cy="58" rx="2.5" ry="11" fill="#00f2ea" opacity=".5"/></g>
-          <rect x="47" y="31" width="26" height="18" rx="4" fill="#080c14" stroke="#00f2ea" stroke-width="1.5"/>
-          <rect x="50" y="33" width="20" height="14" rx="3" fill="#111"/>
-          <ellipse cx="59.5" cy="41.5" rx="3.5" ry="3.5" fill="none" stroke="#00f2ea" stroke-width="1.6"/>
-          <line x1="63" y1="38" x2="63" y2="34.5" stroke="#00f2ea" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M63 34.5 Q67 34 67 37" stroke="#ff0050" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-          <circle cx="63" cy="51" r="1.8" fill="#00f2ea" class="an-led"/>
+          <circle cx="30" cy="22" r="9" fill="#0a1628" stroke="#00f2ea" stroke-width="1.8"/>
+          <circle cx="90" cy="22" r="9" fill="#0a1628" stroke="#00f2ea" stroke-width="1.8"/>
+          <circle cx="30" cy="58" r="9" fill="#0a1628" stroke="#00f2ea" stroke-width="1.8"/>
+          <circle cx="90" cy="58" r="9" fill="#0a1628" stroke="#00f2ea" stroke-width="1.8"/>
+          <g class="an-pcw"><ellipse cx="30" cy="22" rx="12" ry="2.8" fill="#00f2ea" opacity=".5"/><ellipse cx="30" cy="22" rx="2.8" ry="12" fill="#00f2ea" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="90" cy="22" rx="12" ry="2.8" fill="#00f2ea" opacity=".5"/><ellipse cx="90" cy="22" rx="2.8" ry="12" fill="#00f2ea" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="30" cy="58" rx="12" ry="2.8" fill="#00f2ea" opacity=".5"/><ellipse cx="30" cy="58" rx="2.8" ry="12" fill="#00f2ea" opacity=".5"/></g>
+          <g class="an-pcw"><ellipse cx="90" cy="58" rx="12" ry="2.8" fill="#00f2ea" opacity=".5"/><ellipse cx="90" cy="58" rx="2.8" ry="12" fill="#00f2ea" opacity=".5"/></g>
+          <rect x="46" y="30" width="28" height="20" rx="4.5" fill="#080c14" stroke="#00f2ea" stroke-width="1.8"/>
+          <rect x="49" y="32" width="22" height="16" rx="3.5" fill="#111"/>
+          <ellipse cx="59.5" cy="42" rx="4" ry="4" fill="none" stroke="#00f2ea" stroke-width="1.8"/>
+          <line x1="63.5" y1="38" x2="63.5" y2="34" stroke="#00f2ea" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M63.5 34 Q68 33 68 37" stroke="#ff0050" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <circle cx="63" cy="52" r="2" fill="#00f2ea" class="an-led"/>
         </svg>
         <div class="an-drone__beam"></div>
+        <div class="an-drone__shadow"></div>
         <div class="an-drone__ripple"></div>
         <div class="an-drone__label">TikTok</div>
       </div>
 
-      <!--
-        DRONE 3 — INSTAGRAM
-        Click: chromatic glitch effect, then opens your Instagram profile.
-        Replace INSTAGRAM_LINK_HERE with e.g. https://instagram.com/apexnorth
-      -->
+      <!-- DRONE 3 — INSTAGRAM -->
       <div class="an-drone an-drone--ig" id="anDroneIG" onclick="anDroneClick('ig')">
         <div class="an-drone__glow"></div>
         <svg viewBox="0 0 120 80" class="an-drone__svg" xmlns="http://www.w3.org/2000/svg">
@@ -733,33 +808,33 @@
           <line x1="90" y1="22" x2="67" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
           <line x1="30" y1="58" x2="53" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
           <line x1="90" y1="58" x2="67" y2="40" stroke="#e040fb" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="30" cy="22" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
-          <circle cx="90" cy="22" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
-          <circle cx="30" cy="58" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
-          <circle cx="90" cy="58" r="8" fill="#0a1628" stroke="#e040fb" stroke-width="1.5"/>
-          <g class="an-pcw"><ellipse cx="30" cy="22" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="30" cy="22" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
-          <g class="an-pccw"><ellipse cx="90" cy="22" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="90" cy="22" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
-          <g class="an-pccw"><ellipse cx="30" cy="58" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="30" cy="58" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
-          <g class="an-pcw"><ellipse cx="90" cy="58" rx="11" ry="2.5" fill="#e040fb" opacity=".5"/><ellipse cx="90" cy="58" rx="2.5" ry="11" fill="#e040fb" opacity=".5"/></g>
-          <rect x="47" y="31" width="26" height="18" rx="4" fill="#080c14" stroke="#e040fb" stroke-width="1.5"/>
+          <circle cx="30" cy="22" r="9" fill="#0a1628" stroke="#e040fb" stroke-width="1.8"/>
+          <circle cx="90" cy="22" r="9" fill="#0a1628" stroke="#e040fb" stroke-width="1.8"/>
+          <circle cx="30" cy="58" r="9" fill="#0a1628" stroke="#e040fb" stroke-width="1.8"/>
+          <circle cx="90" cy="58" r="9" fill="#0a1628" stroke="#e040fb" stroke-width="1.8"/>
+          <g class="an-pcw"><ellipse cx="30" cy="22" rx="12" ry="2.8" fill="#e040fb" opacity=".5"/><ellipse cx="30" cy="22" rx="2.8" ry="12" fill="#e040fb" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="90" cy="22" rx="12" ry="2.8" fill="#e040fb" opacity=".5"/><ellipse cx="90" cy="22" rx="2.8" ry="12" fill="#e040fb" opacity=".5"/></g>
+          <g class="an-pccw"><ellipse cx="30" cy="58" rx="12" ry="2.8" fill="#e040fb" opacity=".5"/><ellipse cx="30" cy="58" rx="2.8" ry="12" fill="#e040fb" opacity=".5"/></g>
+          <g class="an-pcw"><ellipse cx="90" cy="58" rx="12" ry="2.8" fill="#e040fb" opacity=".5"/><ellipse cx="90" cy="58" rx="2.8" ry="12" fill="#e040fb" opacity=".5"/></g>
+          <rect x="46" y="30" width="28" height="20" rx="4.5" fill="#080c14" stroke="#e040fb" stroke-width="1.8"/>
           <defs>
             <linearGradient id="igG" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%"   stop-color="#f09433"/>
-              <stop offset="50%"  stop-color="#dc2743"/>
+              <stop offset="0%" stop-color="#f09433"/>
+              <stop offset="50%" stop-color="#dc2743"/>
               <stop offset="100%" stop-color="#bc1888"/>
             </linearGradient>
           </defs>
-          <rect x="50" y="33" width="20" height="14" rx="3.5" fill="url(#igG)"/>
-          <rect x="53" y="36" width="14" height="8" rx="2" fill="none" stroke="white" stroke-width="1.2"/>
-          <circle cx="60" cy="40" r="2.5" fill="none" stroke="white" stroke-width="1.2"/>
-          <circle cx="65.5" cy="37" r="1" fill="white"/>
-          <circle cx="57" cy="51" r="1.8" fill="#e040fb" class="an-led"/>
+          <rect x="49" y="32" width="22" height="16" rx="4" fill="url(#igG)"/>
+          <rect x="53" y="35" width="14" height="10" rx="2.5" fill="none" stroke="white" stroke-width="1.4"/>
+          <circle cx="60" cy="40" r="2.8" fill="none" stroke="white" stroke-width="1.4"/>
+          <circle cx="65.5" cy="36.5" r="1.2" fill="white"/>
+          <circle cx="57" cy="52" r="2" fill="#e040fb" class="an-led"/>
         </svg>
         <div class="an-drone__beam"></div>
+        <div class="an-drone__shadow"></div>
         <div class="an-drone__ripple"></div>
         <div class="an-drone__label">Instagram</div>
       </div>
-
     </div><!-- end .an-drones -->
   </div><!-- end .hero-layout -->
 
@@ -768,38 +843,21 @@
     <div class="scroll-line"></div>
   </div>
 </section>
-<!-- ═══════════════════════════════ END NEW HERO ═══════════════════════════════ -->
-
 
 <!-- SOCIALS -->
 <div id="socials">
   <div class="social-strip">
     <a href="YOUTUBE_LINK_HERE" class="social-item" target="_blank" rel="noopener">
-      <div class="social-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      </div>
-      <div>
-        <div class="social-label">YOUTUBE</div>
-        <div class="social-sub">Cinematic Videos</div>
-      </div>
+      <div class="social-icon"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div>
+      <div><div class="social-label">YOUTUBE</div><div class="social-sub">Cinematic Videos</div></div>
     </a>
     <a href="TIKTOK_LINK_HERE" class="social-item" target="_blank" rel="noopener">
-      <div class="social-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-      </div>
-      <div>
-        <div class="social-label">TIKTOK</div>
-        <div class="social-sub">Short Form Content</div>
-      </div>
+      <div class="social-icon"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></div>
+      <div><div class="social-label">TIKTOK</div><div class="social-sub">Short Form Content</div></div>
     </a>
     <a href="INSTAGRAM_LINK_HERE" class="social-item" target="_blank" rel="noopener">
-      <div class="social-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </div>
-      <div>
-        <div class="social-label">INSTAGRAM</div>
-        <div class="social-sub">Reels &amp; Stories</div>
-      </div>
+      <div class="social-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      <div><div class="social-label">INSTAGRAM</div><div class="social-sub">Reels &amp; Stories</div></div>
     </a>
   </div>
 </div>
@@ -813,83 +871,13 @@
       <p class="section-desc">From the sky to the screen — every frame crafted with intention.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card reveal">
-        <div class="service-number">01</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">Drone Video</h3>
-        <p class="service-desc">Professional aerial footage and cinematic visuals that redefine perspective and elevate your brand story.</p>
-        <div class="service-arrow">→</div>
-      </div>
-      <div class="service-card reveal reveal-delay-1">
-        <div class="service-number">02</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">FPV Content</h3>
-        <p class="service-desc">Dynamic FPV flying and immersive content that puts viewers in the cockpit of an adrenaline-fueled experience.</p>
-        <div class="service-arrow">→</div>
-      </div>
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-number">03</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">Social Media Content</h3>
-        <p class="service-desc">Content optimized for TikTok, Instagram Reels and YouTube Shorts — built to stop the scroll and drive engagement.</p>
-        <div class="service-arrow">→</div>
-      </div>
-      <div class="service-card reveal reveal-delay-3">
-        <div class="service-number">04</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">Brand Content</h3>
-        <p class="service-desc">Promotional visuals and storytelling for businesses and brands — turning your identity into a cinematic statement.</p>
-        <div class="service-arrow">→</div>
-      </div>
-      <div class="service-card reveal reveal-delay-4">
-        <div class="service-number">05</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">Behind The Scenes</h3>
-        <p class="service-desc">Authentic behind-the-scenes content from productions, events and creative work that builds connection and trust.</p>
-        <div class="service-arrow">→</div>
-      </div>
-      <div class="service-card reveal reveal-delay-5">
-        <div class="service-number">06</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">Short Form Content</h3>
-        <p class="service-desc">Fast-paced, engaging content designed for social media — built for maximum impact in minimum time.</p>
-        <div class="service-arrow">→</div>
-      </div>
-      <div class="service-card reveal">
-        <div class="service-number">07</div>
-        <div class="service-icon">
-          <div class="service-icon-bg">
-            <svg viewBox="0 0 24 24"><path d="M2 20h.01M7 20v-4"/><path d="M12 20V10"/><path d="M17 20V4"/><path d="M22 20v-7"/></svg>
-          </div>
-        </div>
-        <h3 class="service-title">Film Projects</h3>
-        <p class="service-desc">Drone and camera work for cinematic productions, films and storytelling projects that demand extraordinary imagery.</p>
-        <div class="service-arrow">→</div>
-      </div>
+      <div class="service-card reveal"><div class="service-number">01</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div></div><h3 class="service-title">Drone Video</h3><p class="service-desc">Professional aerial footage and cinematic visuals that redefine perspective and elevate your brand story.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-1"><div class="service-number">02</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></div></div><h3 class="service-title">FPV Content</h3><p class="service-desc">Dynamic FPV flying and immersive content that puts viewers in the cockpit of an adrenaline-fueled experience.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-2"><div class="service-number">03</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div></div><h3 class="service-title">Social Media Content</h3><p class="service-desc">Content optimized for TikTok, Instagram Reels and YouTube Shorts — built to stop the scroll and drive engagement.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-3"><div class="service-number">04</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div></div><h3 class="service-title">Brand Content</h3><p class="service-desc">Promotional visuals and storytelling for businesses and brands — turning your identity into a cinematic statement.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-4"><div class="service-number">05</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div></div><h3 class="service-title">Behind The Scenes</h3><p class="service-desc">Authentic behind-the-scenes content from productions, events and creative work that builds connection and trust.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-5"><div class="service-number">06</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div></div><h3 class="service-title">Short Form Content</h3><p class="service-desc">Fast-paced, engaging content designed for social media — built for maximum impact in minimum time.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal"><div class="service-number">07</div><div class="service-icon"><div class="service-icon-bg"><svg viewBox="0 0 24 24"><path d="M2 20h.01M7 20v-4"/><path d="M12 20V10"/><path d="M17 20V4"/><path d="M22 20v-7"/></svg></div></div><h3 class="service-title">Film Projects</h3><p class="service-desc">Drone and camera work for cinematic productions, films and storytelling projects that demand extraordinary imagery.</p><div class="service-arrow">→</div></div>
     </div>
   </div>
 </section>
@@ -898,64 +886,13 @@
 <section id="portfolio">
   <div class="container">
     <div class="portfolio-header reveal">
-      <div>
-        <div class="section-label">FEATURED WORK</div>
-        <h2 class="section-title">Most Popular Videos</h2>
-      </div>
+      <div><div class="section-label">FEATURED WORK</div><h2 class="section-title">Most Popular Videos</h2></div>
       <p class="section-desc" style="max-width:320px">Top performing content — ranked by views and engagement.</p>
     </div>
     <div class="portfolio-grid">
-      <div class="video-card reveal">
-        <div class="video-thumb">
-          <div class="video-thumb-bg"></div>
-          <div class="video-thumb-pattern"></div>
-          <div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          <div class="video-badge">MOST VIEWED</div>
-          <div class="video-stats">
-            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 2.4M</div>
-            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 84K</div>
-          </div>
-        </div>
-        <div class="video-info">
-          <div class="video-platform">YOUTUBE</div>
-          <h4 class="video-title">Mountain Ridge — Aerial Cinematic</h4>
-          <p class="video-desc">A sweeping aerial journey over dramatic mountain terrain. Shot at golden hour with the DJI Avata.</p>
-        </div>
-      </div>
-      <div class="video-card reveal reveal-delay-1">
-        <div class="video-thumb">
-          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #0d1520 0%, #1a1020 100%);"></div>
-          <div class="video-thumb-pattern"></div>
-          <div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          <div class="video-badge">TRENDING</div>
-          <div class="video-stats">
-            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 1.8M</div>
-            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 62K</div>
-          </div>
-        </div>
-        <div class="video-info">
-          <div class="video-platform">TIKTOK</div>
-          <h4 class="video-title">FPV Through The City</h4>
-          <p class="video-desc">High-speed FPV flight weaving through urban architecture. Raw, immersive, impossible perspectives.</p>
-        </div>
-      </div>
-      <div class="video-card reveal reveal-delay-2">
-        <div class="video-thumb">
-          <div class="video-thumb-bg" style="background: linear-gradient(135deg, #0d1520 0%, #0d2015 100%);"></div>
-          <div class="video-thumb-pattern"></div>
-          <div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          <div class="video-badge">TOP RATED</div>
-          <div class="video-stats">
-            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 940K</div>
-            <div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 41K</div>
-          </div>
-        </div>
-        <div class="video-info">
-          <div class="video-platform">INSTAGRAM REELS</div>
-          <h4 class="video-title">Brand Campaign — Nordic Outdoors</h4>
-          <p class="video-desc">Full brand content campaign combining aerial and handheld cinematic footage for a Norwegian outdoor brand.</p>
-        </div>
-      </div>
+      <div class="video-card reveal"><div class="video-thumb"><div class="video-thumb-bg"></div><div class="video-thumb-pattern"></div><div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="video-badge">MOST VIEWED</div><div class="video-stats"><div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 2.4M</div><div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 84K</div></div></div><div class="video-info"><div class="video-platform">YOUTUBE</div><h4 class="video-title">Mountain Ridge — Aerial Cinematic</h4><p class="video-desc">A sweeping aerial journey over dramatic mountain terrain. Shot at golden hour with the DJI Avata.</p></div></div>
+      <div class="video-card reveal reveal-delay-1"><div class="video-thumb"><div class="video-thumb-bg" style="background:linear-gradient(135deg,#0d1520 0%,#1a1020 100%)"></div><div class="video-thumb-pattern"></div><div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="video-badge">TRENDING</div><div class="video-stats"><div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 1.8M</div><div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 62K</div></div></div><div class="video-info"><div class="video-platform">TIKTOK</div><h4 class="video-title">FPV Through The City</h4><p class="video-desc">High-speed FPV flight weaving through urban architecture. Raw, immersive, impossible perspectives.</p></div></div>
+      <div class="video-card reveal reveal-delay-2"><div class="video-thumb"><div class="video-thumb-bg" style="background:linear-gradient(135deg,#0d1520 0%,#0d2015 100%)"></div><div class="video-thumb-pattern"></div><div class="video-play"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="video-badge">TOP RATED</div><div class="video-stats"><div class="video-stat"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 940K</div><div class="video-stat"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> 41K</div></div></div><div class="video-info"><div class="video-platform">INSTAGRAM REELS</div><h4 class="video-title">Brand Campaign — Nordic Outdoors</h4><p class="video-desc">Full brand content campaign combining aerial and handheld cinematic footage for a Norwegian outdoor brand.</p></div></div>
     </div>
   </div>
 </section>
@@ -963,36 +900,10 @@
 <!-- GEAR -->
 <section id="gear">
   <div class="container" style="text-align:center">
-    <div class="reveal">
-      <div class="section-label" style="justify-content:center">MY EQUIPMENT</div>
-      <h2 class="section-title">The Gear</h2>
-      <p class="section-desc" style="margin:0 auto">Every frame starts with the right tool. Here's what creates the magic.</p>
-    </div>
+    <div class="reveal"><div class="section-label" style="justify-content:center">MY EQUIPMENT</div><h2 class="section-title">The Gear</h2><p class="section-desc" style="margin:0 auto">Every frame starts with the right tool. Here's what creates the magic.</p></div>
     <div class="gear-grid">
-      <div class="gear-card reveal">
-        <span class="gear-visual">🚁</span>
-        <div class="gear-tag">PRIMARY DRONE</div>
-        <h3 class="gear-name">DJI Avata 360</h3>
-        <p class="gear-desc">FPV and 360-degree drone for immersive aerial footage and dynamic cinematic perspectives. The weapon of choice for impossible shots and heart-stopping angles.</p>
-        <div class="gear-specs">
-          <span class="gear-spec">FPV</span>
-          <span class="gear-spec">360°</span>
-          <span class="gear-spec">4K/60FPS</span>
-          <span class="gear-spec">CINEMATIC</span>
-        </div>
-      </div>
-      <div class="gear-card reveal reveal-delay-2">
-        <span class="gear-visual">📷</span>
-        <div class="gear-tag">HANDHELD CAMERA</div>
-        <h3 class="gear-name">DJI Pocket 3</h3>
-        <p class="gear-desc">Compact stabilized camera for smooth handheld cinematic content. When the drone stays grounded, the Pocket 3 captures every detail with precision and elegance.</p>
-        <div class="gear-specs">
-          <span class="gear-spec">STABILIZED</span>
-          <span class="gear-spec">4K/120FPS</span>
-          <span class="gear-spec">COMPACT</span>
-          <span class="gear-spec">CINEMATIC</span>
-        </div>
-      </div>
+      <div class="gear-card reveal"><span class="gear-visual">🚁</span><div class="gear-tag">PRIMARY DRONE</div><h3 class="gear-name">DJI Avata 360</h3><p class="gear-desc">FPV and 360-degree drone for immersive aerial footage and dynamic cinematic perspectives. The weapon of choice for impossible shots and heart-stopping angles.</p><div class="gear-specs"><span class="gear-spec">FPV</span><span class="gear-spec">360°</span><span class="gear-spec">4K/60FPS</span><span class="gear-spec">CINEMATIC</span></div></div>
+      <div class="gear-card reveal reveal-delay-2"><span class="gear-visual">📷</span><div class="gear-tag">HANDHELD CAMERA</div><h3 class="gear-name">DJI Pocket 3</h3><p class="gear-desc">Compact stabilized camera for smooth handheld cinematic content. When the drone stays grounded, the Pocket 3 captures every detail with precision and elegance.</p><div class="gear-specs"><span class="gear-spec">STABILIZED</span><span class="gear-spec">4K/120FPS</span><span class="gear-spec">COMPACT</span><span class="gear-spec">CINEMATIC</span></div></div>
     </div>
   </div>
 </section>
@@ -1000,25 +911,11 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">THE PERSON BEHIND THE LENS</div>
-      <h2 class="section-title">About Me</h2>
-    </div>
+    <div class="reveal"><div class="section-label">THE PERSON BEHIND THE LENS</div><h2 class="section-title">About Me</h2></div>
     <div class="about-grid">
       <div class="reveal">
-        <div class="about-portrait">
-          <div class="about-portrait-placeholder">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-            <span>YOUR PHOTO HERE</span>
-          </div>
-          <div class="about-portrait-overlay"></div>
-        </div>
-        <div class="about-stats">
-          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Years of experience</div></div>
-          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Projects completed</div></div>
-          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Brands worked with</div></div>
-          <div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Total views</div></div>
-        </div>
+        <div class="about-portrait"><div class="about-portrait-placeholder"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg><span>YOUR PHOTO HERE</span></div><div class="about-portrait-overlay"></div></div>
+        <div class="about-stats"><div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Years of experience</div></div><div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Projects completed</div></div><div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Brands worked with</div></div><div class="about-stat"><div class="about-stat-num">—</div><div class="about-stat-label">Total views</div></div></div>
       </div>
       <div class="about-content reveal reveal-delay-2">
         <p class="lead">I'm a drone operator and content creator based in Norway, driven by a passion for visual storytelling and the pursuit of the perfect frame.</p>
@@ -1026,23 +923,16 @@
         <p>Under the Apex North brand, I bring together aerial cinematography, FPV flying and handheld storytelling to create visuals that feel alive. Every project begins with a conversation and ends with something that genuinely resonates.</p>
         <p>My approach is always collaborative. I don't just show up and fly — I get into your world, understand what you're trying to say, and build something that says it powerfully.</p>
         <p>Whether it's a brand campaign, a social media series or a cinematic film project, the standard stays the same: quality, creativity and visual impact in every single frame.</p>
-        <div style="margin-top:40px; padding:28px; border:1px solid var(--border); background:var(--surface)">
-          <div class="section-label" style="margin-bottom:12px">CREATIVE PHILOSOPHY</div>
-          <p style="color:var(--text); font-style:italic; font-size:1.05rem; line-height:1.8; margin:0">"Every frame is a decision. Every cut is a statement. The best content doesn't just look good — it makes you feel something."</p>
-        </div>
+        <div style="margin-top:40px;padding:28px;border:1px solid var(--border);background:var(--surface)"><div class="section-label" style="margin-bottom:12px">CREATIVE PHILOSOPHY</div><p style="color:var(--text);font-style:italic;font-size:1.05rem;line-height:1.8;margin:0">"Every frame is a decision. Every cut is a statement. The best content doesn't just look good — it makes you feel something."</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- PROCESS -->
 <section id="process">
   <div class="container" style="text-align:center">
-    <div class="reveal">
-      <div class="section-label" style="justify-content:center">THE PROCESS</div>
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-desc" style="margin:0 auto">Simple, clear, collaborative — from first idea to final delivery.</p>
-    </div>
+    <div class="reveal"><div class="section-label" style="justify-content:center">THE PROCESS</div><h2 class="section-title">How It Works</h2><p class="section-desc" style="margin:0 auto">Simple, clear, collaborative — from first idea to final delivery.</p></div>
     <div class="process-steps">
       <div class="process-step reveal"><div class="step-number">01</div><div class="step-title">Send Your Idea</div><div class="step-desc">Reach out through the contact form with your project concept and vision.</div></div>
       <div class="process-step reveal reveal-delay-1"><div class="step-number">02</div><div class="step-title">Explain What You Need</div><div class="step-desc">Share your goals, audience, platform and any creative references you have in mind.</div></div>
@@ -1056,27 +946,11 @@
 <!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">WHAT PEOPLE SAY</div>
-      <h2 class="section-title">Feedback</h2>
-      <p class="section-desc">Real words from clients, employers and collaborators.</p>
-    </div>
+    <div class="reveal"><div class="section-label">WHAT PEOPLE SAY</div><h2 class="section-title">Feedback</h2><p class="section-desc">Real words from clients, employers and collaborators.</p></div>
     <div class="testimonials-grid">
-      <div class="testimonial-card reveal">
-        <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testimonial-text">"The aerial footage exceeded every expectation we had. The team was professional, creative and delivered something that genuinely elevated our brand."</p>
-        <div class="testimonial-author"><div class="testimonial-avatar">A</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div>
-      </div>
-      <div class="testimonial-card reveal reveal-delay-2">
-        <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testimonial-text">"Working with Apex North was seamless from start to finish. The creative vision was immediately clear and the final result was exactly what we were looking for."</p>
-        <div class="testimonial-author"><div class="testimonial-avatar">B</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div>
-      </div>
-      <div class="testimonial-card reveal reveal-delay-4">
-        <div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="testimonial-text">"The FPV content created for our event was unlike anything we had seen before. Guests were sharing it everywhere. The quality of both the flying and editing is exceptional."</p>
-        <div class="testimonial-author"><div class="testimonial-avatar">C</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div>
-      </div>
+      <div class="testimonial-card reveal"><div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><p class="testimonial-text">"The aerial footage exceeded every expectation we had. The team was professional, creative and delivered something that genuinely elevated our brand."</p><div class="testimonial-author"><div class="testimonial-avatar">A</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div></div>
+      <div class="testimonial-card reveal reveal-delay-2"><div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><p class="testimonial-text">"Working with Apex North was seamless from start to finish. The creative vision was immediately clear and the final result was exactly what we were looking for."</p><div class="testimonial-author"><div class="testimonial-avatar">B</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div></div>
+      <div class="testimonial-card reveal reveal-delay-4"><div class="testimonial-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><p class="testimonial-text">"The FPV content created for our event was unlike anything we had seen before. Guests were sharing it everywhere. The quality of both the flying and editing is exceptional."</p><div class="testimonial-author"><div class="testimonial-avatar">C</div><div><div class="testimonial-name">Add Name Here</div><div class="testimonial-role">Role / Company</div></div></div></div>
     </div>
   </div>
 </section>
@@ -1084,10 +958,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="container">
-    <div class="reveal">
-      <div class="section-label">START A PROJECT</div>
-      <h2 class="section-title">Let's Create<br>Something Great</h2>
-    </div>
+    <div class="reveal"><div class="section-label">START A PROJECT</div><h2 class="section-title">Let's Create<br>Something Great</h2></div>
     <div class="contact-grid">
       <div class="contact-info reveal">
         <h3>Project Inquiry</h3>
@@ -1095,35 +966,18 @@
         <div class="contact-detail"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Norway — Available Internationally</div>
         <div class="contact-detail"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.64 3.3 2 2 0 0 1 3.6 1.14h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16.92z"/></svg> Drone Operator · Certified</div>
         <div class="contact-detail"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Drone / FPV / Cinematic / Social</div>
-        <div style="margin-top:40px">
-          <div class="section-label">FOLLOW</div>
-          <div style="display:flex;gap:12px;margin-top:16px">
-            <a href="YOUTUBE_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-            <a href="TIKTOK_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
-            <a href="INSTAGRAM_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-          </div>
-        </div>
+        <div style="margin-top:40px"><div class="section-label">FOLLOW</div><div style="display:flex;gap:12px;margin-top:16px">
+          <a href="YOUTUBE_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+          <a href="TIKTOK_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+          <a href="INSTAGRAM_LINK_HERE" target="_blank" style="width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        </div></div>
       </div>
       <div class="contact-form reveal reveal-delay-2">
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">NAME *</label><input type="text" class="form-input" placeholder="Your full name"></div>
-          <div class="form-group"><label class="form-label">EMAIL *</label><input type="email" class="form-input" placeholder="your@email.com"></div>
-        </div>
+        <div class="form-row"><div class="form-group"><label class="form-label">NAME *</label><input type="text" class="form-input" placeholder="Your full name"></div><div class="form-group"><label class="form-label">EMAIL *</label><input type="email" class="form-input" placeholder="your@email.com"></div></div>
         <div class="form-group"><label class="form-label">COMPANY (OPTIONAL)</label><input type="text" class="form-input" placeholder="Company or brand name"></div>
-        <div class="form-group">
-          <label class="form-label">PROJECT TYPE *</label>
-          <select class="form-select form-input">
-            <option value="" disabled selected>Select project type</option>
-            <option>Drone Video</option><option>FPV Content</option><option>Social Media Content</option>
-            <option>Brand Content</option><option>Behind The Scenes</option><option>Short Form Content</option>
-            <option>Film Project</option><option>Other</option>
-          </select>
-        </div>
+        <div class="form-group"><label class="form-label">PROJECT TYPE *</label><select class="form-select form-input"><option value="" disabled selected>Select project type</option><option>Drone Video</option><option>FPV Content</option><option>Social Media Content</option><option>Brand Content</option><option>Behind The Scenes</option><option>Short Form Content</option><option>Film Project</option><option>Other</option></select></div>
         <div class="form-group"><label class="form-label">MESSAGE *</label><textarea class="form-textarea" placeholder="Tell me about your project, what you need, your vision and any important details."></textarea></div>
-        <div class="form-footer">
-          <button class="btn-submit" type="button">SEND PROJECT INQUIRY</button>
-          <p class="form-note">Describe your project and what you need. I'll review your request and get back to you to discuss whether I can help create the content you're looking for.</p>
-        </div>
+        <div class="form-footer"><button class="btn-submit" type="button">SEND PROJECT INQUIRY</button><p class="form-note">Describe your project and what you need. I'll review your request and get back to you to discuss whether I can help create the content you're looking for.</p></div>
       </div>
     </div>
   </div>
@@ -1132,39 +986,11 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
-    <div class="footer-brand">
-      <div class="footer-logo">APEX<span>N</span>ORTH</div>
-      <p class="footer-tagline">"Capturing movement.<br>Creating impact."</p>
-    </div>
+    <div class="footer-brand"><div class="footer-logo">APEX<span>N</span>ORTH</div><p class="footer-tagline">"Capturing movement.<br>Creating impact."</p></div>
     <div class="footer-links-grid">
-      <div class="footer-links-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#services">Drone Video</a></li>
-          <li><a href="#services">FPV Content</a></li>
-          <li><a href="#services">Social Media</a></li>
-          <li><a href="#services">Brand Content</a></li>
-          <li><a href="#services">Film Projects</a></li>
-        </ul>
-      </div>
-      <div class="footer-links-col">
-        <h4>Navigation</h4>
-        <ul>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#gear">Gear</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#process">Process</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-links-col">
-        <h4>Follow</h4>
-        <ul>
-          <li><a href="YOUTUBE_LINK_HERE">YouTube</a></li>
-          <li><a href="TIKTOK_LINK_HERE">TikTok</a></li>
-          <li><a href="INSTAGRAM_LINK_HERE">Instagram</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-col"><h4>Services</h4><ul><li><a href="#services">Drone Video</a></li><li><a href="#services">FPV Content</a></li><li><a href="#services">Social Media</a></li><li><a href="#services">Brand Content</a></li><li><a href="#services">Film Projects</a></li></ul></div>
+      <div class="footer-links-col"><h4>Navigation</h4><ul><li><a href="#portfolio">Portfolio</a></li><li><a href="#gear">Gear</a></li><li><a href="#about">About</a></li><li><a href="#process">Process</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div class="footer-links-col"><h4>Follow</h4><ul><li><a href="YOUTUBE_LINK_HERE">YouTube</a></li><li><a href="TIKTOK_LINK_HERE">TikTok</a></li><li><a href="INSTAGRAM_LINK_HERE">Instagram</a></li></ul></div>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1178,101 +1004,76 @@
 </footer>
 
 <script>
-  // CUSTOM CURSOR
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx - 4 + 'px';
-    cursor.style.top = my - 4 + 'px';
-  });
-  function animRing() {
-    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-    ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px';
-    requestAnimationFrame(animRing);
-  }
-  animRing();
-  document.querySelectorAll('a, button, .service-card, .video-card, .gear-card, .testimonial-card, .process-step, .an-drone').forEach(el => {
-    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  // CURSOR
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx-4+'px';cursor.style.top=my-4+'px'});
+  (function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(anim)})();
+  document.querySelectorAll('a,button,.service-card,.video-card,.gear-card,.testimonial-card,.process-step,.an-drone,.splash-scroll').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
   });
 
-  // NAVBAR
-  window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-  });
+  // NAV scroll
+  window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60));
 
-  // SCROLL REVEAL
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // REVEAL
+  new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1,rootMargin:'0px 0px -60px 0px'})
+    .observe.bind(new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1,rootMargin:'0px 0px -60px 0px'}));
+  const obs=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  // PARALLAX HERO ORBS
-  document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.clientY / window.innerHeight - 0.5) * 30;
-    document.querySelector('.hero-orb-1').style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-    document.querySelector('.hero-orb-2').style.transform = `translate(${-x * 0.2}px, ${-y * 0.2}px)`;
-    document.querySelector('.hero-orb-3').style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+  // PARALLAX orbs + mouse depth on drones
+  document.addEventListener('mousemove',e=>{
+    const x=(e.clientX/window.innerWidth-0.5)*30;
+    const y=(e.clientY/window.innerHeight-0.5)*30;
+    const o1=document.querySelector('.hero-orb-1');
+    const o2=document.querySelector('.hero-orb-2');
+    const o3=document.querySelector('.hero-orb-3');
+    if(o1) o1.style.transform=`translate(${x*.3}px,${y*.3}px)`;
+    if(o2) o2.style.transform=`translate(${-x*.2}px,${-y*.2}px)`;
+    if(o3) o3.style.transform=`translate(${x*.15}px,${y*.15}px)`;
+    // subtle 3D stage tilt on mouse
+    const stage=document.querySelector('.an-drones');
+    if(stage && window.innerWidth>840){
+      const tx=(e.clientX/window.innerWidth-0.5)*6;
+      const ty=(e.clientY/window.innerHeight-0.5)*4;
+      stage.style.transform=`rotateY(${tx}deg) rotateX(${-ty}deg)`;
+    }
   });
 
   // GRID PARALLAX
-  window.addEventListener('scroll', () => {
-    const grid = document.querySelector('.hero-bg-grid');
-    if (grid) grid.style.transform = `translateY(${window.scrollY * 0.3}px)`;
-  });
+  window.addEventListener('scroll',()=>{const g=document.querySelector('.hero-bg-grid');if(g)g.style.transform=`translateY(${window.scrollY*.3}px)`});
 
   // HAMBURGER
-  document.getElementById('hamburger').addEventListener('click', () => {
-    const links = document.querySelector('.nav-links');
-    if (!links) return;
-    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-    links.style.flexDirection = 'column'; links.style.position = 'absolute';
-    links.style.top = '70px'; links.style.left = '0'; links.style.right = '0';
-    links.style.background = 'rgba(3,5,8,0.98)'; links.style.padding = '24px';
-    links.style.borderBottom = '1px solid var(--border)'; links.style.zIndex = '999';
+  document.getElementById('hamburger').addEventListener('click',()=>{
+    const l=document.querySelector('.nav-links');if(!l)return;
+    l.style.display=l.style.display==='flex'?'none':'flex';
+    l.style.flexDirection='column';l.style.position='absolute';l.style.top='70px';
+    l.style.left='0';l.style.right='0';l.style.background='rgba(3,5,8,0.98)';
+    l.style.padding='24px';l.style.borderBottom='1px solid var(--border)';l.style.zIndex='999';
   });
 
   // FORM SUBMIT
-  document.querySelector('.btn-submit').addEventListener('click', function() {
-    this.textContent = 'INQUIRY SENT ✓';
-    this.style.background = 'linear-gradient(135deg, #0a5a2a, #0d8a3d)';
-    setTimeout(() => { this.textContent = 'SEND PROJECT INQUIRY'; this.style.background = ''; }, 3000);
+  document.querySelector('.btn-submit').addEventListener('click',function(){
+    this.textContent='INQUIRY SENT ✓';this.style.background='linear-gradient(135deg,#0a5a2a,#0d8a3d)';
+    setTimeout(()=>{this.textContent='SEND PROJECT INQUIRY';this.style.background=''},3000);
   });
 
-  /* ═══════════════════════════════════════════════════
-     DRONE CLICK HANDLER
-     Replace the 3 placeholder URLs with your real links.
-  ═══════════════════════════════════════════════════ */
-  window.anDroneClick = function(type) {
-    var cfg = {
-      yt: { id: 'anDroneYT', url: 'YOUTUBE_LINK_HERE',   delay: 620 },
-      tt: { id: 'anDroneTT', url: 'TIKTOK_LINK_HERE',    delay: 620 },
-      ig: { id: 'anDroneIG', url: 'INSTAGRAM_LINK_HERE', delay: 520 }
+  // DRONE CLICK
+  window.anDroneClick=function(type){
+    var cfg={
+      yt:{id:'anDroneYT',url:'YOUTUBE_LINK_HERE',delay:620},
+      tt:{id:'anDroneTT',url:'TIKTOK_LINK_HERE',delay:620},
+      ig:{id:'anDroneIG',url:'INSTAGRAM_LINK_HERE',delay:520}
     }[type];
-    if (!cfg) return;
-
-    var el = document.getElementById(cfg.id);
-    var ripple = el.querySelector('.an-drone__ripple');
-
-    /* Re-trigger ripple animation */
-    ripple.style.animation = 'none';
-    void ripple.offsetWidth;
-    ripple.style.animation = 'anRipple .85s ease forwards';
-
+    if(!cfg)return;
+    var el=document.getElementById(cfg.id);
+    var ripple=el.querySelector('.an-drone__ripple');
+    ripple.style.animation='none';void ripple.offsetWidth;
+    ripple.style.animation='anRipple .85s ease forwards';
     el.classList.add('an-clicked');
-    setTimeout(function() {
-      el.classList.remove('an-clicked');
-      /*
-       * REPLACE THESE URLS:
-       *   YOUTUBE_LINK_HERE   → e.g. https://youtube.com/@apexnorth
-       *   TIKTOK_LINK_HERE    → e.g. https://tiktok.com/@apexnorth
-       *   INSTAGRAM_LINK_HERE → e.g. https://instagram.com/apexnorth
-       */
-      window.open(cfg.url, '_blank', 'noopener');
-    }, cfg.delay);
+    setTimeout(function(){el.classList.remove('an-clicked');window.open(cfg.url,'_blank','noopener')},cfg.delay);
   };
 </script>
 </body>
