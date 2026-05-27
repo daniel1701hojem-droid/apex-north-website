@@ -207,6 +207,7 @@
                                 <option value="Dokumentar eller Reklameskudd">Dokumentar eller Reklameskudd</option>
                             </select>
                         </div>
+                        </div>
                         <button type="submit" class="w-full py-2.5 px-4 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-semibold text-xs rounded-xl hover:shadow-lg hover:shadow-[#ff8c42]/20 transition-all flex items-center justify-center gap-1.5">
                             Få uforpliktende callback <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </button>
@@ -476,11 +477,11 @@
                     <!-- Marketing focus banner -->
                     <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-20 h-20 bg-amber-400/5 rounded-full filter blur-xl"></div>
-                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
-                            <i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform- & Mobiloptimalisering
+                       <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
+                            <i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform-, BTS- & Mobiloptimalisering
                         </h4>
-                        <p class="text-xs text-neutral-400 leading-relaxed font-mono">
-                            Mange oppdrag skreddersys for sosiale medier. Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg levere ferdigredigert innhold i 9:16 format som spretter ut av mobilskjermen.
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Mange oppdrag skreddersys til sosiale medier og Behind the Scenes (BTS). Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg gjøre opptak bak kulissene og levere ferdigredigert innhold i 9:16-format som fenger målgruppen med en gang!
                         </p>
                     </div>
                 </div>
@@ -733,13 +734,13 @@
                             <input type="email" id="contact-email" required placeholder="navn@selskap.no" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 transition-all font-mono">
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Category -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Category -->
                         <div class="space-y-2">
                             <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Oppdragskategori</label>
                             <select id="contact-category" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <option value="FPV Drone / Reklame">FPV Drone / Reklame</option>
+                                <option value="Dronefilm & Luftfoto / Reklame">Dronefilm & Luftfoto / Reklame</option>
+                                <option value="Behind the Scenes (BTS) & Videoproduksjon">Behind the Scenes (BTS) & Videoproduksjon</option>
                                 <option value="Short Form Content (TikTok/Reels)">Short Form / Mobil Reels</option>
                                 <option value="Dokumentar / Filmsekvens">Dokumentar / Full Film</option>
                                 <option value="Kreativt Samarbeid">Annet kreativt prosjekt</option>
@@ -747,24 +748,20 @@
                         </div>
                         <!-- Budget -->
                         <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Prognosivt Budsjett</label>
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Prosjektstørrelse (Estimert tid)</label>
                             <select id="contact-budget" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <option value="Middels / Profesjonell Kampanje">Middels / Profesjonell</option>
-                                <option value="Mindre Prosjekt (Lokalkontor)">Mindre prosjekt</option>
-                                <option value="Større Storstilt Dokumentar">Større kinoproduksjon</option>
+                                <option value="Lite prosjekt (1-2 opptaksdager)">Lite prosjekt (1-2 opptaksdager / Enkel produksjon)</option>
+                                <option value="Middels prosjekt (3-7 dager / Kampanje & Klipp)">Middels prosjekt (3-7 dager / Normal produksjon)</option>
+                                <option value="Stort prosjekt (Omfattende produksjon / Flere uker)">Stort prosjekt (Omfattende produksjon / Flere uker)</option>
+                                <option value="Uforpliktende prisoverslag">Vil ha uforpliktende prisoverslag (Tidsuavhengig)</option>
                             </select>
                         </div>
                         <!-- Time -->
                         <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Ønsket Tidsrom</label>
-                            <select id="contact-timeframe" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <option value="Jun-Aug 2026">Jun-Aug 2026 (Sommer)</option>
-                                <option value="Høst 2026">Høst 2026</option>
-                                <option value="Haster Veldig">Haster (Innen kort tid)</option>
-                            </select>
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Ønsket Tidsfrist / Opptaksdatoer *</label>
+                            <input type="text" id="contact-timeframe" required placeholder="F.eks. 15. juni, 20. juni og 5. juli" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
                         </div>
                     </div>
-
                     <!-- Platform checkboxes -->
                     <div class="space-y-3">
                         <label class="text-[11px] font-mono uppercase text-neutral-400 block">Ønsket publiseringsplattformer (Valgfritt)</label>
@@ -1025,18 +1022,19 @@
             document.getElementById('contact-success-area').classList.remove('hidden');
         }
 
-        function resetContactForm() {
-            document.getElementById('contact-name').value = '';
-            document.getElementById('contact-email').value = '';
-            document.getElementById('contact-details').value = '';
-            document.getElementById('platform-tiktok').checked = false;
-            document.getElementById('platform-instagram').checked = false;
-            document.getElementById('platform-youtube').checked = false;
-            document.getElementById('platform-other').checked = false;
+     function resetContactForm() {
+    document.getElementById('contact-name').value = '';
+    document.getElementById('contact-email').value = '';
+    document.getElementById('contact-details').value = '';
+    document.getElementById('contact-timeframe').value = '';
+    document.getElementById('platform-tiktok').checked = false;
+    document.getElementById('platform-instagram').checked = false;
+    document.getElementById('platform-youtube').checked = false;
+    document.getElementById('platform-other').checked = false;
 
-            document.getElementById('contact-detailed-form').classList.remove('hidden');
-            document.getElementById('contact-success-area').classList.add('hidden');
-        }
+    document.getElementById('contact-detailed-form').classList.remove('hidden');
+    document.getElementById('contact-success-area').classList.add('hidden');
+}
     </script>
 </body>
 </html>
