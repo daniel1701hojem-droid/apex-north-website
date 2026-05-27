@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons Web Script Wrapper -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -47,6 +47,7 @@
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
+        /* Custom scrollbars */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -66,7 +67,7 @@
 </head>
 <body class="text-white selection:bg-[#ff8c42]/30 selection:text-white antialiased">
 
-    <!-- HEADER -->
+    <!-- FIXED HEADER -->
     <header class="fixed top-0 left-0 w-full z-50 bg-[#070709]/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 py-5">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -79,6 +80,7 @@
                 </div>
             </div>
             
+            <!-- Desk Nav -->
             <nav class="hidden md:flex items-center gap-8 text-sm text-neutral-300">
                 <a href="#" class="relative py-1 font-medium hover:text-white transition-colors">Flygningen</a>
                 <a href="#portfolio" class="relative py-1 font-medium hover:text-white transition-colors">Portefølje</a>
@@ -88,8 +90,10 @@
                 <a href="#contact" class="hover:text-white text-[#ff8c42] font-semibold transition-colors duration-150">Forespørsel</a>
             </nav>
 
+            <!-- Spacer equivalent to "Start prosjekt" removed state -->
             <div class="w-20 hidden md:block"></div>
             
+            <!-- Mobile Menu button -->
             <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-neutral-300 hover:text-white">
                 <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
@@ -111,26 +115,35 @@
 
     <!-- MAIN HERO SECTION -->
     <section class="relative min-h-screen flex flex-col justify-between pt-28 pb-12 px-6 md:px-12 overflow-hidden bg-black select-none">
+        <!-- Blend Sky Background -->
         <div class="absolute inset-0 z-0">
+            <!-- Cool Blue sky (fade based on current sequence state) -->
             <div id="sky-blue-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out" 
                  style="background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1920&auto=format&fit=crop');">
             </div>
+            <!-- Warm sunset sky -->
             <div id="sky-sunset-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-0" 
                  style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop');">
             </div>
             
+            <!-- Dark scenic visual gradient overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-[#070709] via-transparent to-black/70 z-10"></div>
             <div class="absolute inset-0 bg-black/40 z-10"></div>
         </div>
 
         <div class="absolute inset-4 border border-white/10 rounded-2xl pointer-events-none z-20"></div>
 
-        <!-- Top segment: stats and titles (REMOVED INNER CONTENT) -->
+        <!-- Top segment: stats and titles -->
         <div class="w-full max-w-7xl mx-auto pt-4 z-20 flex justify-end items-start">
+            <div class="hidden lg:flex flex-col text-right text-xs text-white/40 font-mono tracking-wider">
+                <span>AVATA 360 / DJI POCKET 3 CRUISE</span>
+                <span>SHADOWS BLENDED / 8K SKYPORT</span>
+            </div>
         </div>
 
         <!-- Mid Segment: Title on Left, Minimal Form on Right -->
         <div class="w-full max-w-7xl mx-auto z-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-6">
+            <!-- Left Header Intro -->
             <div class="lg:col-span-7 flex flex-col justify-center">
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.95] select-text">
                     <span class="block text-white filter drop-shadow-md font-display">Cinematic</span>
@@ -139,7 +152,7 @@
                 </h1>
                 
                 <p class="mt-8 text-neutral-300 text-sm md:text-base max-w-md leading-relaxed tracking-wide select-text">
-                    Et helt nytt perspektiv på verden – et inntrykk de færreste har opplevd maken til.
+                    Profesjonell drone- og FPV-kinematografi. Et helt nytt perspektiv på verden – et inntrykk de færreste har opplevd maken til.
                 </p>
 
                 <div class="mt-8 flex flex-wrap gap-3 items-center">
@@ -153,7 +166,7 @@
                 </div>
             </div>
 
-            <!-- Right: inquiry form -->
+            <!-- Right: Fast-track submission card right in the Hero -->
             <div class="lg:col-span-5 flex justify-end">
                 <div class="w-full max-w-sm bg-neutral-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-[#ff8c42]/10 rounded-full filter blur-xl pointer-events-none"></div>
@@ -208,7 +221,7 @@
             </div>
         </div>
 
-        <!-- Bottom segment -->
+        <!-- Bottom Segment: Timer loops & features -->
         <div class="w-full max-w-7xl mx-auto z-20 flex flex-col md:flex-row items-center justify-between border-t border-white/5 pt-6 gap-4">
             <div class="flex items-center gap-4">
                 <button onclick="toggleLoopPlay()" class="p-2.5 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 text-white transition-colors">
@@ -219,6 +232,7 @@
                         <span class="text-xs text-white font-mono font-medium" id="time-display">0.8s</span>
                         <span class="text-[10px] text-neutral-500 font-mono">Sequence loop</span>
                     </div>
+                    <!-- Simulating cinematic video progress bar timeline -->
                     <div class="w-48 bg-neutral-900 border border-white/5 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div id="progress-timeline" class="h-full bg-gradient-to-r from-[#ff8c42] to-amber-500 w-[40%] transition-all duration-100"></div>
                     </div>
@@ -227,7 +241,7 @@
 
             <div class="flex items-center gap-8 text-xs font-mono text-neutral-400">
                 <span class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Sertifisert drone pilot
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> A-Klasse FPV-sertifisert
                 </span>
                 <span>Spesialisert i high-speed tracking og vertikal reels-estetikk</span>
             </div>
@@ -247,6 +261,7 @@
                 </p>
             </div>
             
+            <!-- Category Filter Bar -->
             <div class="flex flex-wrap gap-2 mt-6 md:mt-0 bg-neutral-900/40 p-1.5 rounded-full border border-white/5">
                 <button onclick="filterPortfolio('all')" id="btn-all" class="px-4 py-1.5 rounded-full text-xs font-medium transition-all bg-[#ff8c42] text-white">Alle prosjekter</button>
                 <button onclick="filterPortfolio('fpv')" id="btn-fpv" class="px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white">FPV Drone</button>
@@ -257,7 +272,7 @@
 
         <!-- Projects Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="projects-grid">
-            <!-- Project 1 -->
+            <!-- Project 1 (FPV) -->
             <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="fpv">
                 <div class="aspect-[16/10] overflow-hidden relative">
                     <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
@@ -269,17 +284,17 @@
                     </div>
                 </div>
                 <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500">Nordic Vision AS</span>
+                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500">Nordic Vision AS</span>
                     <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Vind over Lofoten</h3>
                     <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Naturdokumentar som fulgte havbølgene tett på overflaten med FPV drone.</p>
                     <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white">Sjefspilot / Avata 360</strong></span>
+                        <span>Rolle: <strong class="text-white font-mono">Sjefspilot / Avata 360</strong></span>
                         <span class="text-[#ffaa44]">4K 120fps / ProRes Log</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Project 2 -->
+            <!-- Project 2 (FPV / Commercial) -->
             <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="fpv commercial">
                 <div class="aspect-[16/10] overflow-hidden relative">
                     <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
@@ -291,17 +306,17 @@
                     </div>
                 </div>
                 <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500">DriveNorway Bilutleie</span>
+                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500">DriveNorway Bilutleie</span>
                     <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Sommerens Fart</h3>
                     <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Sosiale medier-kampanje med over 450 000 visninger på TikTok og Instagram Reels.</p>
                     <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white">FPV Tracking</strong></span>
+                        <span>Rolle: <strong class="text-white font-mono font-mono">FPV Tracking</strong></span>
                         <span class="text-[#ffaa44]">Full-speed FPV / Pocket 3</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Project 3 -->
+            <!-- Project 3 (Pocket 3 / Commercial) -->
             <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="pocket3 commercial">
                 <div class="aspect-[16/10] overflow-hidden relative">
                     <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
@@ -313,18 +328,40 @@
                     </div>
                 </div>
                 <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500">FjellRo Cabin Co</span>
+                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500">FjellRo Cabin Co</span>
                     <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Ekte Hyttekos</h3>
-                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Stemningsfull short form reklamesnutt for moderne luksushytter i den norske fjellheimen.</p>
+                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Stemningsfull short form reklamesnutt for moderne luksushytter i de norske fjellheimen.</p>
                     <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white">DJI Pocket 3 (Vlog)</strong></span>
+                        <span>Rolle: <strong class="text-white font-mono font-mono">DJI Pocket 3 (Vlog)</strong></span>
                         <span class="text-[#ffaa44]">4K Vertical Crop</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 (FPV) -->
+            <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="fpv">
+                <div class="aspect-[16/10] overflow-hidden relative">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=800&q=80" alt="Sognefjorden Luftfoto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3 z-20">
+                        <span class="bg-[#070709]/90 border border-white/10 backdrop-blur-md px-2.5 py-1 rounded-full text-[9px] font-mono font-medium tracking-wide text-[#ff8c42]">
+                            2026 • Film og Landskap
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500 font-mono text-neutral-500">Norsk Turisme</span>
+                    <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Sognefjorden Luftfoto</h3>
+                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Storslått cinematiske panoramaer som utnytter Avata 360-gropen til det ytterste.</p>
+                    <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
+                        <span>Rolle: <strong class="text-white font-mono">Pilot & Colorist</strong></span>
+                        <span class="text-[#ffaa44]">Zenmuse 360 Loop</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SOCIALS -->
+        <!-- SOCIAL LINKING PORTALS -->
         <div id="socials" class="border-t border-white/10 pt-16">
             <div class="max-w-3xl mx-auto text-center mb-10">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">APEXNORTH PÅ SOSIALE MEDIER</span>
@@ -393,6 +430,8 @@
     <section id="productions" class="py-24 bg-neutral-950/60 border-t border-b border-white/5 px-6 md:px-12">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Left side: Partner badges -->
                 <div class="lg:col-span-6 space-y-8">
                     <div>
                         <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">PROSJEKTPORTFOLIO</span>
@@ -405,6 +444,7 @@
                     <div class="space-y-4">
                         <span class="text-[10px] font-mono uppercase text-neutral-500 tracking-wider block">Tidligere samarbeidspartnere og selskaper</span>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="partners-list">
+                            <!-- Partners loading -->
                             <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
                                 <div>
                                     <div class="text-xs font-semibold text-white">Nordic Vision AS</div>
@@ -435,9 +475,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Marketing focus banner -->
+                    <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-amber-400/5 rounded-full filter blur-xl"></div>
+                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
+                            <i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform- & Mobiloptimalisering
+                        </h4>
+                        <p class="text-xs text-neutral-400 leading-relaxed font-mono">
+                            Mange oppdrag skreddersys for sosiale medier. Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg levere ferdigredigert innhold i 9:16 format som spretter ut av mobilskjermen.
+                        </p>
+                    </div>
                 </div>
 
-                <!-- Review engine -->
+                <!-- Right side: Customer reviews slider + review adder! -->
                 <div class="lg:col-span-6 space-y-8">
                     <div class="border-b border-white/5 pb-4">
                         <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">TILBAKEMELDINGER</span>
@@ -447,22 +498,61 @@
                         </p>
                     </div>
 
+                    <!-- Reviews List container -->
                     <div class="space-y-4 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar" id="testimonials-container">
+                        <!-- Review 1 -->
                         <div class="bg-white/5 border border-white/5 rounded-xl p-5 relative">
                             <div class="flex justify-between items-start mb-2">
                                 <div>
                                     <span class="font-semibold text-xs block text-white">Magnus Lindqvist</span>
                                     <span class="text-[10px] text-neutral-400 block font-mono">Produsent, Nordic Vision AS</span>
                                 </div>
-                                <div class="flex text-amber-500 text-[10px] gap-0.5">★ ★ ★ ★ ★</div>
+                                <div class="flex text-amber-500 text-[10px] gap-0.5">
+                                    ★ ★ ★ ★ ★
+                                </div>
                             </div>
                             <p class="text-xs text-neutral-300 italic leading-relaxed">
                                 "ApexNorth hjalp oss med heftige FPV-opptak til en naturdokumentar. Avata 360 bildene ble utrolig stabile, og de leverte raskt og med fantastisk kvalitet. En fryd å jobbe med!"
                             </p>
                             <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono">Mars 2026</span>
                         </div>
+
+                        <!-- Review 2 -->
+                        <div class="bg-white/5 border border-white/5 rounded-xl p-5 relative">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <span class="font-semibold text-xs block text-white">Sunniva Sørbotten</span>
+                                    <span class="text-[10px] text-neutral-400 block font-mono">Markedsansvarlig, FjellRo Cabins</span>
+                                </div>
+                                <div class="flex text-amber-500 text-[10px] gap-0.5">
+                                    ★ ★ ★ ★ ★
+                                </div>
+                            </div>
+                            <p class="text-xs text-neutral-300 italic leading-relaxed">
+                                "Vi trengte engasjerende innhold til Instagram Reel og TikTok. ApexNorth kombinerte DJI Avata og DJI Pocket 3 på en genial måte som ga oss akkurat den luksuriøse følelsen vi lette etter."
+                            </p>
+                            <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono">April 2026</span>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="bg-white/5 border border-white/5 rounded-xl p-5 relative">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <span class="font-semibold text-xs block text-white">Eskil Sunde</span>
+                                    <span class="text-[10px] text-neutral-400 block font-mono">Regissør, DriveNorway Kampanje</span>
+                                </div>
+                                <div class="flex text-amber-500 text-[10px] gap-0.5">
+                                    ★ ★ ★ ★ ★
+                                </div>
+                            </div>
+                            <p class="text-xs text-neutral-300 italic leading-relaxed">
+                                "Hurtiggående FPV tracking som holder følge med en sportsbil i svingene er ikke enkelt, men ApexNorth spikret opptaket på andre forsøk. Topp kvalitet og profesjonell innstilling hele veien."
+                            </p>
+                            <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono">Mai 2026</span>
+                        </div>
                     </div>
 
+                    <!-- Leave a review interactive box -->
                     <div class="bg-neutral-900/40 border border-white/5 rounded-2xl p-5 relative">
                         <h4 class="text-xs font-mono tracking-widest text-neutral-300 uppercase block mb-4">
                             Har vi samarbeidet? Legg igjen en tilbakemelding:
@@ -470,19 +560,32 @@
 
                         <div id="review-success" class="hidden text-center py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                             <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400 mx-auto mb-2 animate-bounce"></i>
-                            <p class="text-xs font-semibold text-white">Takk for tilbakemeldingen!</p>
+                            <p class="text-xs font-semibold text-white">Takk for din tilbakemelding!</p>
+                            <p class="text-[10px] text-neutral-400 mt-1">Kundeerfaringen din er nå lagt til i oversikten over.</p>
+                            <button onclick="resetReviewForm()" class="mt-3 text-[10px] text-[#ff8c42] hover:underline uppercase tracking-wide font-mono">Skriv en ny tilbakemelding</button>
                         </div>
 
                         <form id="add-review-form" onsubmit="submitReview(event)" class="space-y-3">
                             <div class="grid grid-cols-2 gap-3">
                                 <input type="text" id="reviewer-name" required placeholder="Ditt navn / Selskap" class="bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <input type="text" id="reviewer-role" placeholder="Rolle" class="bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
+                                <input type="text" id="reviewer-role" placeholder="Rolle (f.eks Regissør)" class="bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
                             </div>
-                            <textarea id="reviewer-text" required placeholder="Hvordan opplevde du samarbeidet?" rows="2" class="w-full bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none resize-none focus:border-[#ff8c42] font-mono"></textarea>
+                            <textarea id="reviewer-text" required placeholder="Hvordan opplevde du kvaliteten, kommunikasjonen og resultatet?" rows="2" class="w-full bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none resize-none focus:border-[#ff8c42] font-mono"></textarea>
                             
                             <div class="flex items-center justify-between">
-                                <button type="submit" class="bg-white text-black hover:bg-[#ff8c42] hover:text-white transition-all text-[11px] font-semibold tracking-wider font-mono py-1.5 px-4 rounded-lg">
-                                    Send omtale
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[10px] text-neutral-400 font-mono">Stjerner:</span>
+                                    <div class="flex text-amber-500 hover:scale-105 transition-all" id="star-selector">
+                                        <!-- Rating value inside data-val -->
+                                        <button type="button" onclick="setStarRating(1)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
+                                        <button type="button" onclick="setStarRating(2)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
+                                        <button type="button" onclick="setStarRating(3)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
+                                        <button type="button" onclick="setStarRating(4)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
+                                        <button type="button" onclick="setStarRating(5)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="bg-white text-black hover:bg-[#ff8c42] hover:text-white transition-all text-[11px] font-semibold tracking-wider font-mono py-1.5 px-4 rounded-lg flex items-center gap-1.5">
+                                    <i data-lucide="plus" class="w-3 h-3"></i> Send omtale
                                 </button>
                             </div>
                         </form>
@@ -492,46 +595,346 @@
         </div>
     </section>
 
+    <!-- EQUIPMENT & TECH INVENTORY -->
+    <section id="gear" class="py-24 px-6 md:px-12 max-w-7xl mx-auto relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-4">
+                <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">TEKNISKE SPESIFIKASJONER</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6 font-display">Min Drone & Kamerautrustning</h2>
+                <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-mono">
+                    Jeg velger alltid det verktøyet som passer best til det kunstneriske uttrykket. Mine to kjerneplattformer gir meg full kreativ fleksibilitet under alle forhold:
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <div class="p-1.5 rounded bg-[#ff8c42]/15 text-[#ff8c42] mt-0.5 text-[9px] font-bold font-mono">AVATA</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white font-mono">DJI Avata 360</h4>
+                            <p class="text-[11px] text-neutral-400 mt-0.5 font-mono">Åpner for helt immersive FPV-opplevelser med rystefri loop-teknologi og ekstremt stabil video, selv i trange lokaler.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="p-1.5 rounded bg-amber-400/15 text-amber-300 mt-0.5 text-[9px] font-bold font-mono">POCKET</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white font-mono">DJI Pocket 3</h4>
+                            <p class="text-[11px] text-neutral-400 mt-0.5 font-mono">Leverer nydelige hudtoner, rask bildehastighet og mekanisk 3-akset stabilisering, ideell for tette vlogger og short-form reels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Avata Box Card -->
+                <div class="bg-[#0c0c10] border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-[#ff8c42]/5 rounded-full filter blur-xl"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[10px] bg-[#ff8c42]/10 text-[#ff8c42] px-3 py-1 rounded-full font-mono font-medium">Core Platform (FPV)</span>
+                        <i data-lucide="camera" class="text-neutral-500 w-5 h-5"></i>
+                    </div>
+                    <span class="text-2xl font-bold block text-white mt-2 font-display">DJI Avata 360 Immersive</span>
+                    <p class="text-xs text-neutral-400 mt-2 leading-relaxed font-mono">
+                        Kjernen i mine loddrette loops og storslåtte panoreringer over dramatiske vestlandsfjorder.
+                    </p>
+                    <div class="mt-6 pt-4 border-t border-white/5 space-y-2 text-xs font-mono">
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Maks oppløsning:</span>
+                            <span class="text-white">8K @ 60 FPS</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Flytid per batteri:</span>
+                            <span class="text-white font-mono">~18-22 Minutter</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500 font-mono">Sikkerhet:</span>
+                            <span class="text-white">Innebygd propellbeskyttelse</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Video fargedybde:</span>
+                            <span class="text-[#ff8c42] font-semibold">10-bit D-Log M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pocket 3 Box Card -->
+                <div class="bg-[#0c0c10] border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-amber-400/5 rounded-full filter blur-xl"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[10px] bg-amber-400/10 text-amber-300 px-3 py-1 rounded-full font-mono font-medium">B-Cam & Vertical Creator</span>
+                        <i data-lucide="video" class="text-neutral-500 w-5 h-5"></i>
+                    </div>
+                    <span class="text-2xl font-bold block text-white mt-2 font-display">DJI Pocket 3 Creator</span>
+                    <p class="text-xs text-neutral-400 mt-2 leading-relaxed">
+                        Den ultimate tette videobloggeren og detaljplattformen for rask b-roll på farten.
+                    </p>
+                    <div class="mt-6 pt-4 border-t border-white/5 space-y-2 text-xs font-mono">
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Bildebrikkesensor:</span>
+                            <span class="text-white">1-tommers CMOS</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Maks oppløsning:</span>
+                            <span class="text-white">4K @ 120 FPS</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Stabilisering:</span>
+                            <span class="text-white">Mekanisk 3-Akset Gimbal</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-neutral-500">Klargjøringstid:</span>
+                            <span class="text-amber-400 font-semibold font-mono">Under 3 sekunder</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECURE MAIN CONTACT PRE-INQUIRY AREA -->
+    <section id="contact" class="py-24 border-t border-white/5 px-6 md:px-12 bg-black relative">
+        <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">PROSJEKTFORESPØRSEL</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Prosjektdetaljer & Bestilling</h2>
+                <p class="text-neutral-400 text-xs mt-3 max-w-lg mx-auto leading-relaxed">
+                    Fyll ut skjemaet under for å starte planleggingen. Kontakten sendes trygt over, og ApexNorth tar kontakt direkte for å avtale priser, betingelser og skuddvindu.
+                </p>
+            </div>
+
+            <div class="bg-[#0a0a0d] border border-white/10 rounded-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+                <div id="contact-success-area" class="hidden py-12 text-center max-w-md mx-auto">
+                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="check-circle" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 font-display">Forespørsel Sendt!</h3>
+                    <p class="text-xs text-neutral-400 leading-relaxed mb-6 font-mono">
+                        Takk for at du delte prosjektdetaljene dine. Meldingen er trygt oversendt direkte til ApexNorth sitt lukkede mottakssenter. Du vil høre fra oss uforpliktende kjapt!
+                    </p>
+                    <div class="bg-white/5 px-4 py-2.5 rounded-lg border border-white/10 inline-block text-xs font-mono mb-6">
+                        Referanse-ID: <span id="ref-id-display" class="text-[#ff8c42] font-semibold">APX-584729</span>
+                    </div>
+                    <div>
+                        <button onclick="resetContactForm()" class="text-xs text-[#ff8c42] hover:underline font-mono">Send nok en henvendelse</button>
+                    </div>
+                </div>
+
+                <form id="contact-detailed-form" onsubmit="submitDetailedForm(event)" class="space-y-6">
+                    <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs text-neutral-300">
+                        <span class="w-2 h-2 rounded-full bg-[#ff8c42] shrink-0"></span>
+                        <span>Sikker gateway: Henvendelser sluses direkte til ApexNorth sin private innboks uten offentlig eksponering.</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Name -->
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block">Ditt Navn / Selskap *</label>
+                            <input type="text" id="contact-name" required placeholder="Ola Nordmann / Selskap AS" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 transition-all font-mono">
+                        </div>
+                        <!-- Email -->
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block">E-postadresse for svar *</label>
+                            <input type="email" id="contact-email" required placeholder="navn@selskap.no" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 transition-all font-mono">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Category -->
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Oppdragskategori</label>
+                            <select id="contact-category" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
+                                <option value="FPV Drone / Reklame">FPV Drone / Reklame</option>
+                                <option value="Short Form Content (TikTok/Reels)">Short Form / Mobil Reels</option>
+                                <option value="Dokumentar / Filmsekvens">Dokumentar / Full Film</option>
+                                <option value="Kreativt Samarbeid">Annet kreativt prosjekt</option>
+                            </select>
+                        </div>
+                        <!-- Budget -->
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Prognosivt Budsjett</label>
+                            <select id="contact-budget" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
+                                <option value="Middels / Profesjonell Kampanje">Middels / Profesjonell</option>
+                                <option value="Mindre Prosjekt (Lokalkontor)">Mindre prosjekt</option>
+                                <option value="Større Storstilt Dokumentar">Større kinoproduksjon</option>
+                            </select>
+                        </div>
+                        <!-- Time -->
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Ønsket Tidsrom</label>
+                            <select id="contact-timeframe" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
+                                <option value="Jun-Aug 2026">Jun-Aug 2026 (Sommer)</option>
+                                <option value="Høst 2026">Høst 2026</option>
+                                <option value="Haster Veldig">Haster (Innen kort tid)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Platform checkboxes -->
+                    <div class="space-y-3">
+                        <label class="text-[11px] font-mono uppercase text-neutral-400 block">Ønsket publiseringsplattformer (Valgfritt)</label>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
+                                <input type="checkbox" id="platform-tiktok" class="accent-[#ff8c42]">
+                                <span class="font-mono text-neutral-300 col-span-1">TikTok</span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
+                                <input type="checkbox" id="platform-instagram" class="accent-[#ff8c42]">
+                                <span class="font-mono text-neutral-300">Instagram Reels</span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
+                                <input type="checkbox" id="platform-youtube" class="accent-[#ff8c42]">
+                                <span class="font-mono text-neutral-300">YouTube</span>
+                            </label>
+                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
+                                <input type="checkbox" id="platform-other" class="accent-[#ff8c42]">
+                                <span class="font-mono text-neutral-300 font-mono">Nettside / Annet</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="space-y-2">
+                        <label class="text-[11px] font-mono uppercase text-neutral-400 block">Kort prosjektbeskrivelse *</label>
+                        <textarea id="contact-details" required rows="4" placeholder="Fortell gjerne litt om skuddsted, ønsket lengde og hva slags stemning dere ønsker å oppnå..." class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 focus:ring-1 focus:ring-[#ff8c42] transition-all font-mono leading-relaxed resize-none"></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:shadow-xl hover:shadow-[#ff8c42]/10 transition-all flex items-center justify-center gap-2">
+                            Send sikker forespørsel <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
-    <footer id="contact" class="py-12 bg-black border-t border-white/5 text-center text-xs text-neutral-500">
-        <div class="max-w-7xl mx-auto px-6">
-            <p>© 2026 ApexNorth. Alle rettigheter reservert.</p>
+    <footer class="py-12 border-t border-white/5 bg-[#050507] text-neutral-500 text-xs px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2">
+                <span class="text-[#ff8c42]">✦</span>
+                <span class="font-semibold text-white">ApexNorth</span>
+                <span class="font-mono text-[10px] text-neutral-600">| © 2026</span>
+            </div>
+            <div class="flex items-center gap-6 font-mono text-[10px]">
+                <span>E-post sluse: Sikker Lukkert SMTP</span>
+                <span>Utstyr: DJI Avata & DJI Pocket 3</span>
+            </div>
         </div>
     </footer>
 
+    <!-- INTERACTION LOGIC SCRIPT (Vanilla alternative to state engines) -->
     <script>
+        // Start Lucide Icons replacements
         lucide.createIcons();
 
+        // Mobile Menu Toggle
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
+            const drawer = document.getElementById('mobile-menu');
+            if (drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                drawer.classList.add('flex');
+            } else {
+                drawer.classList.remove('flex');
+                drawer.classList.add('hidden');
+            }
         }
 
+        // Loop Sky Blending Simulation Clock
+        let currentProgress = 35; // default center progress
+        let isLoopPlaying = true;
+        let loopInterval = null;
+
+        const blueBg = document.getElementById('sky-blue-bg');
+        const sunsetBg = document.getElementById('sky-sunset-bg');
+        const progressTimeline = document.getElementById('progress-timeline');
+        const timeDisplay = document.getElementById('time-display');
+        const playbackIcon = document.getElementById('playback-icon');
+
+        function startTimerInterval() {
+            if (loopInterval) clearInterval(loopInterval);
+            loopInterval = setInterval(() => {
+                if (!isLoopPlaying) return;
+                
+                // Advance timer: looped over 2 seconds (0 to 100)
+                currentProgress += 1.25;
+                if (currentProgress > 100) {
+                    currentProgress = 0;
+                }
+                
+                // Set the timeline width
+                progressTimeline.style.width = currentProgress + '%';
+                
+                // Set the exact time indicator (0.0s to 2.0s representation)
+                const realSecs = ((currentProgress / 100) * 2.0).toFixed(1);
+                timeDisplay.textContent = realSecs + 's';
+
+                // Handle Sky fading based on timer progression
+                if (currentProgress < 50) {
+                    // Daytime phase (blue active, sunset hidden)
+                    blueBg.style.opacity = '1';
+                    sunsetBg.style.opacity = '0';
+                } else {
+                    // Sunset phase (blue fades down, sunset lights up)
+                    blueBg.style.opacity = '0.3';
+                    sunsetBg.style.opacity = '1';
+                }
+            }, 100);
+        }
+
+        function toggleLoopPlay() {
+            isLoopPlaying = !isLoopPlaying;
+            // Redraw playback icons using state swapping
+            if (isLoopPlaying) {
+                playbackIcon.setAttribute('data-lucide', 'pause');
+            } else {
+                playbackIcon.setAttribute('data-lucide', 'play');
+            }
+            lucide.createIcons({
+                attrs: {
+                    id: 'playback-icon',
+                    class: 'w-4 h-4'
+                },
+                nameList: ['play', 'pause']
+            });
+            // Re-render
+            lucide.createIcons();
+        }
+
+        // Run sky blending on start
+        startTimerInterval();
+
+        // Portfolio filtering logic
         function filterPortfolio(category) {
             const cards = document.querySelectorAll('.project-card');
             cards.forEach(card => {
-                const cats = card.getAttribute('data-category').split(' ');
-                if (category === 'all' || cats.includes(category)) {
-                    card.style.display = 'block';
+                const cats = card.getAttribute('data-category');
+                if (category === 'all') {
+                    card.classList.remove('hidden');
+                } else if (cats.includes(category)) {
+                    card.classList.remove('hidden');
                 } else {
-                    card.style.display = 'none';
+                    card.classList.add('hidden');
                 }
             });
 
-            // Update buttons styling
-            ['all', 'fpv', 'pocket3', 'commercial'].forEach(id => {
-                const btn = document.getElementById('btn-' + id);
-                if (id === category) {
-                    btn.className = 'px-4 py-1.5 rounded-full text-xs font-medium transition-all bg-[#ff8c42] text-white';
+            // Update category button colors
+            const buttons = ['all', 'fpv', 'pocket3', 'commercial'];
+            buttons.forEach(btn => {
+                const el = document.getElementById('btn-' + btn);
+                if (btn === category) {
+                    el.className = "px-4 py-1.5 rounded-full text-xs font-medium transition-all bg-[#ff8c42] text-white";
                 } else {
-                    btn.className = 'px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white';
+                    el.className = "px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white";
                 }
             });
         }
 
+        // Hero quick form submit simulation
         function submitHeroForm(e) {
             e.preventDefault();
+            const email = document.getElementById('hero-email').value;
+            if (!email) return;
+
             document.getElementById('hero-quick-form').classList.add('hidden');
             document.getElementById('hero-submit-success').classList.remove('hidden');
         }
@@ -542,10 +945,100 @@
             document.getElementById('hero-submit-success').classList.add('hidden');
         }
 
+        // Testimonial submission handling
+        let activeRating = 5;
+        function setStarRating(rating) {
+            activeRating = rating;
+            const buttons = document.querySelectorAll('#star-selector button');
+            buttons.forEach((btn, index) => {
+                const icon = btn.querySelector('svg');
+                if (index < rating) {
+                    icon.classList.add('fill-current');
+                } else {
+                    icon.classList.remove('fill-current');
+                }
+            });
+        }
+
         function submitReview(e) {
             e.preventDefault();
-            document.getElementById('add-review-form').reset();
+            const name = document.getElementById('reviewer-name').value;
+            const role = document.getElementById('reviewer-role').value || 'Kreatør / Samarbeidspartner';
+            const text = document.getElementById('reviewer-text').value;
+
+            if (!name || !text) return;
+
+            // Generate HTML structure for new review
+            const container = document.getElementById('testimonials-container');
+            const newElem = document.createElement('div');
+            newElem.className = "bg-white/5 border border-white/5 rounded-xl p-5 relative transition-all duration-500 animate-pulse";
+            
+            let starContent = '';
+            for(let i=0; i<activeRating; i++) {
+                starContent += '★ ';
+            }
+
+            newElem.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <span class="font-semibold text-xs block text-white">${name}</span>
+                        <span class="text-[10px] text-neutral-400 block font-mono font-mono text-neutral-400">${role}</span>
+                    </div>
+                    <div class="flex text-amber-500 text-[10px] gap-0.5 font-mono">
+                        ${starContent}
+                    </div>
+                </div>
+                <p class="text-xs text-neutral-300 italic leading-relaxed">
+                    "${text}"
+                </p>
+                <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono font-mono">I dag</span>
+            `;
+
+            // Insert at the beginning of list
+            container.insertBefore(newElem, container.firstChild);
+            
+            // Show success alert
+            document.getElementById('add-review-form').classList.add('hidden');
             document.getElementById('review-success').classList.remove('hidden');
+        }
+
+        function resetReviewForm() {
+            document.getElementById('reviewer-name').value = '';
+            document.getElementById('reviewer-role').value = '';
+            document.getElementById('reviewer-text').value = '';
+            setStarRating(5);
+            document.getElementById('add-review-form').classList.remove('hidden');
+            document.getElementById('review-success').classList.add('hidden');
+        }
+
+        // Contact detailed form submit simulation
+        function submitDetailedForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const details = document.getElementById('contact-details').value;
+
+            if (!name || !email || !details) return;
+
+            // Display Reference ID
+            const randomRef = 'APX-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('ref-id-display').textContent = randomRef;
+
+            document.getElementById('contact-detailed-form').classList.add('hidden');
+            document.getElementById('contact-success-area').classList.remove('hidden');
+        }
+
+        function resetContactForm() {
+            document.getElementById('contact-name').value = '';
+            document.getElementById('contact-email').value = '';
+            document.getElementById('contact-details').value = '';
+            document.getElementById('platform-tiktok').checked = false;
+            document.getElementById('platform-instagram').checked = false;
+            document.getElementById('platform-youtube').checked = false;
+            document.getElementById('platform-other').checked = false;
+
+            document.getElementById('contact-detailed-form').classList.remove('hidden');
+            document.getElementById('contact-success-area').classList.add('hidden');
         }
     </script>
 </body>
