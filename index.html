@@ -84,13 +84,12 @@
             <nav class="hidden md:flex items-center gap-8 text-sm text-neutral-300">
                 <a href="#" class="relative py-1 font-medium hover:text-white transition-colors">Flygningen</a>
                 <a href="#portfolio" class="relative py-1 font-medium hover:text-white transition-colors">Portefølje</a>
-                <a href="#productions" class="relative py-1 font-medium hover:text-white transition-colors">Selskaper</a>
+                <a href="#om" class="relative py-1 font-medium hover:text-white transition-colors">Om</a>
                 <a href="#gear" class="relative py-1 font-medium hover:text-white transition-colors">Utstyr</a>
                 <a href="#socials" class="relative py-1 font-medium hover:text-white transition-colors">Sosialt</a>
                 <a href="#contact" class="hover:text-white text-[#ff8c42] font-semibold transition-colors duration-150">Forespørsel</a>
             </nav>
 
-            <!-- Spacer equivalent to "Start prosjekt" removed state -->
             <div class="w-20 hidden md:block"></div>
             
             <!-- Mobile Menu button -->
@@ -107,33 +106,29 @@
         </button>
         <a href="#" onclick="toggleMobileMenu()" class="hover:text-[#ff8c42] transition-colors">Flygningen</a>
         <a href="#portfolio" onclick="toggleMobileMenu()" class="hover:text-[#ff8c42] transition-colors">Portefølje</a>
-        <a href="#productions" onclick="toggleMobileMenu()" class="hover:text-[#ff8c42] transition-colors">Selskaper</a>
+        <a href="#om" onclick="toggleMobileMenu()" class="hover:text-[#ff8c42] transition-colors">Om</a>
         <a href="#gear" onclick="toggleMobileMenu()" class="hover:text-[#ff8c42] transition-colors">Utstyr</a>
         <a href="#socials" onclick="toggleMobileMenu()" class="hover:text-[#ff8c42] transition-colors">Sosialt</a>
         <a href="#contact" onclick="toggleMobileMenu()" class="text-[#ff8c42] hover:underline">Prosjektforespørsel</a>
     </div>
 
-  <!-- MAIN HERO SECTION -->
+    <!-- MAIN HERO SECTION -->
     <section class="relative min-h-screen flex flex-col justify-between pt-28 pb-12 px-6 md:px-12 overflow-hidden bg-black select-none">
         <!-- Blend Sky Background -->
         <div class="absolute inset-0 z-0">
-            <!-- Cool Blue sky (fade based on current sequence state) -->
             <div id="sky-blue-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out" 
                  style="background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1920&auto=format&fit=crop');">
             </div>
-            <!-- Warm sunset sky -->
             <div id="sky-sunset-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-0" 
                  style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop');">
             </div>
             
-            <!-- Dark scenic visual gradient overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-[#070709] via-transparent to-black/70 z-10"></div>
             <div class="absolute inset-0 bg-black/40 z-10"></div>
         </div>
 
         <div class="absolute inset-4 border border-white/10 rounded-2xl pointer-events-none z-20"></div>
 
-        <!-- Top segment: stats and titles -->
         <div class="w-full max-w-7xl mx-auto pt-4 z-20 flex justify-end items-start">
         </div>
 
@@ -196,8 +191,9 @@
                                 id="hero-email"
                                 required 
                                 placeholder="Din e-postadresse" 
-                                class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-[#ff8c42] transition-colors font-mono"
-                     <div class="space-y-1.5">
+                                class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-[#ff8c42] transition-colors font-mono">
+                        </div>
+                        <div class="space-y-1.5">
                             <select id="hero-category" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-neutral-300 outline-none focus:border-[#ff8c42] font-mono">
                                 <option value="Dronefilm & Luftfoto / Reklame">Dronefilm & Luftfoto / Reklame</option>
                                 <option value="Behind the Scenes (BTS) & Videoproduksjon">Behind the Scenes (BTS) / BTS & Video</option>
@@ -228,7 +224,6 @@
                         <span class="text-xs text-white font-mono font-medium" id="time-display">0.8s</span>
                         <span class="text-[10px] text-neutral-500 font-mono">Sequence loop</span>
                     </div>
-                    <!-- Simulating cinematic video progress bar timeline -->
                     <div class="w-48 bg-neutral-900 border border-white/5 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div id="progress-timeline" class="h-full bg-gradient-to-r from-[#ff8c42] to-amber-500 w-[40%] transition-all duration-100"></div>
                     </div>
@@ -248,110 +243,64 @@
     <section id="portfolio" class="py-24 px-6 md:px-12 max-w-7xl mx-auto relative">
         <div class="absolute top-1/4 right-0 w-80 h-80 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
 
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div>
+        <div class="mb-16">
+            <div class="mb-10">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">PRODUKSJONER</span>
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Utvalgte Prosjekter</h2>
-                <p class="text-xs text-neutral-400 mt-2 max-w-md">
-                    Her er et knippe høydepunkter. ApexNorth tar oppdrag innen alt fra heftige drone- og FPV-sekvenser til skreddersydd mobil- og short-form markedsføring.
-                </p>
-            </div>
-            
-            <!-- Category Filter Bar -->
-            <div class="flex flex-wrap gap-2 mt-6 md:mt-0 bg-neutral-900/40 p-1.5 rounded-full border border-white/5">
-                <button onclick="filterPortfolio('all')" id="btn-all" class="px-4 py-1.5 rounded-full text-xs font-medium transition-all bg-[#ff8c42] text-white">Alle prosjekter</button>
-                <button onclick="filterPortfolio('fpv')" id="btn-fpv" class="px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white">FPV Drone</button>
-                <button onclick="filterPortfolio('pocket3')" id="btn-pocket3" class="px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white">DJI Pocket 3</button>
-                <button onclick="filterPortfolio('commercial')" id="btn-commercial" class="px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white">Reklame & Sosiale Medier</button>
-            </div>
-        </div>
-
-        <!-- Projects Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="projects-grid">
-            <!-- Project 1 (FPV) -->
-            <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="fpv">
-                <div class="aspect-[16/10] overflow-hidden relative">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Vind over Lofoten" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 left-3 z-20">
-                        <span class="bg-[#070709]/90 border border-white/10 backdrop-blur-md px-2.5 py-1 rounded-full text-[9px] font-mono font-medium tracking-wide text-[#ff8c42]">
-                            2026 • Film / Dokumentar
-                        </span>
-                    </div>
-                </div>
-                <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500">Nordic Vision AS</span>
-                    <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Vind over Lofoten</h3>
-                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Naturdokumentar som fulgte havbølgene tett på overflaten med FPV drone.</p>
-                    <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white font-mono">Sjefspilot / Avata 360</strong></span>
-                        <span class="text-[#ffaa44]">4K 120fps / ProRes Log</span>
-                    </div>
-                </div>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Portefølje</h2>
             </div>
 
-            <!-- Project 2 (FPV / Commercial) -->
-            <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="fpv commercial">
-                <div class="aspect-[16/10] overflow-hidden relative">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1511497584788-876760111969?w=800&q=80" alt="Sommerens Fart" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 left-3 z-20">
-                        <span class="bg-[#070709]/90 border border-white/10 backdrop-blur-md px-2.5 py-1 rounded-full text-[9px] font-mono font-medium tracking-wide text-[#ff8c42]">
-                            2025 • Reklame / Bil
-                        </span>
-                    </div>
-                </div>
-                <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500">DriveNorway Bilutleie</span>
-                    <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Sommerens Fart</h3>
-                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Sosiale medier-kampanje med over 450 000 visninger på TikTok og Instagram Reels.</p>
-                    <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white font-mono font-mono">FPV Tracking</strong></span>
-                        <span class="text-[#ffaa44]">Full-speed FPV / Pocket 3</span>
-                    </div>
-                </div>
-            </div>
+            <!-- Honest coming-soon message -->
+            <div class="bg-[#0d0d11] border border-white/5 rounded-2xl p-10 md:p-14 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-amber-400/3 rounded-full filter blur-3xl pointer-events-none"></div>
 
-            <!-- Project 3 (Pocket 3 / Commercial) -->
-            <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="pocket3 commercial">
-                <div class="aspect-[16/10] overflow-hidden relative">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" alt="Ekte Hyttekos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 left-3 z-20">
-                        <span class="bg-[#070709]/90 border border-white/10 backdrop-blur-md px-2.5 py-1 rounded-full text-[9px] font-mono font-medium tracking-wide text-[#ff8c42]">
-                            2025 • Kreativt / Brand
-                        </span>
+                <div class="max-w-2xl relative z-10">
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-[#ff8c42] animate-pulse"></span>
+                        <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">Sommer 2026 — Under oppbygging</span>
                     </div>
-                </div>
-                <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500">FjellRo Cabin Co</span>
-                    <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Ekte Hyttekos</h3>
-                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Stemningsfull short form reklamesnutt for moderne luksushytter i de norske fjellheimen.</p>
-                    <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white font-mono font-mono">DJI Pocket 3 (Vlog)</strong></span>
-                        <span class="text-[#ffaa44]">4K Vertical Crop</span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Project 4 (FPV) -->
-            <div class="project-card group relative bg-[#0d0d11] border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 transition-all duration-300" data-category="fpv">
-                <div class="aspect-[16/10] overflow-hidden relative">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/15 transition-all z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=800&q=80" alt="Sognefjorden Luftfoto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 left-3 z-20">
-                        <span class="bg-[#070709]/90 border border-white/10 backdrop-blur-md px-2.5 py-1 rounded-full text-[9px] font-mono font-medium tracking-wide text-[#ff8c42]">
-                            2026 • Film og Landskap
-                        </span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white font-display leading-snug mb-6">
+                        Porteføljen bygges opp<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff8c42] to-amber-400">oppdrag for oppdrag.</span>
+                    </h3>
+
+                    <p class="text-sm text-neutral-300 leading-relaxed mb-4">
+                        ApexNorth er et selskap i sin tidlige fase – bygget på genuin interesse, høyt ambisjonsnivå og et ønske om å skape estetiske videoer som passer akkurat ditt prosjekt. Frem til porteføljen fylles med klientoppdrag, dokumenterer jeg utviklingen min gjennom egne videoer – testflygninger, FPV-løkker og cinematiske opptak drevet av en ekte lidenskap for droner og film.
+                    </p>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-4">
+                        De første prosjektene er i sin startsfase, og jeg ser aktivt etter å ekspandere porteføljen videre med flere partnere. Hvert oppdrag som legges til er gjennomtenkt, ferdig redigert og representerer det jeg faktisk er stolt av å stå bak.
+                    </p>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-10">
+                        Vi velger transparens fremfor fasade. Du vil se porteføljen vokse i sanntid – fra de første oppdragene til et komplett visuelt univers. Følg utviklingen, og ta gjerne kontakt om du vil være en del av det fra starten.
+                    </p>
+
+                    <!-- Progress indicators -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+                        <div class="bg-white/[0.03] border border-white/5 rounded-xl p-4">
+                            <div class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Status</div>
+                            <div class="text-sm font-semibold text-white flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block"></span>
+                                Aktivt flyvende
+                            </div>
+                        </div>
+                        <div class="bg-white/[0.03] border border-white/5 rounded-xl p-4">
+                            <div class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Første prosjekter</div>
+                            <div class="text-sm font-semibold text-white">Sommer 2026</div>
+                        </div>
+                        <div class="bg-white/[0.03] border border-white/5 rounded-xl p-4">
+                            <div class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Oppdateringer</div>
+                            <div class="text-sm font-semibold text-white">Løpende, hele sommeren</div>
+                        </div>
                     </div>
-                </div>
-                <div class="p-5">
-                    <span class="text-[10px] text-neutral-400 font-mono block mb-1 text-neutral-500 font-mono text-neutral-500 font-mono text-neutral-500">Norsk Turisme</span>
-                    <h3 class="text-base font-semibold text-white group-hover:text-[#ff8c42] transition-colors font-display">Sognefjorden Luftfoto</h3>
-                    <p class="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">Storslått cinematiske panoramaer som utnytter Avata 360-gropen til det ytterste.</p>
-                    <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
-                        <span>Rolle: <strong class="text-white font-mono">Pilot & Colorist</strong></span>
-                        <span class="text-[#ffaa44]">Zenmuse 360 Loop</span>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#contact" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-semibold text-xs rounded-xl hover:shadow-lg hover:shadow-[#ff8c42]/20 transition-all">
+                            Bli en av de første <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <a href="#socials" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-neutral-300 font-semibold text-xs rounded-xl hover:border-white/20 hover:text-white transition-all">
+                            Følg prosessen <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -361,230 +310,170 @@
         <div id="socials" class="border-t border-white/10 pt-16">
             <div class="max-w-3xl mx-auto text-center mb-10">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">APEXNORTH PÅ SOSIALE MEDIER</span>
-                <h3 class="text-2xl md:text-3xl font-bold text-white font-display">Følg flyvningene fortløpende</h3>
+                <h3 class="text-2xl md:text-3xl font-bold text-white font-display">Sosiale medier lanseres snart</h3>
                 <p class="text-xs text-neutral-400 mt-2">
-                    Jeg oppdaterer kontinuerlig med nylige FPV drone-loops, short form reels og lengre videoer i 4K. Trykk på kanalene under for å sjekke ut innholdet:
+                    ApexNorth er under oppbygging. Kanalene nedenfor vil snart fylles med FPV-løkker, short form reels og cinematiske opptak i 4K. Følg med for kommende innhold og prosjekter.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- TikTok -->
-                <a href="https://tiktok.com" target="_blank" rel="noreferrer" class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all text-left relative overflow-hidden group block">
+                <div class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 transition-all text-left relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#ff8c42] to-[#ffaa44]"></div>
                     <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-mono text-neutral-400 tracking-wider font-semibold">@ApexNorthFPV</span>
-                        <div class="p-2 rounded-lg bg-white/5 group-hover:bg-[#ff8c42]/10 group-hover:text-[#ff8c42] transition-colors">
+                        <span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span>
+                        <div class="p-2 rounded-lg bg-white/5 text-neutral-600">
                             <i data-lucide="video" class="w-5 h-5"></i>
                         </div>
                     </div>
                     <h4 class="text-lg font-bold text-white font-display">TikTok</h4>
-                    <p class="text-xs text-neutral-400 mt-1">Short form innhold tilpasset mobilreklame</p>
-                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-[#ff8c42] uppercase tracking-wider">
-                        <span>Se profil & videoer</span>
-                        <i data-lucide="arrow-up-right" class="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    <p class="text-xs text-neutral-500 mt-1">Short form innhold tilpasset mobilreklame og FPV-highlights</p>
+                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
+                        <i data-lucide="clock" class="w-3 h-3"></i>
+                        <span>Lanseres snart</span>
                     </div>
-                </a>
+                </div>
 
                 <!-- Instagram -->
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all text-left relative overflow-hidden group block">
+                <div class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 transition-all text-left relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-purple-500 to-pink-500"></div>
                     <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-mono text-neutral-400 tracking-wider font-semibold">@apexnorth_fpv</span>
-                        <div class="p-2 rounded-lg bg-white/5 group-hover:bg-purple-500/10 group-hover:text-pink-400 transition-colors">
+                        <span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span>
+                        <div class="p-2 rounded-lg bg-white/5 text-neutral-600">
                             <i data-lucide="instagram" class="w-5 h-5"></i>
                         </div>
                     </div>
                     <h4 class="text-lg font-bold text-white font-display">Instagram</h4>
-                    <p class="text-xs text-neutral-400 mt-1">Estetiske reels og bakom-kulissene høydepunkter</p>
-                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-pink-400 uppercase tracking-wider">
-                        <span>Se profil & videoer</span>
-                        <i data-lucide="arrow-up-right" class="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    <p class="text-xs text-neutral-500 mt-1">Estetiske reels og bak-kulissene-høydepunkter fra flygningene</p>
+                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
+                        <i data-lucide="clock" class="w-3 h-3"></i>
+                        <span>Lanseres snart</span>
                     </div>
-                </a>
+                </div>
 
                 <!-- YouTube -->
-                <a href="https://youtube.com" target="_blank" rel="noreferrer" class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all text-left relative overflow-hidden group block">
+                <div class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 transition-all text-left relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-red-600 to-[#ffaa44]"></div>
                     <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-mono text-neutral-400 tracking-wider font-semibold">ApexNorth Cinematics</span>
-                        <div class="p-2 rounded-lg bg-white/5 group-hover:bg-red-600/10 group-hover:text-red-500 transition-colors">
+                        <span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span>
+                        <div class="p-2 rounded-lg bg-white/5 text-neutral-600">
                             <i data-lucide="youtube" class="w-5 h-5"></i>
                         </div>
                     </div>
                     <h4 class="text-lg font-bold text-white font-display">YouTube</h4>
-                    <p class="text-xs text-neutral-400 mt-1">Bak kulissene og fulle 360 loop-analyser</p>
-                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-red-400 uppercase tracking-wider">
-                        <span>Se profil & videoer</span>
-                        <i data-lucide="arrow-up-right" class="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    <p class="text-xs text-neutral-500 mt-1">Fulle 360-løkke-analyser og lengre cinematiske opptak</p>
+                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
+                        <i data-lucide="clock" class="w-3 h-3"></i>
+                        <span>Lanseres snart</span>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- COMPANIES & TESTIMONIALS -->
-    <section id="productions" class="py-24 bg-neutral-950/60 border-t border-b border-white/5 px-6 md:px-12">
+    <!-- OM APEXNORTH -->
+    <section id="om" class="py-24 bg-neutral-950/60 border-t border-b border-white/5 px-6 md:px-12">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                 
-                <!-- Left side: Partner badges -->
+                <!-- Left side: About + open for collaboration -->
                 <div class="lg:col-span-6 space-y-8">
                     <div>
-                        <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">PROSJEKTPORTFOLIO</span>
-                        <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Selskaper & Filmer</h2>
+                        <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">OM APEXNORTH</span>
+                        <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Grunnlagt av Daniel Hojem</h2>
                         <p class="text-neutral-400 text-xs mt-3 leading-relaxed max-w-lg">
-                            Jeg samarbeider regelmessig med produksjonsselskaper, reiselivsaktører og merkevarer for å berike deres visuelle profil med overlegen FPV-tekstur.
+                            ApexNorth er et dronefilm- og visualiseringsprosjekt grunnlagt av Daniel Hojem. Målet er å skape cinematiske opplevelser fra luften – gjennom FPV-flyging, visuell historiefortelling og nyskapende bruk av kameradrone-teknologi.
+                        </p>
+                        <p class="text-neutral-400 text-xs mt-3 leading-relaxed max-w-lg">
+                            Med DJI Avata 360 og DJI Pocket 3 som hovedutstyr bygges det nå en profesjonell portefølje over tid – fra egne testflygninger rundt Oslo og nærområdet til kommende oppdragsprosjekter.
                         </p>
                     </div>
 
+                    <!-- Open for collaboration -->
+                    <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-[#ff8c42]/5 rounded-full filter blur-xl"></div>
+                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
+                            <i data-lucide="handshake" class="w-4 h-4 text-[#ff8c42]"></i> Åpen for samarbeid og nye prosjekter
+                        </h4>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            ApexNorth er i en tidlig fase og aktivt på jakt etter de første samarbeidsprosjektene. Enten det dreier seg om dronefilm til sosiale medier, BTS-opptak, kortfilmer eller landskapsvideo – ta gjerne kontakt for en uforpliktende prat om hva vi kan skape sammen.
+                        </p>
+                        <a href="#contact" class="inline-flex items-center gap-1.5 mt-4 text-[10px] font-mono text-[#ff8c42] uppercase tracking-wider hover:underline">
+                            Ta kontakt <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+
+                    <!-- Focus areas -->
                     <div class="space-y-4">
-                        <span class="text-[10px] font-mono uppercase text-neutral-500 tracking-wider block">Tidligere samarbeidspartnere og selskaper</span>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="partners-list">
-                            <!-- Partners loading -->
+                        <span class="text-[10px] font-mono uppercase text-neutral-500 tracking-wider block">Fokusområder</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
                                 <div>
-                                    <div class="text-xs font-semibold text-white">Nordic Vision AS</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Filmproduksjon</div>
+                                    <div class="text-xs font-semibold text-white">FPV Dronefilm</div>
+                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Avata 360 / Immersive</div>
                                 </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Oslo</span>
+                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Primær</span>
                             </div>
                             <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
                                 <div>
-                                    <div class="text-xs font-semibold text-white">DriveNorway</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Bilmerke / Kampanje</div>
+                                    <div class="text-xs font-semibold text-white">Visuell Historiefortelling</div>
+                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Cinematisk estetikk</div>
                                 </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Bergen</span>
+                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Kjerne</span>
                             </div>
                             <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
                                 <div>
-                                    <div class="text-xs font-semibold text-white">FjellRo Cabin Co</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Reiseliv</div>
+                                    <div class="text-xs font-semibold text-white">Short Form / Reels</div>
+                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">TikTok & Instagram</div>
                                 </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Hallingdal</span>
+                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Aktiv</span>
                             </div>
                             <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
                                 <div>
-                                    <div class="text-xs font-semibold text-white">Norsk Turisme</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Statlig kampanje</div>
+                                    <div class="text-xs font-semibold text-white">BTS & Vlog</div>
+                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">DJI Pocket 3</div>
                                 </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Hele landet</span>
+                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Aktiv</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Marketing focus banner -->
-                    <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-amber-400/5 rounded-full filter blur-xl"></div>
-                       <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
-                            <i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform-, BTS- & Mobiloptimalisering
-                        </h4>
-                        <p class="text-xs text-neutral-400 leading-relaxed">
-                            Mange oppdrag skreddersys til sosiale medier og Behind the Scenes (BTS). Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg gjøre opptak bak kulissene og levere ferdigredigert innhold i 9:16-format som fenger målgruppen med en gang!
-                        </p>
-                    </div>
                 </div>
 
-                <!-- Right side: Customer reviews slider + review adder! -->
+                <!-- Right side: Testimonials placeholder -->
                 <div class="lg:col-span-6 space-y-8">
                     <div class="border-b border-white/5 pb-4">
                         <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">TILBAKEMELDINGER</span>
                         <h3 class="text-2xl md:text-3xl font-bold text-white font-display">Kundeerfaringer</h3>
                         <p class="text-xs text-neutral-400 mt-1">
-                            Se hva tidligere samarbeidspartnere sier om presisjonen og kvaliteten ApexNorth leverer.
+                            ApexNorth er under oppbygging, og de første profesjonelle prosjektene er på vei. Kundeanmeldelser vil bli lagt til her etter hvert som samarbeid gjennomføres.
                         </p>
                     </div>
 
-                    <!-- Reviews List container -->
-                    <div class="space-y-4 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar" id="testimonials-container">
-                        <!-- Review 1 -->
-                        <div class="bg-white/5 border border-white/5 rounded-xl p-5 relative">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <span class="font-semibold text-xs block text-white">Magnus Lindqvist</span>
-                                    <span class="text-[10px] text-neutral-400 block font-mono">Produsent, Nordic Vision AS</span>
-                                </div>
-                                <div class="flex text-amber-500 text-[10px] gap-0.5">
-                                    ★ ★ ★ ★ ★
-                                </div>
-                            </div>
-                            <p class="text-xs text-neutral-300 italic leading-relaxed">
-                                "ApexNorth hjalp oss med heftige FPV-opptak til en naturdokumentar. Avata 360 bildene ble utrolig stabile, og de leverte raskt og med fantastisk kvalitet. En fryd å jobbe med!"
-                            </p>
-                            <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono">Mars 2026</span>
+                    <!-- Placeholder state -->
+                    <div class="bg-white/[0.02] border border-dashed border-white/10 rounded-2xl p-10 text-center flex flex-col items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-[#ff8c42]/10 flex items-center justify-center">
+                            <i data-lucide="star" class="w-5 h-5 text-[#ff8c42]"></i>
                         </div>
-
-                        <!-- Review 2 -->
-                        <div class="bg-white/5 border border-white/5 rounded-xl p-5 relative">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <span class="font-semibold text-xs block text-white">Sunniva Sørbotten</span>
-                                    <span class="text-[10px] text-neutral-400 block font-mono">Markedsansvarlig, FjellRo Cabins</span>
-                                </div>
-                                <div class="flex text-amber-500 text-[10px] gap-0.5">
-                                    ★ ★ ★ ★ ★
-                                </div>
-                            </div>
-                            <p class="text-xs text-neutral-300 italic leading-relaxed">
-                                "Vi trengte engasjerende innhold til Instagram Reel og TikTok. ApexNorth kombinerte DJI Avata og DJI Pocket 3 på en genial måte som ga oss akkurat den luksuriøse følelsen vi lette etter."
+                        <div>
+                            <p class="text-sm font-semibold text-white font-display">De første prosjektene er på vei</p>
+                            <p class="text-xs text-neutral-500 mt-2 max-w-sm leading-relaxed">
+                                ApexNorth tar nå imot de første forespørslene. Etter hvert som prosjekter gjennomføres vil kundeerfaringer bli publisert her.
                             </p>
-                            <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono">April 2026</span>
                         </div>
-
-                        <!-- Review 3 -->
-                        <div class="bg-white/5 border border-white/5 rounded-xl p-5 relative">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <span class="font-semibold text-xs block text-white">Eskil Sunde</span>
-                                    <span class="text-[10px] text-neutral-400 block font-mono">Regissør, DriveNorway Kampanje</span>
-                                </div>
-                                <div class="flex text-amber-500 text-[10px] gap-0.5">
-                                    ★ ★ ★ ★ ★
-                                </div>
-                            </div>
-                            <p class="text-xs text-neutral-300 italic leading-relaxed">
-                                "Hurtiggående FPV tracking som holder følge med en sportsbil i svingene er ikke enkelt, men ApexNorth spikret opptaket på andre forsøk. Topp kvalitet og profesjonell innstilling hele veien."
-                            </p>
-                            <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono">Mai 2026</span>
-                        </div>
+                        <a href="#contact" class="mt-2 px-5 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-neutral-300 hover:border-[#ff8c42]/40 hover:text-white transition-all">
+                            Bli en av de første — ta kontakt
+                        </a>
                     </div>
 
-                    <!-- Leave a review interactive box -->
-                    <div class="bg-neutral-900/40 border border-white/5 rounded-2xl p-5 relative">
-                        <h4 class="text-xs font-mono tracking-widest text-neutral-300 uppercase block mb-4">
-                            Har vi samarbeidet? Legg igjen en tilbakemelding:
+                    <!-- Marketing focus banner -->
+                    <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-amber-400/5 rounded-full filter blur-xl"></div>
+                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
+                            <i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform-, BTS- & Mobiloptimalisering
                         </h4>
-
-                        <div id="review-success" class="hidden text-center py-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                            <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400 mx-auto mb-2 animate-bounce"></i>
-                            <p class="text-xs font-semibold text-white">Takk for din tilbakemelding!</p>
-                            <p class="text-[10px] text-neutral-400 mt-1">Kundeerfaringen din er nå lagt til i oversikten over.</p>
-                            <button onclick="resetReviewForm()" class="mt-3 text-[10px] text-[#ff8c42] hover:underline uppercase tracking-wide font-mono">Skriv en ny tilbakemelding</button>
-                        </div>
-
-                        <form id="add-review-form" onsubmit="submitReview(event)" class="space-y-3">
-                            <div class="grid grid-cols-2 gap-3">
-                                <input type="text" id="reviewer-name" required placeholder="Ditt navn / Selskap" class="bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <input type="text" id="reviewer-role" placeholder="Rolle (f.eks Regissør)" class="bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                            </div>
-                            <textarea id="reviewer-text" required placeholder="Hvordan opplevde du kvaliteten, kommunikasjonen og resultatet?" rows="2" class="w-full bg-neutral-950 border border-white/10 rounded-lg py-2 px-3 text-xs text-white outline-none resize-none focus:border-[#ff8c42] font-mono"></textarea>
-                            
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="text-[10px] text-neutral-400 font-mono">Stjerner:</span>
-                                    <div class="flex text-amber-500 hover:scale-105 transition-all" id="star-selector">
-                                        <!-- Rating value inside data-val -->
-                                        <button type="button" onclick="setStarRating(1)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
-                                        <button type="button" onclick="setStarRating(2)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
-                                        <button type="button" onclick="setStarRating(3)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
-                                        <button type="button" onclick="setStarRating(4)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
-                                        <button type="button" onclick="setStarRating(5)" class="p-0.5 text-amber-500"><i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i></button>
-                                    </div>
-                                </div>
-                                <button type="submit" class="bg-white text-black hover:bg-[#ff8c42] hover:text-white transition-all text-[11px] font-semibold tracking-wider font-mono py-1.5 px-4 rounded-lg flex items-center gap-1.5">
-                                    <i data-lucide="plus" class="w-3 h-3"></i> Send omtale
-                                </button>
-                            </div>
-                        </form>
+                        <p class="text-xs text-neutral-400 leading-relaxed">
+                            Mange oppdrag skreddersys til sosiale medier og Behind the Scenes (BTS). Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg gjøre opptak bak kulissene og levere ferdigredigert innhold i 9:16-format som fenger målgruppen med en gang!
+                        </p>
                     </div>
                 </div>
             </div>
@@ -732,8 +621,8 @@
                             <input type="email" id="contact-email" required placeholder="navn@selskap.no" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 transition-all font-mono">
                         </div>
                     </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Category -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Category -->
                         <div class="space-y-2">
                             <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Oppdragskategori</label>
                             <select id="contact-category" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
@@ -805,16 +694,16 @@
             <div class="flex items-center gap-2">
                 <span class="text-[#ff8c42]">✦</span>
                 <span class="font-semibold text-white">ApexNorth</span>
-                <span class="font-mono text-[10px] text-neutral-600">| © 2026</span>
+                <span class="font-mono text-[10px] text-neutral-600">| © 2026 Daniel Hojem</span>
             </div>
             <div class="flex items-center gap-6 font-mono text-[10px]">
                 <span>E-post sluse: Sikker Lukkert SMTP</span>
-                <span>Utstyr: DJI Avata & DJI Pocket 3</span>
+                <span>Utstyr: DJI Avata 360 & DJI Pocket 3</span>
             </div>
         </div>
     </footer>
 
-    <!-- INTERACTION LOGIC SCRIPT (Vanilla alternative to state engines) -->
+    <!-- INTERACTION LOGIC SCRIPT -->
     <script>
         // Start Lucide Icons replacements
         lucide.createIcons();
@@ -832,7 +721,7 @@
         }
 
         // Loop Sky Blending Simulation Clock
-        let currentProgress = 35; // default center progress
+        let currentProgress = 35;
         let isLoopPlaying = true;
         let loopInterval = null;
 
@@ -847,26 +736,20 @@
             loopInterval = setInterval(() => {
                 if (!isLoopPlaying) return;
                 
-                // Advance timer: looped over 2 seconds (0 to 100)
                 currentProgress += 1.25;
                 if (currentProgress > 100) {
                     currentProgress = 0;
                 }
                 
-                // Set the timeline width
                 progressTimeline.style.width = currentProgress + '%';
                 
-                // Set the exact time indicator (0.0s to 2.0s representation)
                 const realSecs = ((currentProgress / 100) * 2.0).toFixed(1);
                 timeDisplay.textContent = realSecs + 's';
 
-                // Handle Sky fading based on timer progression
                 if (currentProgress < 50) {
-                    // Daytime phase (blue active, sunset hidden)
                     blueBg.style.opacity = '1';
                     sunsetBg.style.opacity = '0';
                 } else {
-                    // Sunset phase (blue fades down, sunset lights up)
                     blueBg.style.opacity = '0.3';
                     sunsetBg.style.opacity = '1';
                 }
@@ -875,24 +758,14 @@
 
         function toggleLoopPlay() {
             isLoopPlaying = !isLoopPlaying;
-            // Redraw playback icons using state swapping
             if (isLoopPlaying) {
                 playbackIcon.setAttribute('data-lucide', 'pause');
             } else {
                 playbackIcon.setAttribute('data-lucide', 'play');
             }
-            lucide.createIcons({
-                attrs: {
-                    id: 'playback-icon',
-                    class: 'w-4 h-4'
-                },
-                nameList: ['play', 'pause']
-            });
-            // Re-render
             lucide.createIcons();
         }
 
-        // Run sky blending on start
         startTimerInterval();
 
         // Portfolio filtering logic
@@ -909,8 +782,7 @@
                 }
             });
 
-            // Update category button colors
-            const buttons = ['all', 'fpv', 'pocket3', 'commercial'];
+            const buttons = ['all', 'fpv', 'pocket3', 'testflight'];
             buttons.forEach(btn => {
                 const el = document.getElementById('btn-' + btn);
                 if (btn === category) {
@@ -921,7 +793,7 @@
             });
         }
 
-        // Hero quick form submit simulation
+        // Hero quick form submit
         function submitHeroForm(e) {
             e.preventDefault();
             const email = document.getElementById('hero-email').value;
@@ -937,73 +809,7 @@
             document.getElementById('hero-submit-success').classList.add('hidden');
         }
 
-        // Testimonial submission handling
-        let activeRating = 5;
-        function setStarRating(rating) {
-            activeRating = rating;
-            const buttons = document.querySelectorAll('#star-selector button');
-            buttons.forEach((btn, index) => {
-                const icon = btn.querySelector('svg');
-                if (index < rating) {
-                    icon.classList.add('fill-current');
-                } else {
-                    icon.classList.remove('fill-current');
-                }
-            });
-        }
-
-        function submitReview(e) {
-            e.preventDefault();
-            const name = document.getElementById('reviewer-name').value;
-            const role = document.getElementById('reviewer-role').value || 'Kreatør / Samarbeidspartner';
-            const text = document.getElementById('reviewer-text').value;
-
-            if (!name || !text) return;
-
-            // Generate HTML structure for new review
-            const container = document.getElementById('testimonials-container');
-            const newElem = document.createElement('div');
-            newElem.className = "bg-white/5 border border-white/5 rounded-xl p-5 relative transition-all duration-500 animate-pulse";
-            
-            let starContent = '';
-            for(let i=0; i<activeRating; i++) {
-                starContent += '★ ';
-            }
-
-            newElem.innerHTML = `
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <span class="font-semibold text-xs block text-white">${name}</span>
-                        <span class="text-[10px] text-neutral-400 block font-mono font-mono text-neutral-400">${role}</span>
-                    </div>
-                    <div class="flex text-amber-500 text-[10px] gap-0.5 font-mono">
-                        ${starContent}
-                    </div>
-                </div>
-                <p class="text-xs text-neutral-300 italic leading-relaxed">
-                    "${text}"
-                </p>
-                <span class="text-[9px] text-neutral-500 absolute bottom-3 right-4 font-mono font-mono">I dag</span>
-            `;
-
-            // Insert at the beginning of list
-            container.insertBefore(newElem, container.firstChild);
-            
-            // Show success alert
-            document.getElementById('add-review-form').classList.add('hidden');
-            document.getElementById('review-success').classList.remove('hidden');
-        }
-
-        function resetReviewForm() {
-            document.getElementById('reviewer-name').value = '';
-            document.getElementById('reviewer-role').value = '';
-            document.getElementById('reviewer-text').value = '';
-            setStarRating(5);
-            document.getElementById('add-review-form').classList.remove('hidden');
-            document.getElementById('review-success').classList.add('hidden');
-        }
-
-        // Contact detailed form submit simulation
+        // Contact detailed form submit
         function submitDetailedForm(e) {
             e.preventDefault();
             const name = document.getElementById('contact-name').value;
@@ -1012,7 +818,6 @@
 
             if (!name || !email || !details) return;
 
-            // Display Reference ID
             const randomRef = 'APX-' + Math.floor(100000 + Math.random() * 900000);
             document.getElementById('ref-id-display').textContent = randomRef;
 
@@ -1020,19 +825,19 @@
             document.getElementById('contact-success-area').classList.remove('hidden');
         }
 
-     function resetContactForm() {
-    document.getElementById('contact-name').value = '';
-    document.getElementById('contact-email').value = '';
-    document.getElementById('contact-details').value = '';
-    document.getElementById('contact-timeframe').value = '';
-    document.getElementById('platform-tiktok').checked = false;
-    document.getElementById('platform-instagram').checked = false;
-    document.getElementById('platform-youtube').checked = false;
-    document.getElementById('platform-other').checked = false;
+        function resetContactForm() {
+            document.getElementById('contact-name').value = '';
+            document.getElementById('contact-email').value = '';
+            document.getElementById('contact-details').value = '';
+            document.getElementById('contact-timeframe').value = '';
+            document.getElementById('platform-tiktok').checked = false;
+            document.getElementById('platform-instagram').checked = false;
+            document.getElementById('platform-youtube').checked = false;
+            document.getElementById('platform-other').checked = false;
 
-    document.getElementById('contact-detailed-form').classList.remove('hidden');
-    document.getElementById('contact-success-area').classList.add('hidden');
-}
+            document.getElementById('contact-detailed-form').classList.remove('hidden');
+            document.getElementById('contact-success-area').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
