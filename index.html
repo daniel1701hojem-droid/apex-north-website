@@ -4,28 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ApexNorth — Cinematic FPV & Live Camera Drone Portefølje</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons Web Script Wrapper -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            orange: '#ff8c42',
-                            darkorange: '#ff6000',
-                            slate: '#070709',
-                            dark: '#0a0a0d',
-                            card: '#0c0c10'
-                        }
+                        brand: { orange: '#ff8c42', darkorange: '#ff6000', slate: '#070709', dark: '#0a0a0d', card: '#0c0c10' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -37,50 +26,26 @@
         }
     </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #070709;
-        }
-        .font-display {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        /* Custom scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 999px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 140, 66, 0.2);
-            border-radius: 999px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 140, 66, 0.4);
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #070709; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 999px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,140,66,0.2); border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,140,66,0.4); }
     </style>
 </head>
 <body class="text-white selection:bg-[#ff8c42]/30 selection:text-white antialiased">
 
-    <!-- FIXED HEADER -->
     <header class="fixed top-0 left-0 w-full z-50 bg-[#070709]/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 py-5">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-r from-[#ff8c42] to-[#ff6000] flex items-center justify-center text-xs font-bold text-black shadow-lg shadow-[#ff8c42]/20">
-                    ✦
-                </div>
+                <div class="w-9 h-9 rounded-full bg-gradient-to-r from-[#ff8c42] to-[#ff6000] flex items-center justify-center text-xs font-bold text-black shadow-lg shadow-[#ff8c42]/20">✦</div>
                 <div class="flex flex-col">
                     <span class="font-semibold text-base tracking-wider text-white">ApexNorth</span>
                     <span class="text-[9px] text-neutral-400 uppercase tracking-widest font-mono">AVATA 360 & POCKET 3 CRUISE</span>
                 </div>
             </div>
-            
-            <!-- Desk Nav -->
             <nav class="hidden md:flex items-center gap-8 text-sm text-neutral-300">
                 <a href="#" class="relative py-1 font-medium hover:text-white transition-colors">Flygningen</a>
                 <a href="#portfolio" class="relative py-1 font-medium hover:text-white transition-colors">Portefølje</a>
@@ -89,17 +54,13 @@
                 <a href="#socials" class="relative py-1 font-medium hover:text-white transition-colors">Sosialt</a>
                 <a href="#contact" class="hover:text-white text-[#ff8c42] font-semibold transition-colors duration-150">Forespørsel</a>
             </nav>
-
             <div class="w-20 hidden md:block"></div>
-            
-            <!-- Mobile Menu button -->
             <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-neutral-300 hover:text-white">
                 <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
         </div>
     </header>
 
-    <!-- MOBILE MENU DRAWER -->
     <div id="mobile-menu" class="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl hidden flex-col justify-center items-center gap-8 text-lg font-medium transition-all duration-300">
         <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 p-2 text-neutral-400 hover:text-white">
             <i data-lucide="x" class="w-7 h-7"></i>
@@ -112,56 +73,32 @@
         <a href="#contact" onclick="toggleMobileMenu()" class="text-[#ff8c42] hover:underline">Prosjektforespørsel</a>
     </div>
 
-    <!-- MAIN HERO SECTION -->
     <section class="relative min-h-screen flex flex-col justify-between pt-28 pb-12 px-6 md:px-12 overflow-hidden bg-black select-none">
-        <!-- Blend Sky Background -->
         <div class="absolute inset-0 z-0">
-            <div id="sky-blue-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out" 
-                 style="background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1920&auto=format&fit=crop');">
-            </div>
-            <div id="sky-sunset-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-0" 
-                 style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop');">
-            </div>
-            
+            <div id="sky-blue-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out" style="background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1920&auto=format&fit=crop');"></div>
+            <div id="sky-sunset-bg" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-0" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop');"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-[#070709] via-transparent to-black/70 z-10"></div>
             <div class="absolute inset-0 bg-black/40 z-10"></div>
         </div>
-
         <div class="absolute inset-4 border border-white/10 rounded-2xl pointer-events-none z-20"></div>
-
-        <div class="w-full max-w-7xl mx-auto pt-4 z-20 flex justify-end items-start">
-        </div>
-
-        <!-- Mid Segment: Title on Left, Minimal Form on Right -->
+        <div class="w-full max-w-7xl mx-auto pt-4 z-20 flex justify-end items-start"></div>
         <div class="w-full max-w-7xl mx-auto z-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-6">
-            <!-- Left Header Intro -->
             <div class="lg:col-span-7 flex flex-col justify-center">
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.95] select-text">
                     <span class="block text-white filter drop-shadow-md font-display">Cinematic</span>
                     <span class="block text-transparent bg-clip-text bg-gradient-to-r from-white/30 via-white/50 to-white/15 font-light">Aerial</span>
                     <span class="block text-white filter drop-shadow-md font-display">Storytelling</span>
                 </h1>
-                
-                <p class="mt-8 text-neutral-300 text-sm md:text-base max-w-md leading-relaxed tracking-wide select-text">
-                    Et helt nytt perspektiv på verden – et inntrykk de færreste har opplevd maken til.
-                </p>
-
+                <p class="mt-8 text-neutral-300 text-sm md:text-base max-w-md leading-relaxed tracking-wide select-text">Et helt nytt perspektiv på verden – et inntrykk de færreste har opplevd maken til.</p>
                 <div class="mt-8 flex flex-wrap gap-3 items-center">
                     <span class="text-white/40 text-xs font-mono tracking-wider uppercase">Dine Verktøy:</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs text-white rounded-full font-mono flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42]"></span> DJI Avata 360 (FPV)
-                    </span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs text-neutral-300 rounded-full font-mono flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> DJI Pocket 3 (3-Axis Vlog)
-                    </span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs text-white rounded-full font-mono flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42]"></span> DJI Avata 360 (FPV)</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs text-neutral-300 rounded-full font-mono flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> DJI Pocket 3 (3-Axis Vlog)</span>
                 </div>
             </div>
-
-            <!-- Right: Fast-track submission card right in the Hero -->
             <div class="lg:col-span-5 flex justify-end">
                 <div class="w-full max-w-sm bg-neutral-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-[#ff8c42]/10 rounded-full filter blur-xl pointer-events-none"></div>
-                    
                     <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-3">
                         <div>
                             <span class="text-[9px] font-mono tracking-widest text-[#ff8c42] uppercase block">Snarvei</span>
@@ -169,51 +106,15 @@
                         </div>
                         <i data-lucide="sparkles" class="text-amber-400 w-4 h-4 animate-pulse"></i>
                     </div>
-
-                    <div id="hero-submit-success" class="hidden py-8 text-center">
-                        <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i data-lucide="check-circle" class="w-6 h-6"></i>
-                        </div>
-                        <h4 class="text-sm font-bold text-white mb-1">Mottatt!</h4>
-                        <p class="text-[11px] text-neutral-400 leading-relaxed mb-4">
-                            Takk for din henvendelse! Vi ringer deg opp eller svarer deg på mail kjapt.
-                        </p>
-                        <button onclick="resetHeroForm()" class="text-[10px] text-[#ff8c42] hover:underline font-mono">Send en ny forespørsel</button>
-                    </div>
-
-                    <form id="hero-quick-form" onsubmit="submitHeroForm(event)" class="space-y-4">
-                        <p class="text-[11px] text-neutral-400 leading-relaxed">
-                            Skriv inn e-posten din, så starter vi samtalen uforpliktende om ditt neste luftprosjekt.
-                        </p>
-                        <div class="space-y-1.5">
-                            <input 
-                                type="email" 
-                                id="hero-email"
-                                required 
-                                placeholder="Din e-postadresse" 
-                                class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-[#ff8c42] transition-colors font-mono">
-                        </div>
-                        <div class="space-y-1.5">
-                            <select id="hero-category" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-neutral-300 outline-none focus:border-[#ff8c42] font-mono">
-                                <option value="Dronefilm & Luftfoto / Reklame">Dronefilm & Luftfoto / Reklame</option>
-                                <option value="Behind the Scenes (BTS) & Videoproduksjon">Behind the Scenes (BTS) / BTS & Video</option>
-                                <option value="Short Form Content (TikTok/Reels)">Short Form / Mobil Reels</option>
-                                <option value="Dokumentar / Filmsekvens">Dokumentar / Full Film</option>
-                                <option value="Kreativt Samarbeid">Annet kreativt prosjekt</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full py-2.5 px-4 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-semibold text-xs rounded-xl hover:shadow-lg hover:shadow-[#ff8c42]/20 transition-all flex items-center justify-center gap-1.5">
-                            Få uforpliktende callback <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                        </button>
-                        <p class="text-[9px] text-neutral-500 text-center mt-3">
-                            Ønsker du det fullstendige skjemaet? <a href="#contact" class="text-neutral-400 hover:text-white underline">Klikk her</a>
-                        </p>
-                    </form>
+                    <p class="text-[11px] text-neutral-400 leading-relaxed mb-5">Skriv gjerne en e-post med litt info om prosjektet ditt, så tar jeg kontakt for en uforpliktende prat.</p>
+                    <p class="text-[11px] font-mono text-[#ff8c42] mb-5 tracking-wide">kontakt@apexnorthvisuals.no</p>
+                    <a href="mailto:kontakt@apexnorthvisuals.no?subject=Prosjektforesp%C3%B8rsel%20-%20Apex%20North%20Visuals" class="w-full py-2.5 px-4 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-semibold text-xs rounded-xl hover:shadow-lg hover:shadow-[#ff8c42]/20 transition-all flex items-center justify-center gap-1.5">
+                        Send prosjektforespørsel <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                    <p class="text-[9px] text-neutral-500 text-center mt-3">Ønsker du mer info? <a href="#contact" class="text-neutral-400 hover:text-white underline">Se hva du bør inkludere</a></p>
                 </div>
             </div>
         </div>
-
-        <!-- Bottom Segment: Timer loops & features -->
         <div class="w-full max-w-7xl mx-auto z-20 flex flex-col md:flex-row items-center justify-between border-t border-white/5 pt-6 gap-4">
             <div class="flex items-center gap-4">
                 <button onclick="toggleLoopPlay()" class="p-2.5 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 text-white transition-colors">
@@ -229,60 +130,36 @@
                     </div>
                 </div>
             </div>
-
             <div class="flex items-center gap-8 text-xs font-mono text-neutral-400">
-                <span class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Sertifisert drone pilot
-                </span>
+                <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Sertifisert drone pilot</span>
                 <span>Spesialisert i high-speed tracking og vertikal reels-estetikk</span>
             </div>
         </div>
     </section>
 
-    <!-- PORTFOLIO SECTION -->
     <section id="portfolio" class="py-24 px-6 md:px-12 max-w-7xl mx-auto relative">
         <div class="absolute top-1/4 right-0 w-80 h-80 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
-
         <div class="mb-16">
             <div class="mb-10">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">PRODUKSJONER</span>
                 <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Portefølje</h2>
             </div>
-
-            <!-- Honest coming-soon message -->
             <div class="bg-[#0d0d11] border border-white/5 rounded-2xl p-10 md:p-14 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
                 <div class="absolute bottom-0 left-0 w-48 h-48 bg-amber-400/3 rounded-full filter blur-3xl pointer-events-none"></div>
-
                 <div class="max-w-2xl relative z-10">
                     <div class="flex items-center gap-2 mb-6">
                         <span class="w-2 h-2 rounded-full bg-[#ff8c42] animate-pulse"></span>
                         <span class="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">Sommer 2026 — Under oppbygging</span>
                     </div>
-
-                    <h3 class="text-2xl md:text-3xl font-bold text-white font-display leading-snug mb-6">
-                        Porteføljen bygges opp<br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff8c42] to-amber-400">oppdrag for oppdrag.</span>
-                    </h3>
-
-                    <p class="text-sm text-neutral-300 leading-relaxed mb-4">
-                        ApexNorth er et selskap i sin tidlige fase – bygget på genuin interesse, høyt ambisjonsnivå og et ønske om å skape estetiske videoer som passer akkurat ditt prosjekt. Frem til porteføljen fylles med klientoppdrag, dokumenterer jeg utviklingen min gjennom egne videoer – testflygninger, FPV-løkker og cinematiske opptak drevet av en ekte lidenskap for droner og film.
-                    </p>
-                    <p class="text-sm text-neutral-400 leading-relaxed mb-4">
-                        De første prosjektene er i sin startsfase, og jeg ser aktivt etter å ekspandere porteføljen videre med flere partnere. Hvert oppdrag som legges til er gjennomtenkt, ferdig redigert og representerer det jeg faktisk er stolt av å stå bak.
-                    </p>
-                    <p class="text-sm text-neutral-400 leading-relaxed mb-10">
-                        Vi velger transparens fremfor fasade. Du vil se porteføljen vokse i sanntid – fra de første oppdragene til et komplett visuelt univers. Følg utviklingen, og ta gjerne kontakt om du vil være en del av det fra starten.
-                    </p>
-
-                    <!-- Progress indicators -->
+                    <h3 class="text-2xl md:text-3xl font-bold text-white font-display leading-snug mb-6">Porteføljen bygges opp<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff8c42] to-amber-400">oppdrag for oppdrag.</span></h3>
+                    <p class="text-sm text-neutral-300 leading-relaxed mb-4">ApexNorth er et selskap i sin tidlige fase – bygget på genuin interesse, høyt ambisjonsnivå og et ønske om å skape estetiske videoer som passer akkurat ditt prosjekt. Frem til porteføljen fylles med klientoppdrag, dokumenterer jeg utviklingen min gjennom egne videoer – testflygninger, FPV-løkker og cinematiske opptak drevet av en ekte lidenskap for droner og film.</p>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-4">De første prosjektene er i sin startsfase, og jeg ser aktivt etter å ekspandere porteføljen videre med flere partnere. Hvert oppdrag som legges til er gjennomtenkt, ferdig redigert og representerer det jeg faktisk er stolt av å stå bak.</p>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-10">Jeg velger transparens fremfor fasade. Du vil se porteføljen vokse i sanntid – fra de første oppdragene til et komplett visuelt univers. Følg utviklingen, og ta gjerne kontakt om du vil være en del av det fra starten.</p>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
                         <div class="bg-white/[0.03] border border-white/5 rounded-xl p-4">
                             <div class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Status</div>
-                            <div class="text-sm font-semibold text-white flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block"></span>
-                                Aktivt flyvende
-                            </div>
+                            <div class="text-sm font-semibold text-white flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block"></span>Aktivt flyvende</div>
                         </div>
                         <div class="bg-white/[0.03] border border-white/5 rounded-xl p-4">
                             <div class="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Første prosjekter</div>
@@ -293,402 +170,221 @@
                             <div class="text-sm font-semibold text-white">Løpende, hele sommeren</div>
                         </div>
                     </div>
-
                     <div class="flex flex-wrap items-center gap-4">
-                        <a href="#contact" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-semibold text-xs rounded-xl hover:shadow-lg hover:shadow-[#ff8c42]/20 transition-all">
-                            Bli en av de første <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                        </a>
-                        <a href="#socials" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-neutral-300 font-semibold text-xs rounded-xl hover:border-white/20 hover:text-white transition-all">
-                            Følg prosessen <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                        </a>
+                        <a href="#contact" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-semibold text-xs rounded-xl hover:shadow-lg hover:shadow-[#ff8c42]/20 transition-all">Bli en av de første <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                        <a href="#socials" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-neutral-300 font-semibold text-xs rounded-xl hover:border-white/20 hover:text-white transition-all">Følg prosessen <i data-lucide="eye" class="w-3.5 h-3.5"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- SOCIAL LINKING PORTALS -->
         <div id="socials" class="border-t border-white/10 pt-16">
             <div class="max-w-3xl mx-auto text-center mb-10">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">APEXNORTH PÅ SOSIALE MEDIER</span>
                 <h3 class="text-2xl md:text-3xl font-bold text-white font-display">Sosiale medier lanseres snart</h3>
-                <p class="text-xs text-neutral-400 mt-2">
-                    ApexNorth er under oppbygging. Kanalene nedenfor vil snart fylles med FPV-løkker, short form reels og cinematiske opptak i 4K. Følg med for kommende innhold og prosjekter.
-                </p>
+                <p class="text-xs text-neutral-400 mt-2">ApexNorth er under oppbygging. Kanalene nedenfor vil snart fylles med FPV-løkker, short form reels og cinematiske opptak i 4K. Følg med for kommende innhold og prosjekter.</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- TikTok -->
                 <div class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 transition-all text-left relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-[#ff8c42] to-[#ffaa44]"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span>
-                        <div class="p-2 rounded-lg bg-white/5 text-neutral-600">
-                            <i data-lucide="video" class="w-5 h-5"></i>
-                        </div>
-                    </div>
+                    <div class="flex items-center justify-between mb-4"><span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span><div class="p-2 rounded-lg bg-white/5 text-neutral-600"><i data-lucide="video" class="w-5 h-5"></i></div></div>
                     <h4 class="text-lg font-bold text-white font-display">TikTok</h4>
                     <p class="text-xs text-neutral-500 mt-1">Short form innhold tilpasset mobilreklame og FPV-highlights</p>
-                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
-                        <i data-lucide="clock" class="w-3 h-3"></i>
-                        <span>Lanseres snart</span>
-                    </div>
+                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider"><i data-lucide="clock" class="w-3 h-3"></i><span>Lanseres snart</span></div>
                 </div>
-
-                <!-- Instagram -->
                 <div class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 transition-all text-left relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-purple-500 to-pink-500"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span>
-                        <div class="p-2 rounded-lg bg-white/5 text-neutral-600">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
-                        </div>
-                    </div>
+                    <div class="flex items-center justify-between mb-4"><span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span><div class="p-2 rounded-lg bg-white/5 text-neutral-600"><i data-lucide="instagram" class="w-5 h-5"></i></div></div>
                     <h4 class="text-lg font-bold text-white font-display">Instagram</h4>
                     <p class="text-xs text-neutral-500 mt-1">Estetiske reels og bak-kulissene-høydepunkter fra flygningene</p>
-                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
-                        <i data-lucide="clock" class="w-3 h-3"></i>
-                        <span>Lanseres snart</span>
-                    </div>
+                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider"><i data-lucide="clock" class="w-3 h-3"></i><span>Lanseres snart</span></div>
                 </div>
-
-                <!-- YouTube -->
                 <div class="bg-neutral-900/30 border border-white/5 rounded-2xl p-6 transition-all text-left relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-red-600 to-[#ffaa44]"></div>
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span>
-                        <div class="p-2 rounded-lg bg-white/5 text-neutral-600">
-                            <i data-lucide="youtube" class="w-5 h-5"></i>
-                        </div>
-                    </div>
+                    <div class="flex items-center justify-between mb-4"><span class="text-xs font-mono text-neutral-500 tracking-wider font-semibold">Kommer snart</span><div class="p-2 rounded-lg bg-white/5 text-neutral-600"><i data-lucide="youtube" class="w-5 h-5"></i></div></div>
                     <h4 class="text-lg font-bold text-white font-display">YouTube</h4>
                     <p class="text-xs text-neutral-500 mt-1">Fulle 360-løkke-analyser og lengre cinematiske opptak</p>
-                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider">
-                        <i data-lucide="clock" class="w-3 h-3"></i>
-                        <span>Lanseres snart</span>
-                    </div>
+                    <div class="mt-6 flex items-center gap-1.5 text-[10px] font-mono text-neutral-500 uppercase tracking-wider"><i data-lucide="clock" class="w-3 h-3"></i><span>Lanseres snart</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- OM APEXNORTH -->
     <section id="om" class="py-24 bg-neutral-950/60 border-t border-b border-white/5 px-6 md:px-12">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                
-                <!-- Left side: About + open for collaboration -->
                 <div class="lg:col-span-6 space-y-8">
                     <div>
                         <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">OM APEXNORTH</span>
                         <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Grunnlagt av Daniel Hojem</h2>
-                        <p class="text-neutral-400 text-xs mt-3 leading-relaxed max-w-lg">
-                            ApexNorth er et dronefilm- og visualiseringsprosjekt grunnlagt av Daniel Hojem. Målet er å skape cinematiske opplevelser fra luften – gjennom FPV-flyging, visuell historiefortelling og nyskapende bruk av kameradrone-teknologi.
-                        </p>
-                        <p class="text-neutral-400 text-xs mt-3 leading-relaxed max-w-lg">
-                            Med DJI Avata 360 og DJI Pocket 3 som hovedutstyr bygges det nå en profesjonell portefølje over tid – fra egne testflygninger rundt Oslo og nærområdet til kommende oppdragsprosjekter.
-                        </p>
+                        <p class="text-neutral-400 text-xs mt-3 leading-relaxed max-w-lg">ApexNorth er et dronefilm- og visualiseringsprosjekt grunnlagt av Daniel Hojem. Målet er å skape cinematiske opplevelser fra luften – gjennom FPV-flyging, visuell historiefortelling og nyskapende bruk av kameradrone-teknologi.</p>
+                        <p class="text-neutral-400 text-xs mt-3 leading-relaxed max-w-lg">Med DJI Avata 360 og DJI Pocket 3 som hovedutstyr bygges det nå en profesjonell portefølje over tid – fra egne testflygninger rundt Oslo og nærområdet til kommende oppdragsprosjekter.</p>
                     </div>
-
-                    <!-- Open for collaboration -->
                     <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-20 h-20 bg-[#ff8c42]/5 rounded-full filter blur-xl"></div>
-                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
-                            <i data-lucide="handshake" class="w-4 h-4 text-[#ff8c42]"></i> Åpen for samarbeid og nye prosjekter
-                        </h4>
-                        <p class="text-xs text-neutral-400 leading-relaxed">
-                            ApexNorth er i en tidlig fase og aktivt på jakt etter de første samarbeidsprosjektene. Enten det dreier seg om dronefilm til sosiale medier, BTS-opptak, kortfilmer eller landskapsvideo – ta gjerne kontakt for en uforpliktende prat om hva vi kan skape sammen.
-                        </p>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 mt-4 text-[10px] font-mono text-[#ff8c42] uppercase tracking-wider hover:underline">
-                            Ta kontakt <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                        </a>
+                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display"><i data-lucide="handshake" class="w-4 h-4 text-[#ff8c42]"></i> Åpen for samarbeid og nye prosjekter</h4>
+                        <p class="text-xs text-neutral-400 leading-relaxed">ApexNorth er i en tidlig fase og aktivt på jakt etter de første samarbeidsprosjektene. Enten det dreier seg om dronefilm til sosiale medier, BTS-opptak, kortfilmer eller landskapsvideo – ta gjerne kontakt for en uforpliktende prat om hva jeg kan skape for deg.</p>
+                        <a href="#contact" class="inline-flex items-center gap-1.5 mt-4 text-[10px] font-mono text-[#ff8c42] uppercase tracking-wider hover:underline">Ta kontakt <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
                     </div>
-
-                    <!-- Focus areas -->
                     <div class="space-y-4">
                         <span class="text-[10px] font-mono uppercase text-neutral-500 tracking-wider block">Fokusområder</span>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
-                                <div>
-                                    <div class="text-xs font-semibold text-white">FPV Dronefilm</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Avata 360 / Immersive</div>
-                                </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Primær</span>
-                            </div>
-                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
-                                <div>
-                                    <div class="text-xs font-semibold text-white">Visuell Historiefortelling</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">Cinematisk estetikk</div>
-                                </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Kjerne</span>
-                            </div>
-                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
-                                <div>
-                                    <div class="text-xs font-semibold text-white">Short Form / Reels</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">TikTok & Instagram</div>
-                                </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Aktiv</span>
-                            </div>
-                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between">
-                                <div>
-                                    <div class="text-xs font-semibold text-white">BTS & Vlog</div>
-                                    <div class="text-[10px] text-neutral-500 font-mono mt-0.5">DJI Pocket 3</div>
-                                </div>
-                                <span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Aktiv</span>
-                            </div>
+                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between"><div><div class="text-xs font-semibold text-white">FPV Dronefilm</div><div class="text-[10px] text-neutral-500 font-mono mt-0.5">Avata 360 / Immersive</div></div><span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Primær</span></div>
+                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between"><div><div class="text-xs font-semibold text-white">Visuell Historiefortelling</div><div class="text-[10px] text-neutral-500 font-mono mt-0.5">Cinematisk estetikk</div></div><span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Kjerne</span></div>
+                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between"><div><div class="text-xs font-semibold text-white">Short Form / Reels</div><div class="text-[10px] text-neutral-500 font-mono mt-0.5">TikTok & Instagram</div></div><span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Aktiv</span></div>
+                            <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between"><div><div class="text-xs font-semibold text-white">BTS & Vlog</div><div class="text-[10px] text-neutral-500 font-mono mt-0.5">DJI Pocket 3</div></div><span class="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400 font-mono">Aktiv</span></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Right side: Testimonials placeholder -->
                 <div class="lg:col-span-6 space-y-8">
                     <div class="border-b border-white/5 pb-4">
                         <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">TILBAKEMELDINGER</span>
                         <h3 class="text-2xl md:text-3xl font-bold text-white font-display">Kundeerfaringer</h3>
-                        <p class="text-xs text-neutral-400 mt-1">
-                            ApexNorth er under oppbygging, og de første profesjonelle prosjektene er på vei. Kundeanmeldelser vil bli lagt til her etter hvert som samarbeid gjennomføres.
-                        </p>
+                        <p class="text-xs text-neutral-400 mt-1">ApexNorth er under oppbygging, og de første profesjonelle prosjektene er på vei. Kundeanmeldelser vil bli lagt til her etter hvert som samarbeid gjennomføres.</p>
                     </div>
-
-                    <!-- Placeholder state -->
                     <div class="bg-white/[0.02] border border-dashed border-white/10 rounded-2xl p-10 text-center flex flex-col items-center gap-4">
-                        <div class="w-12 h-12 rounded-full bg-[#ff8c42]/10 flex items-center justify-center">
-                            <i data-lucide="star" class="w-5 h-5 text-[#ff8c42]"></i>
-                        </div>
+                        <div class="w-12 h-12 rounded-full bg-[#ff8c42]/10 flex items-center justify-center"><i data-lucide="star" class="w-5 h-5 text-[#ff8c42]"></i></div>
                         <div>
                             <p class="text-sm font-semibold text-white font-display">De første prosjektene er på vei</p>
-                            <p class="text-xs text-neutral-500 mt-2 max-w-sm leading-relaxed">
-                                ApexNorth tar nå imot de første forespørslene. Etter hvert som prosjekter gjennomføres vil kundeerfaringer bli publisert her.
-                            </p>
+                            <p class="text-xs text-neutral-500 mt-2 max-w-sm leading-relaxed">ApexNorth tar nå imot de første forespørslene. Etter hvert som prosjekter gjennomføres vil kundeerfaringer bli publisert her.</p>
                         </div>
-                        <a href="#contact" class="mt-2 px-5 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-neutral-300 hover:border-[#ff8c42]/40 hover:text-white transition-all">
-                            Bli en av de første — ta kontakt
-                        </a>
+                        <a href="#contact" class="mt-2 px-5 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-mono text-neutral-300 hover:border-[#ff8c42]/40 hover:text-white transition-all">Bli en av de første — ta kontakt</a>
                     </div>
-
-                    <!-- Marketing focus banner -->
                     <div class="bg-[#0d0d11] p-6 rounded-2xl border border-white/5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-20 h-20 bg-amber-400/5 rounded-full filter blur-xl"></div>
-                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display">
-                            <i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform-, BTS- & Mobiloptimalisering
-                        </h4>
-                        <p class="text-xs text-neutral-400 leading-relaxed">
-                            Mange oppdrag skreddersys til sosiale medier og Behind the Scenes (BTS). Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg gjøre opptak bak kulissene og levere ferdigredigert innhold i 9:16-format som fenger målgruppen med en gang!
-                        </p>
+                        <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2 font-display"><i data-lucide="film" class="w-4 h-4 text-[#ff8c42]"></i> Kortform-, BTS- & Mobiloptimalisering</h4>
+                        <p class="text-xs text-neutral-400 leading-relaxed">Mange oppdrag skreddersys til sosiale medier og Behind the Scenes (BTS). Med DJI Pocket 3s fantastiske fargerom og mekaniske stabilisering kan jeg gjøre opptak bak kulissene og levere ferdigredigert innhold i 9:16-format som fenger målgruppen med en gang!</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- EQUIPMENT & TECH INVENTORY -->
     <section id="gear" class="py-24 px-6 md:px-12 max-w-7xl mx-auto relative">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-4">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">TEKNISKE SPESIFIKASJONER</span>
                 <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6 font-display">Min Drone & Kamerautrustning</h2>
-                <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-mono">
-                    Jeg velger alltid det verktøyet som passer best til det kunstneriske uttrykket. Mine to kjerneplattformer gir meg full kreativ fleksibilitet under alle forhold:
-                </p>
+                <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-mono">Jeg velger alltid det verktøyet som passer best til det kunstneriske uttrykket. Mine to kjerneplattformer gir meg full kreativ fleksibilitet under alle forhold:</p>
                 <div class="space-y-4">
                     <div class="flex items-start gap-3">
                         <div class="p-1.5 rounded bg-[#ff8c42]/15 text-[#ff8c42] mt-0.5 text-[9px] font-bold font-mono">AVATA</div>
-                        <div>
-                            <h4 class="text-xs font-bold text-white font-mono">DJI Avata 360</h4>
-                            <p class="text-[11px] text-neutral-400 mt-0.5 font-mono">Åpner for helt immersive FPV-opplevelser med rystefri loop-teknologi og ekstremt stabil video, selv i trange lokaler.</p>
-                        </div>
+                        <div><h4 class="text-xs font-bold text-white font-mono">DJI Avata 360</h4><p class="text-[11px] text-neutral-400 mt-0.5 font-mono">Åpner for helt immersive FPV-opplevelser med rystefri loop-teknologi og ekstremt stabil video, selv i trange lokaler.</p></div>
                     </div>
                     <div class="flex items-start gap-3">
                         <div class="p-1.5 rounded bg-amber-400/15 text-amber-300 mt-0.5 text-[9px] font-bold font-mono">POCKET</div>
-                        <div>
-                            <h4 class="text-xs font-bold text-white font-mono">DJI Pocket 3</h4>
-                            <p class="text-[11px] text-neutral-400 mt-0.5 font-mono">Leverer nydelige hudtoner, rask bildehastighet og mekanisk 3-akset stabilisering, ideell for tette vlogger og short-form reels.</p>
-                        </div>
+                        <div><h4 class="text-xs font-bold text-white font-mono">DJI Pocket 3</h4><p class="text-[11px] text-neutral-400 mt-0.5 font-mono">Leverer nydelige hudtoner, rask bildehastighet og mekanisk 3-akset stabilisering, ideell for tette vlogger og short-form reels.</p></div>
                     </div>
                 </div>
             </div>
-
             <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Avata Box Card -->
                 <div class="bg-[#0c0c10] border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all relative overflow-hidden group">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-[#ff8c42]/5 rounded-full filter blur-xl"></div>
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="text-[10px] bg-[#ff8c42]/10 text-[#ff8c42] px-3 py-1 rounded-full font-mono font-medium">Core Platform (FPV)</span>
-                        <i data-lucide="camera" class="text-neutral-500 w-5 h-5"></i>
-                    </div>
+                    <div class="flex justify-between items-start mb-4"><span class="text-[10px] bg-[#ff8c42]/10 text-[#ff8c42] px-3 py-1 rounded-full font-mono font-medium">Core Platform (FPV)</span><i data-lucide="camera" class="text-neutral-500 w-5 h-5"></i></div>
                     <span class="text-2xl font-bold block text-white mt-2 font-display">DJI Avata 360 Immersive</span>
-                    <p class="text-xs text-neutral-400 mt-2 leading-relaxed font-mono">
-                        Kjernen i mine loddrette loops og storslåtte panoreringer over dramatiske vestlandsfjorder.
-                    </p>
+                    <p class="text-xs text-neutral-400 mt-2 leading-relaxed font-mono">Kjernen i mine loddrette loops og storslåtte panoreringer over dramatiske vestlandsfjorder.</p>
                     <div class="mt-6 pt-4 border-t border-white/5 space-y-2 text-xs font-mono">
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Maks oppløsning:</span>
-                            <span class="text-white">8K @ 60 FPS</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Flytid per batteri:</span>
-                            <span class="text-white font-mono">~18-22 Minutter</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500 font-mono">Sikkerhet:</span>
-                            <span class="text-white">Innebygd propellbeskyttelse</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Video fargedybde:</span>
-                            <span class="text-[#ff8c42] font-semibold">10-bit D-Log M</span>
-                        </div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Maks oppløsning:</span><span class="text-white">8K @ 60 FPS</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Flytid per batteri:</span><span class="text-white font-mono">~18-22 Minutter</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500 font-mono">Sikkerhet:</span><span class="text-white">Innebygd propellbeskyttelse</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Video fargedybde:</span><span class="text-[#ff8c42] font-semibold">10-bit D-Log M</span></div>
                     </div>
                 </div>
-
-                <!-- Pocket 3 Box Card -->
                 <div class="bg-[#0c0c10] border border-white/5 rounded-2xl p-6 hover:border-white/15 transition-all relative overflow-hidden group">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-amber-400/5 rounded-full filter blur-xl"></div>
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="text-[10px] bg-amber-400/10 text-amber-300 px-3 py-1 rounded-full font-mono font-medium">B-Cam & Vertical Creator</span>
-                        <i data-lucide="video" class="text-neutral-500 w-5 h-5"></i>
-                    </div>
+                    <div class="flex justify-between items-start mb-4"><span class="text-[10px] bg-amber-400/10 text-amber-300 px-3 py-1 rounded-full font-mono font-medium">B-Cam & Vertical Creator</span><i data-lucide="video" class="text-neutral-500 w-5 h-5"></i></div>
                     <span class="text-2xl font-bold block text-white mt-2 font-display">DJI Pocket 3 Creator</span>
-                    <p class="text-xs text-neutral-400 mt-2 leading-relaxed">
-                        Den ultimate tette videobloggeren og detaljplattformen for rask b-roll på farten.
-                    </p>
+                    <p class="text-xs text-neutral-400 mt-2 leading-relaxed">Den ultimate tette videobloggeren og detaljplattformen for rask b-roll på farten.</p>
                     <div class="mt-6 pt-4 border-t border-white/5 space-y-2 text-xs font-mono">
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Bildebrikkesensor:</span>
-                            <span class="text-white">1-tommers CMOS</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Maks oppløsning:</span>
-                            <span class="text-white">4K @ 120 FPS</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Stabilisering:</span>
-                            <span class="text-white">Mekanisk 3-Akset Gimbal</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-neutral-500">Klargjøringstid:</span>
-                            <span class="text-amber-400 font-semibold font-mono">Under 3 sekunder</span>
-                        </div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Bildebrikkesensor:</span><span class="text-white">1-tommers CMOS</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Maks oppløsning:</span><span class="text-white">4K @ 120 FPS</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Stabilisering:</span><span class="text-white">Mekanisk 3-Akset Gimbal</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Klargjøringstid:</span><span class="text-amber-400 font-semibold font-mono">Under 3 sekunder</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECURE MAIN CONTACT PRE-INQUIRY AREA -->
+    <!-- CONTACT SECTION — EMAIL ONLY, NO FORM -->
     <section id="contact" class="py-24 border-t border-white/5 px-6 md:px-12 bg-black relative">
         <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-amber-400/3 rounded-full filter blur-3xl pointer-events-none"></div>
 
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-3xl mx-auto">
             <div class="text-center mb-12">
                 <span class="text-xs font-mono tracking-widest text-[#ff8c42] uppercase block mb-1">PROSJEKTFORESPØRSEL</span>
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Prosjektdetaljer & Bestilling</h2>
-                <p class="text-neutral-400 text-xs mt-3 max-w-lg mx-auto leading-relaxed">
-                    Fyll ut skjemaet under for å starte planleggingen. Kontakten sendes trygt over, og ApexNorth tar kontakt direkte for å avtale priser, betingelser og skuddvindu.
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white font-display">Prosjektforespørsel</h2>
+                <p class="text-neutral-400 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
+                    Har du et prosjekt, en idé eller et sted du ønsker filmet? Send en e-post med litt informasjon om prosjektet ditt, så tar jeg kontakt for en uforpliktende prat.
                 </p>
             </div>
 
-            <div class="bg-[#0a0a0d] border border-white/10 rounded-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
-                <div id="contact-success-area" class="hidden py-12 text-center max-w-md mx-auto">
-                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-lucide="check-circle" class="w-8 h-8"></i>
+            <div class="bg-[#0a0a0d] border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-56 h-56 bg-[#ff8c42]/5 rounded-full filter blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-40 h-40 bg-amber-400/3 rounded-full filter blur-2xl pointer-events-none"></div>
+
+                <!-- Intro -->
+                <p class="relative z-10 text-sm text-neutral-300 leading-relaxed mb-10">
+                    For å kunne forstå prosjektet best mulig og gi et relevant tilbud, vil jeg ofte ha en kort dialog over e-post før jeg eventuelt går videre. Målet er å finne den løsningen som passer best for deg, ditt prosjekt og dine mål.
+                </p>
+
+                <!-- What to include -->
+                <div class="relative z-10 mb-10">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-5 h-5 rounded bg-[#ff8c42]/15 flex items-center justify-center shrink-0">
+                            <i data-lucide="list" class="w-3 h-3 text-[#ff8c42]"></i>
+                        </div>
+                        <span class="text-[11px] font-mono uppercase tracking-widest text-neutral-400">E-posten bør gjerne inneholde</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2 font-display">Forespørsel Sendt!</h3>
-                    <p class="text-xs text-neutral-400 leading-relaxed mb-6 font-mono">
-                        Takk for at du delte prosjektdetaljene dine. Meldingen er trygt oversendt direkte til ApexNorth sitt lukkede mottakssenter. Du vil høre fra oss uforpliktende kjapt!
-                    </p>
-                    <div class="bg-white/5 px-4 py-2.5 rounded-lg border border-white/10 inline-block text-xs font-mono mb-6">
-                        Referanse-ID: <span id="ref-id-display" class="text-[#ff8c42] font-semibold">APX-584729</span>
-                    </div>
-                    <div>
-                        <button onclick="resetContactForm()" class="text-xs text-[#ff8c42] hover:underline font-mono">Send nok en henvendelse</button>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="flex items-start gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42] mt-1.5 shrink-0"></span>
+                            <div><div class="text-xs font-semibold text-white mb-0.5">Navn og eventuelt selskap</div><div class="text-[11px] text-neutral-500 font-mono">Hvem er du, og eventuelt hvilken bedrift</div></div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42] mt-1.5 shrink-0"></span>
+                            <div><div class="text-xs font-semibold text-white mb-0.5">Hva slags prosjekt det gjelder</div><div class="text-[11px] text-neutral-500 font-mono">Dronefilm, BTS, reels, reklame, o.l.</div></div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42] mt-1.5 shrink-0"></span>
+                            <div><div class="text-xs font-semibold text-white mb-0.5">Lokasjon</div><div class="text-[11px] text-neutral-500 font-mono">Sted eller område for opptaket</div></div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42] mt-1.5 shrink-0"></span>
+                            <div><div class="text-xs font-semibold text-white mb-0.5">Ønsket dato eller tidsperiode</div><div class="text-[11px] text-neutral-500 font-mono">Når ønsker du opptaket gjennomført</div></div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42] mt-1.5 shrink-0"></span>
+                            <div><div class="text-xs font-semibold text-white mb-0.5">Hvor innholdet skal brukes</div><div class="text-[11px] text-neutral-500 font-mono">Nettside, reklame, Instagram, TikTok, YouTube osv.</div></div>
+                        </div>
+                        <div class="flex items-start gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-4">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#ff8c42] mt-1.5 shrink-0"></span>
+                            <div><div class="text-xs font-semibold text-white mb-0.5">Kort beskrivelse av ønsket stil</div><div class="text-[11px] text-neutral-500 font-mono">Budskap, stemning og visuelt uttrykk</div></div>
+                        </div>
                     </div>
                 </div>
 
-                <form id="contact-detailed-form" onsubmit="submitDetailedForm(event)" class="space-y-6">
-                    <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs text-neutral-300">
-                        <span class="w-2 h-2 rounded-full bg-[#ff8c42] shrink-0"></span>
-                        <span>Sikker gateway: Henvendelser sluses direkte til ApexNorth sin private innboks uten offentlig eksponering.</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Name -->
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block">Ditt Navn / Selskap *</label>
-                            <input type="text" id="contact-name" required placeholder="Ola Nordmann / Selskap AS" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 transition-all font-mono">
-                        </div>
-                        <!-- Email -->
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block">E-postadresse for svar *</label>
-                            <input type="email" id="contact-email" required placeholder="navn@selskap.no" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 transition-all font-mono">
+                <!-- Email + CTA -->
+                <div class="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-8 border-t border-white/5">
+                    <div class="flex-1">
+                        <div class="text-[10px] font-mono uppercase text-neutral-500 tracking-widest mb-2">E-postadresse</div>
+                        <div class="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3.5">
+                            <i data-lucide="mail" class="w-4 h-4 text-[#ff8c42] shrink-0"></i>
+                            <span class="font-mono text-sm text-white tracking-wide select-all">kontakt@apexnorthvisuals.no</span>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Category -->
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Oppdragskategori</label>
-                            <select id="contact-category" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <option value="Dronefilm & Luftfoto / Reklame">Dronefilm & Luftfoto / Reklame</option>
-                                <option value="Behind the Scenes (BTS) & Videoproduksjon">Behind the Scenes (BTS) & Videoproduksjon</option>
-                                <option value="Short Form Content (TikTok/Reels)">Short Form / Mobil Reels</option>
-                                <option value="Dokumentar / Filmsekvens">Dokumentar / Full Film</option>
-                                <option value="Kreativt Samarbeid">Annet kreativt prosjekt</option>
-                            </select>
-                        </div>
-                        <!-- Budget -->
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Prosjektstørrelse (Estimert tid)</label>
-                            <select id="contact-budget" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                                <option value="Lite prosjekt (1-2 opptaksdager)">Lite prosjekt (1-2 opptaksdager / Enkel produksjon)</option>
-                                <option value="Middels prosjekt (3-7 dager / Kampanje & Klipp)">Middels prosjekt (3-7 dager / Normal produksjon)</option>
-                                <option value="Stort prosjekt (Omfattende produksjon / Flere uker)">Stort prosjekt (Omfattende produksjon / Flere uker)</option>
-                                <option value="Uforpliktende prisoverslag">Vil ha uforpliktende prisoverslag (Tidsuavhengig)</option>
-                            </select>
-                        </div>
-                        <!-- Time -->
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-mono uppercase text-neutral-400 block font-mono">Ønsket Tidsfrist / Opptaksdatoer *</label>
-                            <input type="text" id="contact-timeframe" required placeholder="F.eks. 15. juni, 20. juni og 5. juli" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] font-mono">
-                        </div>
+                    <div class="shrink-0">
+                        <a href="mailto:kontakt@apexnorthvisuals.no?subject=Prosjektforesp%C3%B8rsel%20-%20Apex%20North%20Visuals"
+                           class="h-full inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:shadow-xl hover:shadow-[#ff8c42]/20 transition-all whitespace-nowrap w-full sm:w-auto">
+                            Send prosjektforespørsel
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                        </a>
                     </div>
-                    <!-- Platform checkboxes -->
-                    <div class="space-y-3">
-                        <label class="text-[11px] font-mono uppercase text-neutral-400 block">Ønsket publiseringsplattformer (Valgfritt)</label>
-                        <div class="flex flex-wrap gap-3">
-                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
-                                <input type="checkbox" id="platform-tiktok" class="accent-[#ff8c42]">
-                                <span class="font-mono text-neutral-300 col-span-1">TikTok</span>
-                            </label>
-                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
-                                <input type="checkbox" id="platform-instagram" class="accent-[#ff8c42]">
-                                <span class="font-mono text-neutral-300">Instagram Reels</span>
-                            </label>
-                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
-                                <input type="checkbox" id="platform-youtube" class="accent-[#ff8c42]">
-                                <span class="font-mono text-neutral-300">YouTube</span>
-                            </label>
-                            <label class="flex items-center gap-2 bg-neutral-900 border border-white/10 hover:border-white/20 px-3 py-2 rounded-xl text-xs cursor-pointer select-none">
-                                <input type="checkbox" id="platform-other" class="accent-[#ff8c42]">
-                                <span class="font-mono text-neutral-300 font-mono">Nettside / Annet</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Details -->
-                    <div class="space-y-2">
-                        <label class="text-[11px] font-mono uppercase text-neutral-400 block">Kort prosjektbeskrivelse *</label>
-                        <textarea id="contact-details" required rows="4" placeholder="Fortell gjerne litt om skuddsted, ønsket lengde og hva slags stemning dere ønsker å oppnå..." class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-xs text-white outline-none focus:border-[#ff8c42] focus:bg-neutral-900 focus:ring-1 focus:ring-[#ff8c42] transition-all font-mono leading-relaxed resize-none"></textarea>
-                    </div>
-
-                    <div class="pt-2">
-                        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-[#ff8c42] to-[#ff6000] text-black font-bold text-xs uppercase tracking-wider rounded-xl hover:shadow-xl hover:shadow-[#ff8c42]/10 transition-all flex items-center justify-center gap-2">
-                            Send sikker forespørsel <i data-lucide="send" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="py-12 border-t border-white/5 bg-[#050507] text-neutral-500 text-xs px-6 md:px-12">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-2">
@@ -697,18 +393,15 @@
                 <span class="font-mono text-[10px] text-neutral-600">| © 2026 Daniel Hojem</span>
             </div>
             <div class="flex items-center gap-6 font-mono text-[10px]">
-                <span>E-post sluse: Sikker Lukkert SMTP</span>
+                <span>kontakt@apexnorthvisuals.no</span>
                 <span>Utstyr: DJI Avata 360 & DJI Pocket 3</span>
             </div>
         </div>
     </footer>
 
-    <!-- INTERACTION LOGIC SCRIPT -->
     <script>
-        // Start Lucide Icons replacements
         lucide.createIcons();
 
-        // Mobile Menu Toggle
         function toggleMobileMenu() {
             const drawer = document.getElementById('mobile-menu');
             if (drawer.classList.contains('hidden')) {
@@ -720,7 +413,6 @@
             }
         }
 
-        // Loop Sky Blending Simulation Clock
         let currentProgress = 35;
         let isLoopPlaying = true;
         let loopInterval = null;
@@ -735,17 +427,11 @@
             if (loopInterval) clearInterval(loopInterval);
             loopInterval = setInterval(() => {
                 if (!isLoopPlaying) return;
-                
                 currentProgress += 1.25;
-                if (currentProgress > 100) {
-                    currentProgress = 0;
-                }
-                
+                if (currentProgress > 100) currentProgress = 0;
                 progressTimeline.style.width = currentProgress + '%';
-                
                 const realSecs = ((currentProgress / 100) * 2.0).toFixed(1);
                 timeDisplay.textContent = realSecs + 's';
-
                 if (currentProgress < 50) {
                     blueBg.style.opacity = '1';
                     sunsetBg.style.opacity = '0';
@@ -767,77 +453,6 @@
         }
 
         startTimerInterval();
-
-        // Portfolio filtering logic
-        function filterPortfolio(category) {
-            const cards = document.querySelectorAll('.project-card');
-            cards.forEach(card => {
-                const cats = card.getAttribute('data-category');
-                if (category === 'all') {
-                    card.classList.remove('hidden');
-                } else if (cats.includes(category)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            const buttons = ['all', 'fpv', 'pocket3', 'testflight'];
-            buttons.forEach(btn => {
-                const el = document.getElementById('btn-' + btn);
-                if (btn === category) {
-                    el.className = "px-4 py-1.5 rounded-full text-xs font-medium transition-all bg-[#ff8c42] text-white";
-                } else {
-                    el.className = "px-4 py-1.5 rounded-full text-xs font-medium transition-all text-neutral-400 hover:text-white";
-                }
-            });
-        }
-
-        // Hero quick form submit
-        function submitHeroForm(e) {
-            e.preventDefault();
-            const email = document.getElementById('hero-email').value;
-            if (!email) return;
-
-            document.getElementById('hero-quick-form').classList.add('hidden');
-            document.getElementById('hero-submit-success').classList.remove('hidden');
-        }
-
-        function resetHeroForm() {
-            document.getElementById('hero-email').value = '';
-            document.getElementById('hero-quick-form').classList.remove('hidden');
-            document.getElementById('hero-submit-success').classList.add('hidden');
-        }
-
-        // Contact detailed form submit
-        function submitDetailedForm(e) {
-            e.preventDefault();
-            const name = document.getElementById('contact-name').value;
-            const email = document.getElementById('contact-email').value;
-            const details = document.getElementById('contact-details').value;
-
-            if (!name || !email || !details) return;
-
-            const randomRef = 'APX-' + Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('ref-id-display').textContent = randomRef;
-
-            document.getElementById('contact-detailed-form').classList.add('hidden');
-            document.getElementById('contact-success-area').classList.remove('hidden');
-        }
-
-        function resetContactForm() {
-            document.getElementById('contact-name').value = '';
-            document.getElementById('contact-email').value = '';
-            document.getElementById('contact-details').value = '';
-            document.getElementById('contact-timeframe').value = '';
-            document.getElementById('platform-tiktok').checked = false;
-            document.getElementById('platform-instagram').checked = false;
-            document.getElementById('platform-youtube').checked = false;
-            document.getElementById('platform-other').checked = false;
-
-            document.getElementById('contact-detailed-form').classList.remove('hidden');
-            document.getElementById('contact-success-area').classList.add('hidden');
-        }
     </script>
 </body>
 </html>
